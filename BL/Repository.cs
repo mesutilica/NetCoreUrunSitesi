@@ -1,25 +1,27 @@
 ﻿using DAL;
 using Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace BL
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity, new()
     {
-        DatabaseContext context; // içi boş context nesnesi tanımladık
+        public DatabaseContext context; // içi boş context nesnesi tanımladık
         DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
         public Repository()
         {
-            if (context == null)
-            {
-                context = new DatabaseContext(); // uygulama çalışınca context boşsa doldur
-                dbSet = context.Set<T>(); // dbSet nesnesini de oluşturulan context içinde bize gelen classa göre ayarla
-            }
+
+        }
+        public Repository(DatabaseContext _context)
+        {
+            //if (context == null)
+            //{
+            //    context = new DatabaseContext(); // uygulama çalışınca context boşsa doldur
+            //    dbSet = context.Set<T>(); // dbSet nesnesini de oluşturulan context içinde bize gelen classa göre ayarla
+            //}
+            context = _context;
+            dbSet = context.Set<T>();
         }
         public int Add(T entity)
         {
@@ -90,7 +92,7 @@ namespace BL
 
         public IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return dbSet.Where(expression);
         }
 
         public int SaveChanges()

@@ -1,23 +1,24 @@
 ﻿using BL.Abstract;
+using DAL;
 using Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public Task<IEnumerable<Product>> GetAllCategoriesBySlugsAsync()
+        public ProductRepository(DatabaseContext context) : base(context)
         {
-            throw new NotImplementedException();
+
+        }
+        public async Task<IEnumerable<Product>> GetAllCategoriesBySlugsAsync()
+        {
+            return await context.Products.Include(x => x.Category).ToListAsync();
         }
 
-        public Task<Product> GetWithSlugByIdAsync(int categoryId)
+        public async Task<Product> GetWithSlugByIdAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            return await context.Products.Include(x => x.Category).FirstOrDefaultAsync();
         }
     }
 }
