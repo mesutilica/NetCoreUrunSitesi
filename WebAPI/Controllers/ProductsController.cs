@@ -1,22 +1,23 @@
-﻿using BL;
+﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using BL;
 
-namespace WebApi.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly IRepository<Product> _repository;
+        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Brand> _brandRepository;
 
-        public ProductsController(IRepository<Product> repository)
+        public ProductsController(IRepository<Product> repository, IRepository<Category> categoryRepository, IRepository<Brand> brandRepository)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
+            _brandRepository = brandRepository;
         }
-
         // GET: api/<ProductsController>
         [HttpGet]
         public async Task<IEnumerable<Product>> GetAsync()
@@ -26,40 +27,47 @@ namespace WebApi.Controllers
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public async Task<Product> GetAsync(int id)
+        public async Task<ActionResult<Product>> Get(int id)
         {
-            return await _repository.FindAsync(id);
+            var kayit = await _repository.FindAsync(id);
+            if (kayit == null)
+            {
+                return NotFound();
+            }
+            return kayit;
         }
 
-        // POST api/<ProductsController>
+        // Product api/<ProductsController>
         [HttpPost]
-        public async Task<ActionResult<Product>> PostAsync(Product product)
+        public async Task<ActionResult<Product>> ProductAsync(Product entity)
         {
-            await _repository.AddAsync(product);
+            await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
-
-            return CreatedAtAction("Get", new { id = product.Id }, product);
+            return CreatedAtAction("Get", new { id = entity.Id }, entity);
         }
 
         // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Product product)
+        public async Task<ActionResult<Product>> Put(int id, Product entity)
         {
-            if (id != product.Id) return BadRequest();
-            _repository.Update(product);
-            await _repository.SaveChangesAsync();
+            _repository.Update(entity);
 
-            return NoContent();
+            var sonuc = await _repository.SaveChangesAsync();
+            if (sonuc > 0) return NoContent();
+            return StatusCode(StatusCodes.Status304NotModified);
         }
 
         // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var kayit = await _repository.FindAsync(id);
-            if (kayit == null) return NotFound();
+            if (kayit == null) return BadRequest();
             _repository.Delete(kayit);
-            return NoContent();
+
+            var sonuc = await _repository.SaveChangesAsync();
+            if (sonuc > 0) return Ok();
+            return StatusCode(StatusCodes.Status304NotModified);
         }
     }
 }

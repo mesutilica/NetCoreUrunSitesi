@@ -1,10 +1,8 @@
-﻿using BL;
+﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using BL;
 
-namespace WebApi.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,7 +14,6 @@ namespace WebApi.Controllers
         {
             _repository = repository;
         }
-
         // GET: api/<CategoriesController>
         [HttpGet]
         public async Task<IEnumerable<Category>> GetAsync()
@@ -26,30 +23,30 @@ namespace WebApi.Controllers
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
-        public async Task<Category> GetAsync(int id)
+        public async Task<Category> Get(int id)
         {
             return await _repository.FindAsync(id);
         }
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public async Task<ActionResult<Category>> PostAsync(Category category)
+        public async Task<ActionResult<Category>> PostAsync(Category entity)
         {
-            await _repository.AddAsync(category);
+            await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = category.Id }, category);
+            return CreatedAtAction("Get", new { id = entity.Id }, entity);
         }
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Category category)
+        public async Task<ActionResult<Category>> Put(int id, Category entity)
         {
-            if (id != category.Id) return BadRequest();
-            _repository.Update(category);
-            await _repository.SaveChangesAsync();
+            _repository.Update(entity);
 
-            return NoContent();
+            var sonuc = await _repository.SaveChangesAsync();
+            if (sonuc > 0) return NoContent();
+            return StatusCode(StatusCodes.Status304NotModified);
         }
 
         // DELETE api/<CategoriesController>/5
@@ -57,9 +54,12 @@ namespace WebApi.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var kayit = await _repository.FindAsync(id);
-            if (kayit == null) return NotFound();
+            if (kayit == null) return BadRequest();
             _repository.Delete(kayit);
-            return NoContent();
+
+            var sonuc = await _repository.SaveChangesAsync();
+            if (sonuc > 0) return Ok();
+            return StatusCode(StatusCodes.Status304NotModified);
         }
     }
 }

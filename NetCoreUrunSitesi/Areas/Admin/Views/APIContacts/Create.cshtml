@@ -1,10 +1,10 @@
-﻿@model AppUser
+﻿@model Entities.Contact
 
 @{
-    ViewData["Title"] = "Yeni Ekle";
+    ViewData["Title"] = "İletişim Talebi";
 }
 
-<h1>Yeni Kullanıcı Ekle</h1>
+<h1>İletişim Talebi</h1>
 
 <hr />
 <div class="row">
@@ -32,26 +32,11 @@
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-                </label>
-            </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <input type="submit" value="Ekle" class="btn btn-primary" />
             </div>
         </form>
@@ -59,6 +44,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Listeye Dön</a>
+    <a asp-action="Index">Liste</a>
 </div>
 

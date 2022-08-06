@@ -31,6 +31,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="Areas\Admin\Views\APIAppUsers\Create.cshtml" />
+	  <None Include="Areas\Admin\Views\APIAppUsers\Delete.cshtml" />
+	  <None Include="Areas\Admin\Views\APIAppUsers\Edit.cshtml" />
+	  <None Include="Areas\Admin\Views\APIAppUsers\Index.cshtml" />
+	  <None Include="Areas\Admin\Views\APIBrands\Create.cshtml" />
+	  <None Include="Areas\Admin\Views\APIBrands\Delete.cshtml" />
+	  <None Include="Areas\Admin\Views\APIBrands\Edit.cshtml" />
+	  <None Include="Areas\Admin\Views\APIBrands\Index.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Update="Areas\Admin\Views\APIAppUsers\Index.cshtml">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

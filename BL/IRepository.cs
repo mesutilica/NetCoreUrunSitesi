@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions; //
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions; //
 
 namespace BL
 {
@@ -13,8 +9,8 @@ namespace BL
         T Get(Expression<Func<T, bool>> expression);
         T Find(int id);
         int Add(T entity);
-        int Update(T entity);
-        int Delete(T entity);
+        void Update(T entity);
+        void Delete(T entity);
         int SaveChanges();
         IQueryable<T> GetAllInclude(string table);
         IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression);

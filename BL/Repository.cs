@@ -9,17 +9,14 @@ namespace BL
     {
         public DatabaseContext context; // içi boş context nesnesi tanımladık
         DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
-        public Repository()
-        {
-
-        }
         public Repository(DatabaseContext _context)
         {
-            //if (context == null)
-            //{
-            //    context = new DatabaseContext(); // uygulama çalışınca context boşsa doldur
-            //    dbSet = context.Set<T>(); // dbSet nesnesini de oluşturulan context içinde bize gelen classa göre ayarla
-            //}
+            /* if (context == null)
+             {
+                 context = new DatabaseContext(); // uygulama çalışınca context boşsa doldur
+                 dbSet = context.Set<T>(); // dbSet nesnesini de oluşturulan context içinde bize gelen classa göre ayarla
+             }
+            */
             context = _context;
             dbSet = context.Set<T>();
         }
@@ -34,10 +31,9 @@ namespace BL
             await dbSet.AddAsync(entity); // asemkron metotları kullanırken await anahtar kelimesi kullanılır
         }
 
-        public int Delete(T entity)
+        public void Delete(T entity)
         {
             dbSet.Remove(entity);
-            return SaveChanges();
         }
 
         public T Find(int id)
@@ -92,7 +88,7 @@ namespace BL
 
         public IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression)
         {
-            return dbSet.Where(expression);
+            throw new NotImplementedException();
         }
 
         public int SaveChanges()
@@ -105,10 +101,9 @@ namespace BL
             return await context.SaveChangesAsync();
         }
 
-        public int Update(T entity)
+        public void Update(T entity)
         {
             context.Update(entity);
-            return SaveChanges();
         }
     }
 }

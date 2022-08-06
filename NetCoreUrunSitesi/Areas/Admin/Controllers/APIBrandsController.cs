@@ -1,6 +1,5 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Entities;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -9,11 +8,13 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiAdres;
+
         public APIBrandsController(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _apiAdres = "http://localhost:5084/api/Brands";
+            _apiAdres = "https://localhost:7132/Api/Brands";
         }
+
         // GET: APIBrandsController
         public async Task<ActionResult> IndexAsync()
         {
@@ -37,37 +38,13 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(Brand brand)
         {
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync(_apiAdres, brand);
-
-                if (!response.IsSuccessStatusCode) return null;
-
-                //var responseBody = await response.Content.ReadFromJsonAsync<Brand>();
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View(brand);
-            }
-        }
-
-        // GET: APIBrandsController/Edit/5
-        public async Task<ActionResult> Edit(int id)
-        {
-            return View(await _httpClient.GetFromJsonAsync<Brand>($"{_apiAdres}/{id}"));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(int id, Brand brand)
-        {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", brand);
-
+                    brand.CreateDate = DateTime.Now;
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, brand);
+                    if (!response.IsSuccessStatusCode) return null;
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -78,25 +55,55 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             return View(brand);
         }
 
-        // GET: APIBrandsController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: APIBrandsController/Edit/5
+        public async Task<ActionResult> EditAsync(int id)
         {
-            return View();
+            return View(await _httpClient.GetFromJsonAsync<Brand>($"{_apiAdres}/{id}"));
+        }
+
+        // POST: APIBrandsController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditAsync(int id, Brand entity)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
+                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", "Güncelleme Başarısız Oldu!");
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
+            }
+            return View(entity);
+        }
+
+        // GET: APIBrandsController/Delete/5
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            return View(await _httpClient.GetFromJsonAsync<Brand>($"{_apiAdres}/{id}"));
         }
 
         // POST: APIBrandsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteAsync(int id, Brand entity)
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
+                if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", "Kayıt Güncellenemedi!");
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View(entity);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace BL.Concrete
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
+        //private DatabaseContext _appDbContext { get => _context as DatabaseContext; }
         public ProductRepository(DatabaseContext context) : base(context)
         {
 
