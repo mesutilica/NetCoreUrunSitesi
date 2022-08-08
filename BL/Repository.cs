@@ -43,7 +43,7 @@ namespace BL
 
         public IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return dbSet.Include(expression);
         }
 
         public async Task<T> FindAsync(int id)
@@ -88,7 +88,7 @@ namespace BL
 
         public IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return dbSet.Include(expression);
         }
 
         public int SaveChanges()

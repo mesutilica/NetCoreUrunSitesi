@@ -4,7 +4,7 @@
     foreach (var anaKategori in Model.Where(c => c.ParentId == 0 & c.IsActive  & c.IsTopMenu))
     {
         <div class="dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle text-black" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 @anaKategori.Name
             </a>
 

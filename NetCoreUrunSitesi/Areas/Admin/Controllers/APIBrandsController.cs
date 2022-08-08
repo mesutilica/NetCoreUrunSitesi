@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
+using NetCoreUrunSitesi.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class APIBrandsController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -36,16 +38,17 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: APIBrandsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Brand brand)
+        public async Task<ActionResult> CreateAsync(Brand brand, IFormFile? Logo)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     brand.CreateDate = DateTime.Now;
+                    brand.Logo = await FileHelper.FileLoaderAsync(Logo);
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres, brand);
-                    if (!response.IsSuccessStatusCode) return null;
-                    return RedirectToAction(nameof(Index));
+                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", "Kayıt Başarısız!");
                 }
                 catch
                 {
@@ -64,12 +67,14 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: APIBrandsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(int id, Brand entity)
+        public async Task<ActionResult> EditAsync(int id, Brand entity, IFormFile? Logo, bool resmiSil = false)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (resmiSil == true) entity.Logo = string.Empty;
+                    if (Logo != null) entity.Logo = await FileHelper.FileLoaderAsync(Logo);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
                     if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Güncelleme Başarısız Oldu!");

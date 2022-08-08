@@ -1,78 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using NetCoreUrunSitesi.Utils;
 using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize]
-    public class APICategoriesController : Controller
+    public class APISlidersController : Controller
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiAdres;
 
-        public APICategoriesController(HttpClient httpClient)
+        public APISlidersController(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _apiAdres = "https://localhost:7132/Api/Categories";
+            _apiAdres = "https://localhost:7132/Api/Sliders";
         }
-
-
-        // GET: APICategoriesController
+        // GET: APISlidersController
         public async Task<ActionResult> IndexAsync()
         {
-            return View(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdres));
+            return View(await _httpClient.GetFromJsonAsync<List<Slider>>(_apiAdres));
         }
 
-        // GET: APICategoriesController/Details/5
+        // GET: APISlidersController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: APICategoriesController/Create
-        public async Task<ActionResult> CreateAsync()
+        // GET: APISlidersController/Create
+        public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdres), "Id", "Name");
             return View();
         }
 
-        // POST: APICategoriesController/Create
+        // POST: APISlidersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Category category, IFormFile? Image)
+        public async Task<ActionResult> CreateAsync(Slider entity, IFormFile? Image)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    category.CreateDate = DateTime.Now;
-                    category.Image = await FileHelper.FileLoaderAsync(Image);
-                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, category);
+                    entity.Image = await FileHelper.FileLoaderAsync(Image);
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, entity);
                     if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
-                    ModelState.AddModelError("", "Kayıt Başarısız!");
                 }
                 catch
                 {
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.ParentId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdres), "Id", "Name");
-            return View(category);
+            return View(entity);
         }
 
-        // GET: APICategoriesController/Edit/5
+        // GET: APISlidersController/Edit/5
         public async Task<ActionResult> EditAsync(int id)
         {
-            ViewBag.ParentId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdres), "Id", "Name");
-            return View(await _httpClient.GetFromJsonAsync<Category>($"{_apiAdres}/{id}"));
+            return View(await _httpClient.GetFromJsonAsync<Slider>($"{_apiAdres}/{id}"));
         }
 
-        // POST: APICategoriesController/Edit/5
+        // POST: APISlidersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(int id, Category entity, IFormFile? Image, bool resmiSil = false)
+        public async Task<ActionResult> EditAsync(int id, Slider entity, IFormFile? Image, bool resmiSil = false)
         {
             if (ModelState.IsValid)
             {
@@ -82,33 +74,32 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     if (Image != null) entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
                     if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
-                    ModelState.AddModelError("", "Güncelleme Başarısız Oldu!");
+                    ModelState.AddModelError("", "Kayıt Güncellenemedi!");
                 }
                 catch
                 {
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.ParentId = new SelectList(await _httpClient.GetFromJsonAsync<List<Category>>(_apiAdres), "Id", "Name");
             return View(entity);
         }
 
-        // GET: APICategoriesController/Delete/5
+        // GET: APISlidersController/Delete/5
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View(await _httpClient.GetFromJsonAsync<Category>($"{_apiAdres}/{id}"));
+            return View(await _httpClient.GetFromJsonAsync<Slider>($"{_apiAdres}/{id}"));
         }
 
-        // POST: APICategoriesController/Delete/5
+        // POST: APISlidersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteAsync(int id, Category entity)
+        public async Task<ActionResult> DeleteAsync(int id, Slider entity)
         {
             try
             {
                 var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
                 if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
-                ModelState.AddModelError("", "Kayıt Güncellenemedi!");
+                ModelState.AddModelError("", "İşlem Başarısız!");
             }
             catch
             {

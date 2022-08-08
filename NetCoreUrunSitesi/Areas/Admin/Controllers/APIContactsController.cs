@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class APIContactsController : Controller
     {
         private readonly HttpClient _httpClient;

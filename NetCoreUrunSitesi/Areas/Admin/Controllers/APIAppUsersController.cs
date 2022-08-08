@@ -70,7 +70,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 try
                 {
-                    await _appUsersApiService.UpdateAsync(appUser);
+                    await _appUsersApiService.UpdateAsync(id, appUser);
 
                     return RedirectToAction(nameof(Index));
                 }

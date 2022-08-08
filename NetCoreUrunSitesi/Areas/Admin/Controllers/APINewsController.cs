@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
+using NetCoreUrunSitesi.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class APINewsController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -36,23 +38,23 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: APINewsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(News entity)
+        public async Task<ActionResult> CreateAsync(News news, IFormFile? Image)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    entity.CreateDate = DateTime.Now;
-                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, entity);
-                    if (!response.IsSuccessStatusCode) return null;
-                    return RedirectToAction(nameof(Index));
+                    news.CreateDate = DateTime.Now;
+                    news.Image = await FileHelper.FileLoaderAsync(Image);
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, news);
+                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
                 }
                 catch
                 {
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            return View(entity);
+            return View(news);
         }
 
         // GET: APINewsController/Edit/5
@@ -64,12 +66,14 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: APINewsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditAsync(int id, News entity)
+        public async Task<ActionResult> EditAsync(int id, News entity, IFormFile? Image, bool resmiSil = false)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (resmiSil == true) entity.Image = string.Empty;
+                    if (Image != null) entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
                     if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Güncellenemedi!");
@@ -97,7 +101,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
                 if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
-                ModelState.AddModelError("", "Kayıt Güncellenemedi!");
+                ModelState.AddModelError("", "İşlem Başarısız!");
             }
             catch
             {
