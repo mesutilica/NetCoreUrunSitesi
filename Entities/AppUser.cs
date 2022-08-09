@@ -5,17 +5,17 @@ namespace Entities
     public class AppUser : IEntity
     {
         public int Id { get; set; }
-        [Display(Name = "Ad"), StringLength(50)]
-        public string? Name { get; set; }
-        [Display(Name = "Soyad"), StringLength(50)]
-        public string? Surname { get; set; }
-        [StringLength(50)]
-        public string? Email { get; set; }
-        [Display(Name = "Telefon"), StringLength(15)]
+        [Display(Name = "Ad")]
+        public string Name { get; set; }
+        [Display(Name = "Soyad")]
+        public string Surname { get; set; }
+        [Required(ErrorMessage = "Boş Geçilemez!")]
+        public string Email { get; set; }
+        [Display(Name = "Telefon")]
         public string? Phone { get; set; }
-        [Display(Name = "Kullanıcı Adı"), StringLength(50), Required(ErrorMessage = "Boş Geçilemez!")]
-        public string Username { get; set; }
-        [Display(Name = "Şifre"), StringLength(50), Required(ErrorMessage = "Boş Geçilemez!")]
+        [Display(Name = "Kullanıcı Adı")]
+        public string? Username { get; set; }
+        [Display(Name = "Şifre"), Required(ErrorMessage = "Boş Geçilemez!")]
         public string Password { get; set; }
         [Display(Name = "Aktif?")]
         public bool IsActive { get; set; }

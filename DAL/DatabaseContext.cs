@@ -24,13 +24,24 @@ namespace DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppUser>().HasData( // HasData metodu db oluştuktan sonra ilk kaydı eklemek için
+            modelBuilder.Entity<AppUser>().Property(a => a.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+            modelBuilder.Entity<AppUser>().Property(a => a.Surname).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+            modelBuilder.Entity<AppUser>().Property(a => a.Username).HasColumnType("varchar(50)").HasMaxLength(50);
+            modelBuilder.Entity<AppUser>().Property(a => a.Password).IsRequired().HasColumnType("nvarchar(150)").HasMaxLength(150);
+            modelBuilder.Entity<AppUser>().Property(a => a.Email).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
+            modelBuilder.Entity<AppUser>().Property(a => a.Phone).HasColumnType("varchar(15)").HasMaxLength(50);
+            // HasData metodu db oluştuktan sonra ilk kaydı eklemek için
+            modelBuilder.Entity<AppUser>().HasData(
             new AppUser
             {
                 Id = 1,
                 CreateDate = DateTime.Now,
                 Username = "Admin",
                 Password = "123456",
+                Email = "admin@admin.coo",
+                Phone = "",
+                Name = "Admin",
+                Surname = "Admin",
                 IsActive = true,
                 IsAdmin = true
             }
