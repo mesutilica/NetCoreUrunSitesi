@@ -15,5 +15,10 @@ namespace Entities
         public bool IsActive { get; set; }
         [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)] // ScaffoldColumn(false) crud sayfaları oluşturulurken bu kolonun ekranda oluşmamasını sağlar
         public DateTime CreateDate { get; set; }
+        public ICollection<Product> Products { get; set; }
+        public Brand()
+        {
+            Products = new List<Product>();
+        }
     }
 }

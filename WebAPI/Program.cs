@@ -1,5 +1,6 @@
 using BL;
 using DAL;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI
@@ -19,6 +20,11 @@ namespace WebAPI
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer()); // uygulamada sql server kullan
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+            {
+                //x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+                x.Cookie.Name = "ApiAdmin";
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,6 +34,7 @@ namespace WebAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

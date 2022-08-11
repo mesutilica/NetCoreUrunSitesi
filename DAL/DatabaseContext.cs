@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Entities;
+using DAL.Configurations;
+using System.Reflection;
 
 namespace DAL
 {
@@ -46,6 +48,15 @@ namespace DAL
                 IsAdmin = true
             }
             );
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new SliderConfiguration());
+
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
     }

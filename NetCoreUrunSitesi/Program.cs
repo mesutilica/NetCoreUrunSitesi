@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using NetCoreUrunSitesi.Services;
 using BL.Concrete;
 using BL.Abstract;
+using Microsoft.AspNetCore.Authentication;
+using NetCoreUrunSitesi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,12 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+});
+//BasicAuthentication
+builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build());
 });
 
 //Diðer Dependency Injection yöntemleri :
