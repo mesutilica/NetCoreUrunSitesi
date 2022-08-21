@@ -31,7 +31,7 @@ namespace NetCoreUrunSitesi.Controllers
             };
             return View(model);
         }
-
+        [BasicAuthorize]
         public IActionResult Privacy()
         {
             return View();

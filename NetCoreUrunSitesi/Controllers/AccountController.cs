@@ -1,5 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Net.Http;
 
 namespace NetCoreUrunSitesi.Controllers
 {
@@ -30,6 +32,7 @@ namespace NetCoreUrunSitesi.Controllers
                 try
                 {
                     appUser.CreateDate = DateTime.Now;
+                    //_httpClient.DefaultRequestHeaders.Append("","");
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres + "AppUsers", appUser);
                     if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Başarısız!");
