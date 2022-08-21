@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using NetCoreUrunSitesi.Services;
 using BL.Concrete;
 using BL.Abstract;
-using Microsoft.AspNetCore.Authentication;
-using NetCoreUrunSitesi.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +24,24 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+    x.AccessDeniedPath = "/AccesDenied";
+    x.LogoutPath = "/Admin/Logout";
+    x.Cookie.Name = "Admin";
+    x.Cookie.MaxAge = TimeSpan.FromDays(7);
+    x.Cookie.IsEssential = true;
+});
+// Authorization : Yetkilendirme : Önce servis olarak ekliyoruz
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
+    options.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
 });
 //BasicAuthentication
-builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });
+/*builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build());
-});
+});*/
 
 //Diðer Dependency Injection yöntemleri :
 

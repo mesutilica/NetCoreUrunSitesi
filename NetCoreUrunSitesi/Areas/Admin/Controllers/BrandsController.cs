@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class BrandsController : Controller
     {
         private readonly IRepository<Brand> _repository;

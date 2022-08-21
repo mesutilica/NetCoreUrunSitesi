@@ -28,7 +28,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 try
                 {
-                    var account = _repository.Get(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive & x.IsAdmin);
+                    var account = _repository.Get(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive);
                     if (account == null)
                     {
                         ModelState.AddModelError("", "Giriş Başarısız!");
@@ -37,11 +37,20 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     {
                         var claims = new List<Claim>() // Claim = hak
                         {
-                            new Claim(ClaimTypes.Name, account.Username)
+                            new Claim(ClaimTypes.Name, account.Username),
+                            new Claim("Role", account.IsAdmin ? "Admin" : "User"),
+                            new Claim("UserId", account.Id.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
+                        var authProperties = new AuthenticationProperties
+                        {
+                            AllowRefresh = true,
+                            ExpiresUtc = DateTime.UtcNow.AddDays(7),
+                            IsPersistent = true,
+                            RedirectUri = "https://localhost:7113/Admin/Logout"
+                        };
                         ClaimsPrincipal principal = new(userIdentity);
-                        await HttpContext.SignInAsync(principal);
+                        await HttpContext.SignInAsync(principal, authProperties);
                         return Redirect("/Admin/Home");
                     }
                 }

@@ -36,6 +36,11 @@ namespace NetCoreUrunSitesi.Controllers
         {
             return View();
         }
+        [Route("AccesDenied")]
+        public IActionResult AccesDenied()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

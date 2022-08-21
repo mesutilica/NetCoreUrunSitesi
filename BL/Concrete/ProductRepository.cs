@@ -12,12 +12,12 @@ namespace BL.Concrete
         {
 
         }
-        public async Task<IEnumerable<Product>> GetAllCategoriesBySlugsAsync()
+        public async Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync()
         {
             return await context.Products.Include(x => x.Category).ToListAsync();
         }
 
-        public async Task<Product> GetWithSlugByIdAsync(int categoryId)
+        public async Task<Product> GetWithCategoryByIdAsync(int categoryId)
         {
             return await context.Products.Include(x => x.Category).FirstOrDefaultAsync();
         }
