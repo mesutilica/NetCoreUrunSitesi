@@ -5,12 +5,20 @@ using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using NetCoreUrunSitesi.Services;
 using BL.Concrete;
 using BL.Abstract;
-using Microsoft.Extensions.Options;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//  FluentValidation
+builder.Services.AddFluentValidation(conf =>
+{
+    conf.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+    conf.AutomaticValidationEnabled = false;
+});
+
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();

@@ -26,6 +26,7 @@ namespace DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //FluentApi
             modelBuilder.Entity<AppUser>().Property(a => a.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
             modelBuilder.Entity<AppUser>().Property(a => a.Surname).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
             modelBuilder.Entity<AppUser>().Property(a => a.Username).HasColumnType("varchar(50)").HasMaxLength(50);
@@ -57,6 +58,9 @@ namespace DAL
             modelBuilder.ApplyConfiguration(new SliderConfiguration());
 
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // Fluent validation : FluentValidation.AspNetCore paketini yüklüyoruz
+
             base.OnModelCreating(modelBuilder);
         }
     }
