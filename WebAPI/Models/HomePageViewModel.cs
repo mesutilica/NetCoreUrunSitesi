@@ -1,5 +1,5 @@
 ﻿using Entities;
-using static WebAPI.Application.UserOperations.Commands.CreateToken.CreateTokenCommand;
+using WebAPI.Application.UserOperations.Commands.CreateToken;
 
 namespace WebAPI.Models
 {

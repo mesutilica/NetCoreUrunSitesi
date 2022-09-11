@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BL;
+﻿using BL;
 using Entities;
 using WebAPI.TokenOperations;
 using WebAPI.TokenOperations.Models;
@@ -38,10 +37,10 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
             }
             return null;
         }
-        public class CreateTokenModel
-        {
-            public string Email { get; set; }
-            public string Password { get; set; }
-        }
+    }
+    public class CreateTokenModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using BL;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using static WebAPI.Application.UserOperations.Commands.CreateToken.CreateTokenCommand;
 using WebAPI.Application.UserOperations.Commands.CreateToken;
 using WebAPI.Application.UserOperations.Commands.RefreshToken;
 using WebAPI.TokenOperations.Models;
