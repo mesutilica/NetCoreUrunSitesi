@@ -8,7 +8,7 @@ namespace DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<News> builder)
         {
-            builder.Property(x => x.Image).IsRequired().HasColumnType("varchar(100)").HasMaxLength(100);
+            builder.Property(x => x.Name).IsRequired().HasColumnType("varchar(100)").HasMaxLength(100);
             builder.Property(x => x.Description).IsRequired();
             builder.Property(x => x.Image).IsRequired().HasMaxLength(100);
         }

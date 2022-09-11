@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entities;
 using BL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AppUsersController : ControllerBase

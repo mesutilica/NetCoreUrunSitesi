@@ -1,6 +1,5 @@
 ﻿using BL;
 using Entities;
-using Microsoft.EntityFrameworkCore;
 using WebAPI.TokenOperations;
 using WebAPI.TokenOperations.Models;
 
@@ -20,15 +19,15 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
         }
         public Token Handle()
         {
-            AppUser user = new AppUser();//_repository.FirstOrDefaultAsync(x => x.RefreshToken == RefreshToken && x.RefreshTokenExpireDate > DateTime.Now).Result;
+            AppUser user = _repository.FirstOrDefaultAsync(x => x.RefreshToken == RefreshToken && x.RefreshTokenExpireDate > DateTime.Now).Result;
             if (user is not null)
             {
 
                 TokenHandler tokenHandler = new TokenHandler(_configuration);
                 Token token = tokenHandler.CreateAccessToken(user);
 
-                //user.RefreshToken = token.RefreshToken;
-                //user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
+                user.RefreshToken = token.RefreshToken;
+                user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
                 _repository.Update(user);
                 // _context.SaveChangesAsync();
 

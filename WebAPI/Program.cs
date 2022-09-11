@@ -23,11 +23,11 @@ namespace WebAPI
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer()); // uygulamada sql server kullan
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
-            {
-                //x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
-                x.Cookie.Name = "ApiAdmin";
-            });
+            //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+            //{
+            //    //x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+            //    x.Cookie.Name = "ApiAdmin";
+            //});
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
                 opt.TokenValidationParameters = new TokenValidationParameters
@@ -40,7 +40,7 @@ namespace WebAPI
                     ValidIssuer = builder.Configuration["Token:Issuer"], // Tokený veren saðlayýcý
                     ValidAudience = builder.Configuration["Token:Audience"], // Tokený kullanacak kullanýcý
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"])), // Tokený Ýmzalama Anahtarý
-                    ClockSkew = TimeSpan.Zero // zaman farký olmasýn
+                    ClockSkew = TimeSpan.Zero // saat farký olmasýn
                 };
             });
             builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

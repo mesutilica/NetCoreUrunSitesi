@@ -11,12 +11,10 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
         //private readonly IAppUserService _context;
         private readonly IRepository<AppUser> _repository;
         private readonly IConfiguration _configuration;
-        private readonly IMapper _mapper;
         public CreateTokenModel Model;
-        public CreateTokenCommand(IMapper mapper, IConfiguration configuration, IRepository<AppUser> repository)//IAppUserService context, 
+        public CreateTokenCommand(IConfiguration configuration, IRepository<AppUser> repository)//IAppUserService context, 
         {
             //_context = context;
-            _mapper = mapper;
             _configuration = configuration;
             _repository = repository;
         }
@@ -30,8 +28,9 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
                 Token token = handler.CreateAccessToken(user);
 
                 //Refresh token Users tablosuna işleniyor.
-                //user.RefreshToken = token.RefreshToken;
-                //user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
+                user.RefreshToken = token.RefreshToken;
+                user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
+                _repository.Update(user);
                 //_context.Update(user);
                 // _context.SaveChangesAsync();
 

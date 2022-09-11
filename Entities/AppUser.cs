@@ -23,5 +23,8 @@ namespace Entities
         public bool IsAdmin { get; set; }
         [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)]
         public DateTime CreateDate { get; set; }
+        // Jwt için propertyler
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpireDate { get; set; }
     }
 }
