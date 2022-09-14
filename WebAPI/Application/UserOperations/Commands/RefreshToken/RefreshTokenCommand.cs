@@ -23,7 +23,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
             if (user is not null)
             {
 
-                TokenHandler tokenHandler = new TokenHandler(_configuration);
+                TokenHandler tokenHandler = new(_configuration);
                 Token token = tokenHandler.CreateAccessToken(user);
 
                 user.RefreshToken = token.RefreshToken;

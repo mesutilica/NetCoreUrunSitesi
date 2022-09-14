@@ -16,13 +16,13 @@ namespace WebAPI.TokenOperations
         //Token üretecek metot.
         public Token CreateAccessToken(AppUser user)
         {
-            Token tokenInstance = new Token();
+            Token tokenInstance = new();
 
             //Security  Key'in simetriğini alıyoruz.
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:SecurityKey"]));
+            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(Configuration["Token:SecurityKey"]));
 
             //Şifrelenmiş kimliği oluşturuyoruz.
-            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
             //Oluşturulacak token ayarlarını veriyoruz.
             tokenInstance.Expiration = DateTime.Now.AddMinutes(15);
@@ -35,7 +35,7 @@ namespace WebAPI.TokenOperations
                 );
 
             //Token oluşturucu sınıfında bir örnek alıyoruz.
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
 
             //Token üretiyoruz.
             tokenInstance.AccessToken = tokenHandler.WriteToken(securityToken);

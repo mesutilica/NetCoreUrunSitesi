@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         [HttpPost("connect/token")]
         public ActionResult<Token> Login(CreateTokenModel login)//[FromBody] 
         {
-            CreateTokenCommand command = new CreateTokenCommand(_configuration, _repository);
+            CreateTokenCommand command = new(_configuration, _repository);
             command.Model = login;
             var token = command.Handle();
             return token;
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
         [HttpGet("refreshToken")]
         public ActionResult<Token> RefreshToken([FromQuery] string token)//token a gelecek refreshToken değeri RefreshTokenCommand a gönderilip yenileniyor
         {
-            RefreshTokenCommand command = new RefreshTokenCommand(_repository, _configuration);
+            RefreshTokenCommand command = new(_repository, _configuration);
             command.RefreshToken = token;
             var resultToken = command.Handle();
             return resultToken;

@@ -23,7 +23,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
             if (user is not null)
             {
                 //Token üretiliyor.
-                TokenHandler handler = new TokenHandler(_configuration);
+                TokenHandler handler = new(_configuration);
                 Token token = handler.CreateAccessToken(user);
 
                 //Refresh token Users tablosuna işleniyor.
