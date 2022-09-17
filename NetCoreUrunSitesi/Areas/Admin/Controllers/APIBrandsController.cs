@@ -2,6 +2,7 @@
 using Entities;
 using NetCoreUrunSitesi.Utils;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -20,7 +21,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: APIBrandsController
         public async Task<ActionResult> IndexAsync()
         {
-            return View(await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres));
+            var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjMzODkxOTAsImV4cCI6MTY2MzM5MDA5MCwiaXNzIjoid3d3LnRlc3QuY29tIiwiYXVkIjoid3d3LnRlc3QuY29tIn0.ok1IxbONOUcpvp-OqtBoJL2cJlqyVeOW4RtCyoTCgFI");
+            return View(request);
         }
 
         // GET: APIBrandsController/Details/5
