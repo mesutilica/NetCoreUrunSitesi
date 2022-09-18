@@ -1,6 +1,7 @@
 ﻿using BL.Abstract;
 using DAL;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
@@ -15,9 +16,9 @@ namespace BL.Concrete
             return null;
         }
 
-        public Task<Category> GetWithSlugByIdAsync(int categoryId)
+        public async Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            return await context.Categories.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
         }
     }
 }
