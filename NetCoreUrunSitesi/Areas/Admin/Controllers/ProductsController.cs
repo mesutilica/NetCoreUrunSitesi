@@ -85,6 +85,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     if (resmiSil == true) product.Image = string.Empty;
                     if (Image != null) product.Image = await FileHelper.FileLoaderAsync(Image);
                     _repository.Update(product);
+                    await _repository.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch

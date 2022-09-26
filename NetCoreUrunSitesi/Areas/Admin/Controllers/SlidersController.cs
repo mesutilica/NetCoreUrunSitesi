@@ -74,6 +74,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     if (resmiSil == true) slider.Image = string.Empty;
                     if (Image != null) slider.Image = await FileHelper.FileLoaderAsync(Image);
                     _repository.Update(slider);
+                    await _repository.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch

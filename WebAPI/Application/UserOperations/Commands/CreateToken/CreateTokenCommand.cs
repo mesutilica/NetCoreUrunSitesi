@@ -17,7 +17,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
             _configuration = configuration;
             _repository = repository;
         }
-        public Token Handle()
+        public async Task<Token> HandleAsync()
         {
             AppUser user = _repository.FirstOrDefaultAsync(x => x.Email == Model.Email && x.Password == Model.Password).Result;
             if (user is not null)
@@ -30,7 +30,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
                 user.RefreshToken = token.RefreshToken;
                 user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
                 _repository.Update(user);
-                //_context.Update(user);
+                await _repository.SaveChangesAsync();
                 // _context.SaveChangesAsync();
 
                 return token;

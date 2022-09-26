@@ -75,7 +75,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     if (resmiSil == true) news.Image = string.Empty;
                     if (Image != null) news.Image = await FileHelper.FileLoaderAsync(Image);
                     _repository.Update(news);
-
+                    await _repository.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch

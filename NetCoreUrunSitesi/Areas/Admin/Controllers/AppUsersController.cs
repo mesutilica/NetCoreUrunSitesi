@@ -67,14 +67,14 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: AppUsersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, AppUser appUser)
+        public async Task<ActionResult> EditAsync(int id, AppUser appUser)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     _repository.Update(appUser);
-
+                    await _repository.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch

@@ -60,11 +60,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: ContactsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Contact contact)
+        public async Task<ActionResult> EditAsync(int id, Contact contact)
         {
             try
             {
                 _repository.Update(contact);
+                await _repository.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

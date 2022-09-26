@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         {
             CreateTokenCommand command = new(_configuration, _repository);
             command.Model = login;
-            var token = command.Handle();
+            var token = command.HandleAsync();
             return token;
         }
 
@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
         {
             RefreshTokenCommand command = new(_repository, _configuration);
             command.RefreshToken = token;
-            var resultToken = command.Handle();
+            var resultToken = command.HandleAsync();
             return resultToken;
         }
     }

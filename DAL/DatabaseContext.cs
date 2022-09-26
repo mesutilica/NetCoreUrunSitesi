@@ -47,8 +47,8 @@ namespace DAL
                 Surname = "Admin",
                 IsActive = true,
                 IsAdmin = true,
-                RefreshToken = "",
-                RefreshTokenExpireDate = DateTime.Now,
+                RefreshToken = Guid.NewGuid().ToString(),
+                RefreshTokenExpireDate = DateTime.Now.AddMinutes(30),
             }
             );
             modelBuilder.ApplyConfiguration(new BrandConfiguration());

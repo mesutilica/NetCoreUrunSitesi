@@ -17,7 +17,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
 
             _configuration = configuration;
         }
-        public Token Handle()
+        public async Task<Token> HandleAsync()
         {
             AppUser user = _repository.FirstOrDefaultAsync(x => x.RefreshToken == RefreshToken && x.RefreshTokenExpireDate > DateTime.Now).Result;
             if (user is not null)
@@ -29,7 +29,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
                 user.RefreshToken = token.RefreshToken;
                 user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
                 _repository.Update(user);
-                // _context.SaveChangesAsync();
+                await _repository.SaveChangesAsync();
 
                 return token;
             }
