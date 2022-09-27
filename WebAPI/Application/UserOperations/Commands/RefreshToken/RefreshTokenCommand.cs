@@ -27,7 +27,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
                 Token token = tokenHandler.CreateAccessToken(user);
 
                 user.RefreshToken = token.RefreshToken;
-                user.RefreshTokenExpireDate = token.Expiration.AddMinutes(30);
+                user.RefreshTokenExpireDate = token.Expiration.AddMinutes(60);
                 _repository.Update(user);
                 await _repository.SaveChangesAsync();
 

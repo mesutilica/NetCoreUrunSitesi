@@ -26,7 +26,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: APIBrandsController
         public async Task<IActionResult> IndexAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjMzODkxOTAsImV4cCI6MTY2MzM5MDA5MCwiaXNzIjoid3d3LnRlc3QuY29tIiwiYXVkIjoid3d3LnRlc3QuY29tIn0.ok1IxbONOUcpvp-OqtBoJL2cJlqyVeOW4RtCyoTCgFI");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjQyNzk2OTUsImV4cCI6MTY2NDI4MDU5NSwiaXNzIjoid3d3LnRlc3QuY29tIiwiYXVkIjoid3d3LnRlc3QuY29tIn0.nC1OLppRO0xhFEFogzE0gidWCFwfSdZF0guW4nLr2u8");
             var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
             // 2. Yöntem
             var responseMessage = await _httpClient.GetAsync(_apiAdres);

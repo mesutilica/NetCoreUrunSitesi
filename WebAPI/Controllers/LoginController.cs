@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
             CreateTokenCommand command = new(_configuration, _repository);
             command.Model = login;
             var token = command.HandleAsync();
-            return token;
+            return token.Result;
         }
 
         [HttpGet("refreshToken")]
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             RefreshTokenCommand command = new(_repository, _configuration);
             command.RefreshToken = token;
             var resultToken = command.HandleAsync();
-            return resultToken;
+            return resultToken.Result;
         }
     }
 }
