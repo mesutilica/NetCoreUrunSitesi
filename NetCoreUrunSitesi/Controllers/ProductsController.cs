@@ -1,6 +1,4 @@
-﻿using BL;
-using BL.Abstract;
-using Entities;
+﻿using BL.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NetCoreUrunSitesi.Controllers
@@ -13,9 +11,9 @@ namespace NetCoreUrunSitesi.Controllers
         {
             _productRepository = productRepository;
         }*/
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productRepository;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductService productRepository)
         {
             _productRepository = productRepository;
         }

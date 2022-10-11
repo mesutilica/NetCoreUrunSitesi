@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BL.Abstract;
+using BL.ValidationRules;
 using Entities;
-using BL;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -41,7 +43,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(AppUser appUser)
         {
-            if (ModelState.IsValid)
+            AppUserValidator validationRules = new AppUserValidator();
+            ValidationResult result = validationRules.Validate(appUser);
+            if (result.IsValid)
             {
                 try
                 {

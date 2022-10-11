@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryManager : Repository<Category>, ICategoryService
     {
-        public CategoryRepository(DatabaseContext context) : base(context)
+        public CategoryManager(DatabaseContext context) : base(context)
         {
 
         }

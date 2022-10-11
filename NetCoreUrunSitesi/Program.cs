@@ -1,11 +1,10 @@
-using BL;
-using DAL;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
-using NetCoreUrunSitesi.Services;
-using BL.Concrete;
 using BL.Abstract;
+using BL.Concrete;
+using DAL;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
+using Microsoft.EntityFrameworkCore;
+using NetCoreUrunSitesi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +28,8 @@ builder.Services.AddHttpClient<AppUsersApiService>(opt =>
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer()); // uygulamada sql server kullan
 //builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IProductService, ProductManager>();
+builder.Services.AddTransient<ICategoryService, CategoryManager>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir

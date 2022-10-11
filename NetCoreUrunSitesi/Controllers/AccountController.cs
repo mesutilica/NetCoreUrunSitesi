@@ -1,7 +1,5 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Security.Policy;
 
 namespace NetCoreUrunSitesi.Controllers
 {

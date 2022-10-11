@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BL.Abstract;
 using Entities;
-using BL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {

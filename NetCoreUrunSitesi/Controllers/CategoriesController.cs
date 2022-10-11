@@ -1,5 +1,4 @@
-﻿using BL;
-using BL.Abstract;
+﻿using BL.Abstract;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +7,8 @@ namespace NetCoreUrunSitesi.Controllers
     public class CategoriesController : Controller
     {
         private readonly IRepository<Category> _repositoryCategory;
-        private readonly ICategoryRepository _categoryRepository;
-        public CategoriesController(IRepository<Category> repositoryCategory, ICategoryRepository categoryRepository)
+        private readonly ICategoryService _categoryRepository;
+        public CategoriesController(IRepository<Category> repositoryCategory, ICategoryService categoryRepository)
         {
             _repositoryCategory = repositoryCategory;
             _categoryRepository = categoryRepository;

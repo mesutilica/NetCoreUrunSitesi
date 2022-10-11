@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions; //
 
-namespace BL
+namespace BL.Abstract
 {
     public interface IRepository<T> where T : class
     {

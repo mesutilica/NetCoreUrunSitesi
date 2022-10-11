@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BL.Concrete
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductManager : Repository<Product>, IProductService
     {
         //private DatabaseContext _appDbContext { get => _context as DatabaseContext; }
-        public ProductRepository(DatabaseContext context) : base(context)
+        public ProductManager(DatabaseContext context) : base(context)
         {
 
         }

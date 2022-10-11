@@ -1,4 +1,4 @@
-﻿using BL;
+﻿using BL.Abstract;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;

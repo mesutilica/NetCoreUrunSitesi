@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DAL.Configurations;
 using Entities;
-using DAL.Configurations;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {

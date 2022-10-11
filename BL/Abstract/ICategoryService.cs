@@ -2,7 +2,7 @@
 
 namespace BL.Abstract
 {
-    public interface ICategoryRepository : IRepository<Category>
+    public interface ICategoryService : IRepository<Category>
     {
         Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId);
         Task<IEnumerable<Category>> GetAllCategoriesBySlugsAsync();

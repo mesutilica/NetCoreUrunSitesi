@@ -1,6 +1,6 @@
-using BL;
+using BL.Abstract;
+using BL.Concrete;
 using DAL;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

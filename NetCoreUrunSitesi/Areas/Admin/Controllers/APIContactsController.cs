@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {

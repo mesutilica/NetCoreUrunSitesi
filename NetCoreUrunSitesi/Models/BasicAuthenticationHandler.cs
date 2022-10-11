@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
-using System.Text;
 
 namespace NetCoreUrunSitesi.Models
 {

@@ -1,9 +1,9 @@
-﻿using DAL;
+﻿using DAL.Abstract;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace BL
+namespace DAL.Concrete
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity, new()
     {
@@ -11,12 +11,6 @@ namespace BL
         DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
         public Repository(DatabaseContext _context)
         {
-            /* if (context == null)
-             {
-                 context = new DatabaseContext(); // uygulama çalışınca context boşsa doldur
-                 dbSet = context.Set<T>(); // dbSet nesnesini de oluşturulan context içinde bize gelen classa göre ayarla
-             }
-            */
             context = _context;
             dbSet = context.Set<T>();
         }

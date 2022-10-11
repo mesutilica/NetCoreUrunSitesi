@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Entities;
-using NetCoreUrunSitesi.Utils;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
-using System.Drawing.Drawing2D;
+using NetCoreUrunSitesi.Utils;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {

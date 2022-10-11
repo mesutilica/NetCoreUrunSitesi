@@ -9,13 +9,13 @@ namespace Entities
         public string Name { get; set; }
         [Display(Name = "Soyad")]
         public string Surname { get; set; }
-        [Required(ErrorMessage = "Boş Geçilemez!")]
+        [Required(ErrorMessage = "{0} Boş Geçilemez!")]
         public string Email { get; set; }
         [Display(Name = "Telefon")]
         public string? Phone { get; set; }
         [Display(Name = "Kullanıcı Adı")]
         public string? Username { get; set; }
-        [Display(Name = "Şifre"), Required(ErrorMessage = "Boş Geçilemez!")]
+        [Display(Name = "Şifre"), Required(ErrorMessage = "{0} Boş Geçilemez!")]
         public string Password { get; set; }
         [Display(Name = "Aktif?")]
         public bool IsActive { get; set; }

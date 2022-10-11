@@ -1,7 +1,7 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Entities;
+﻿using Entities;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using WebAPI.TokenOperations.Models;
 
 namespace WebAPI.TokenOperations

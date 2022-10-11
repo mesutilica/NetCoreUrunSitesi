@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BL;
+﻿using BL.Abstract;
 using Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace NetCoreUrunSitesi.Controllers
 {
