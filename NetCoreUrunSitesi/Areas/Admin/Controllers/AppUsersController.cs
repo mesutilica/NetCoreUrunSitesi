@@ -1,6 +1,6 @@
 ﻿using BL.Abstract;
-using BL.ValidationRules;
 using Entities;
+using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +13,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         //AppUserManager manager = new AppUserManager(); // Klasik kullandığımız yöntem
 
         private readonly IRepository<AppUser> _repository; // DI-Dependency injection yöntemiyle
+        private IValidator<AppUser> _validator;
 
-        public AppUsersController(IRepository<AppUser> repository)
+        public AppUsersController(IRepository<AppUser> repository, IValidator<AppUser> validator)
         {
             _repository = repository;
+            _validator = validator;
         }
 
         // GET: AppUsersController
@@ -41,10 +43,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // POST: AppUsersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(AppUser appUser)
+        public async Task<ActionResult> Create(AppUser appUser)
         {
-            AppUserValidator validationRules = new AppUserValidator();
-            ValidationResult result = validationRules.Validate(appUser);
+            ValidationResult result = await _validator.ValidateAsync(appUser);
             if (result.IsValid)
             {
                 try
@@ -59,7 +60,16 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            return View(appUser);
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.Remove(error.PropertyName);
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage); // FluentValidation hatalarını eklemek için
+                    ModelState.AddModelError("", error.ErrorMessage); // hataları üst kısımda göstermek için
+                }
+            }
+            return View();//appUser
         }
 
         // GET: AppUsersController/Edit/5

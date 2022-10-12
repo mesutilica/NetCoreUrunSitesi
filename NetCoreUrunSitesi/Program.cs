@@ -1,6 +1,9 @@
 using BL.Abstract;
 using BL.Concrete;
+using BL.ValidationRules;
 using DAL;
+using Entities;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //  FluentValidation
-builder.Services.AddFluentValidation(conf =>
-{
-    conf.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
-    conf.AutomaticValidationEnabled = false;
-});
+//builder.Services.AddFluentValidation(conf =>
+//{
+//    conf.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+//    conf.AutomaticValidationEnabled = false;
+//});
+//builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddSession();

@@ -9,7 +9,7 @@ namespace Entities
         public string Name { get; set; }
         [Display(Name = "Soyad")]
         public string Surname { get; set; }
-        [Required(ErrorMessage = "{0} Boş Geçilemez!")]
+        //[Required(ErrorMessage = "{0} Boş Geçilemez!")]
         public string Email { get; set; }
         [Display(Name = "Telefon")]
         public string? Phone { get; set; }
