@@ -16,5 +16,15 @@
 
             return fileName;
         }
+        public static bool FileRemover(string fileName, string filePath = "/Img/wwwroot/")
+        {
+            string directory = Directory.GetCurrentDirectory() + filePath + fileName;
+            if (File.Exists(directory)) // File.Exists metodu kendisine parametrede verilen dosyanın var olup olmadığını kontrol eder ve buna göre geriye dosya varsa true, yoksa false döndürür.
+            {
+                File.Delete(directory); // verilen dizindeki dosyayı sunucudan sil.
+                return true; // silme başarılıysa geriye true dön
+            }
+            return false; // Buraya düştüyse silme başarısızdır geriye false dön ki metodu kullanacağımız yerde işlemin başarısız olduğunu bilelim.
+        }
     }
 }
