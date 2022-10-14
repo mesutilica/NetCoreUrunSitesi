@@ -8,8 +8,8 @@ namespace BL.Concrete
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity, new()
     {
-        public DatabaseContext context; // içi boş context nesnesi tanımladık
-        DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
+        protected DatabaseContext context; // içi boş context nesnesi tanımladık
+        protected DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
         public Repository(DatabaseContext _context)
         {
             context = _context;
@@ -34,11 +34,6 @@ namespace BL.Concrete
         public T Find(int id)
         {
             return dbSet.Find(id);
-        }
-
-        public IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression)
-        {
-            return dbSet.Include(expression);
         }
 
         public async Task<T> FindAsync(int id)
@@ -79,11 +74,6 @@ namespace BL.Concrete
         public IQueryable<T> GetAllInclude(string table)
         {
             return dbSet.Include(table);
-        }
-
-        public IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression)
-        {
-            return dbSet.Include(expression);
         }
 
         public int SaveChanges()

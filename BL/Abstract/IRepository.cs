@@ -13,12 +13,10 @@ namespace BL.Abstract
         void Delete(T entity);
         int SaveChanges();
         IQueryable<T> GetAllInclude(string table);
-        IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression);
 
         //Asenkron metotlar
         Task<T> FindAsync(int id);
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
-        IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);

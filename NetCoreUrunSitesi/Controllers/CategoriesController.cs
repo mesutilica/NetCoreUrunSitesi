@@ -14,11 +14,13 @@ namespace NetCoreUrunSitesi.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> IndexAsync(int id)
+        public async Task<IActionResult> Index(int? id)
         {
-            var kategori = _categoryRepository.Find(id);//_repositoryCategory.Find(id);
+            if (id == null) return BadRequest();
 
-            var kat = await _categoryRepository.GetCategoryWithProductsByCategoryIdAsync(kategori.Id);
+            //var kategori = _categoryRepository.Find(id);//_repositoryCategory.Find(id);
+
+            var kat = await _categoryRepository.GetCategoryWithProductsByCategoryIdAsync(id.Value);
 
             return View(kat);
         }

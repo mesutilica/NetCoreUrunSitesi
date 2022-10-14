@@ -11,14 +11,11 @@ namespace BL.Concrete
         {
 
         }
-        public Task<IEnumerable<Category>> GetAllCategoriesBySlugsAsync()
-        {
-            return null;
-        }
 
         public async Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId)
         {
-            return await context.Categories.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
+            //return await context.Categories.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
+            return await dbSet.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
         }
     }
 }
