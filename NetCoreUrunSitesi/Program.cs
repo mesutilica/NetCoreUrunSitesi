@@ -1,6 +1,8 @@
 using BL.Abstract;
 using BL.Concrete;
 using BL.ValidationRules;
+using Caching.Abstract;
+using Caching.Concrete;
 using DAL;
 using Entities;
 using FluentValidation;
@@ -35,6 +37,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer()
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
 builder.Services.AddTransient<IProductService, ProductManager>();
 builder.Services.AddTransient<ICategoryService, CategoryManager>();
+builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir

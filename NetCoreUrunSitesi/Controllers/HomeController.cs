@@ -10,25 +10,28 @@ namespace NetCoreUrunSitesi.Controllers
     {
         private readonly IRepository<Slider> _sliderRepository;
         private readonly IRepository<Product> _productRepository;
+        private readonly IProductService _productService;
         private readonly IRepository<News> _newsRepository;
 
-        public HomeController(IRepository<Slider> sliderRepository, IRepository<Product> productRepository, IRepository<News> newsRepository)
+        public HomeController(IRepository<Slider> sliderRepository, IRepository<Product> productRepository, IRepository<News> newsRepository, IProductService productService)
         {
             _sliderRepository = sliderRepository;
             _productRepository = productRepository;
             _newsRepository = newsRepository;
+            _productService = productService;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             //var sliders = await _sliderRepository.GetAllAsync();
 
             var model = new HomePageViewModel()
             {
                 Sliders = _sliderRepository.GetAll(),
-                Products = _productRepository.GetAll(),
+                //Products = _productRepository.GetAll(),
                 News = _newsRepository.GetAll()
             };
+            model.Products = await _productService.GetAllProductsByCacheAsync();
             return View(model);
         }
         [BasicAuthorize]

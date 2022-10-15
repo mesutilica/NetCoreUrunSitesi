@@ -6,5 +6,6 @@ namespace BL.Abstract
     {
         Task<Product> GetWithCategoryByIdAsync(int categoryId);
         Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync();
+        Task<List<Product>> GetAllProductsByCacheAsync();
     }
 }
