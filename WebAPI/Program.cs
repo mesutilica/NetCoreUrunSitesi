@@ -47,6 +47,9 @@ namespace WebAPI
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
+
+            builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

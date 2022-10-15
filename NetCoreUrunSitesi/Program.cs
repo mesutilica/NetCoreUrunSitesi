@@ -63,6 +63,8 @@ builder.Services.AddAuthorization(options =>
 // AddTransient : Uygulama çalýþma zamanýnda belirli koþullarda üretilir veya varolan örneði kullanýr. 
 // AddScoped : Uygulama çalýþýrken her istek için ayrý ayrý nesne üretilir.
 
+builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
