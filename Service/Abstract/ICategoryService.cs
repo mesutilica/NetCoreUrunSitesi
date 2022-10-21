@@ -1,8 +1,8 @@
 ﻿using Entities;
 
-namespace BL.Abstract
+namespace Service.Abstract
 {
-    public interface ICategoryService : IRepository<Category>
+    public interface ICategoryService : IService<Category>
     {
         Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId);
     }

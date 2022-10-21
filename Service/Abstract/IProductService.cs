@@ -1,8 +1,8 @@
 ﻿using Entities;
 
-namespace BL.Abstract
+namespace Service.Abstract
 {
-    public interface IProductService : IRepository<Product>
+    public interface IProductService : IService<Product>
     {
         Task<Product> GetWithCategoryByIdAsync(int categoryId);
         Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync();

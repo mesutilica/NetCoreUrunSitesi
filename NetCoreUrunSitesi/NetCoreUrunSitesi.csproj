@@ -31,6 +31,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\BL\BL.csproj" />
 		<ProjectReference Include="..\Caching\Caching.csproj" />
+		<ProjectReference Include="..\Service\Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -17,8 +17,8 @@ namespace DAL.Abstract
         Task<T> FindAsync(int id);
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
         IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression);
+        Task<List<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         Task<int> SaveChangesAsync();
     }

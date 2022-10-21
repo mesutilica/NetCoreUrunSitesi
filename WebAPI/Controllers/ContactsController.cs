@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -8,9 +8,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly IRepository<Contact> _repository;
+        private readonly IService<Contact> _repository;
 
-        public ContactsController(IRepository<Contact> repository)
+        public ContactsController(IService<Contact> repository)
         {
             _repository = repository;
         }

@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -8,9 +8,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly IRepository<News> _repository;
+        private readonly IService<News> _repository;
 
-        public NewsController(IRepository<News> repository)
+        public NewsController(IService<News> repository)
         {
             _repository = repository;
         }

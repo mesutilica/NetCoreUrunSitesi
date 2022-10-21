@@ -1,5 +1,5 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
+using Service.Abstract;
 using WebAPI.TokenOperations;
 using WebAPI.TokenOperations.Models;
 
@@ -8,10 +8,10 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
     public class CreateTokenCommand
     {
         //private readonly IAppUserService _context;
-        private readonly IRepository<AppUser> _repository;
+        private readonly IService<AppUser> _repository;
         private readonly IConfiguration _configuration;
         public CreateTokenModel Model;
-        public CreateTokenCommand(IConfiguration configuration, IRepository<AppUser> repository)//IAppUserService context, 
+        public CreateTokenCommand(IConfiguration configuration, IService<AppUser> repository)//IAppUserService context, 
         {
             //_context = context;
             _configuration = configuration;

@@ -1,17 +1,16 @@
-﻿using BL.Abstract;
-using DAL;
+﻿using DAL;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Service.Abstract;
 
-namespace BL.Concrete
+namespace Service.Concrete
 {
-    public class ProductManager : Repository<Product>, IProductService
+    public class ProductService : Service<Product>, IProductService
     {
         IMemoryCache _memoryCache;
         const string key = "products";
-        //private DatabaseContext _appDbContext { get => _context as DatabaseContext; }
-        public ProductManager(DatabaseContext context, IMemoryCache memoryCache) : base(context)
+        public ProductService(DatabaseContext context, IMemoryCache memoryCache) : base(context)
         {
             _memoryCache = memoryCache;
             if (!_memoryCache.TryGetValue(key, out _))

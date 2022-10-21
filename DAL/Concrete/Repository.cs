@@ -7,8 +7,8 @@ namespace DAL.Concrete
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity, new()
     {
-        public DatabaseContext context; // içi boş context nesnesi tanımladık
-        DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
+        protected DatabaseContext context; // içi boş context nesnesi tanımladık
+        protected DbSet<T> dbSet; // içi boş dbSet nesnesi tanımladık
         public Repository(DatabaseContext _context)
         {
             context = _context;
@@ -22,12 +22,14 @@ namespace DAL.Concrete
 
         public async Task AddAsync(T entity) // asenkron metotlarda task in önüne async takısı eklenmelidir!
         {
-            await dbSet.AddAsync(entity); // asemkron metotları kullanırken await anahtar kelimesi kullanılır
+            //await dbSet.AddAsync(entity); // asenkron metotları kullanırken await anahtar kelimesi kullanılır
+            await context.AddAsync(entity);
         }
 
         public void Delete(T entity)
         {
-            dbSet.Remove(entity);
+            //dbSet.Remove(entity);
+            context.Remove(entity);
         }
 
         public T Find(int id)
@@ -65,12 +67,12 @@ namespace DAL.Concrete
             return dbSet.Where(expression).ToList();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
             return await dbSet.Where(expression).ToListAsync();
         }

@@ -1,15 +1,15 @@
 using BL.Abstract;
 using BL.Concrete;
-using BL.ValidationRules;
 using Caching.Abstract;
 using Caching.Concrete;
 using DAL;
 using Entities;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
-using Microsoft.EntityFrameworkCore;
 using NetCoreUrunSitesi.Services;
+using Service.Abstract;
+using Service.Concrete;
+using Service.ValidationRules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,11 +32,12 @@ builder.Services.AddHttpClient<AppUsersApiService>(opt =>
 {
     opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
 });
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer()); // uygulamada sql server kullan
+builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
 //builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
-builder.Services.AddTransient<IProductService, ProductManager>();
-builder.Services.AddTransient<ICategoryService, CategoryManager>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {

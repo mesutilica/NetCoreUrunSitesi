@@ -2,6 +2,7 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
+using Service.Abstract;
 using System.Diagnostics;
 
 namespace NetCoreUrunSitesi.Controllers
@@ -9,14 +10,12 @@ namespace NetCoreUrunSitesi.Controllers
     public class HomeController : Controller
     {
         private readonly IRepository<Slider> _sliderRepository;
-        private readonly IRepository<Product> _productRepository;
         private readonly IProductService _productService;
         private readonly IRepository<News> _newsRepository;
 
-        public HomeController(IRepository<Slider> sliderRepository, IRepository<Product> productRepository, IRepository<News> newsRepository, IProductService productService)
+        public HomeController(IRepository<Slider> sliderRepository, IRepository<News> newsRepository, IProductService productService)
         {
             _sliderRepository = sliderRepository;
-            _productRepository = productRepository;
             _newsRepository = newsRepository;
             _productService = productService;
         }

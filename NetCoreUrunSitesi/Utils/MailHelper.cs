@@ -1,6 +1,6 @@
 ﻿using Entities;
-using System.Net.Mail;
 using System.Net;
+using System.Net.Mail;
 
 namespace NetCoreUrunSitesi.Utils
 {

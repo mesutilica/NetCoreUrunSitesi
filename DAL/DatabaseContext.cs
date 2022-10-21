@@ -6,10 +6,7 @@ namespace DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-
-        }
+        //public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options){}
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }

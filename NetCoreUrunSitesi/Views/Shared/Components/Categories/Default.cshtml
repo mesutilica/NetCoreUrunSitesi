@@ -11,7 +11,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var altKategori in Model.Where(c => c.ParentId == anaKategori.Id & c.IsActive  & c.IsTopMenu))
                 {
-                    <li><a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-id="@altKategori.Id">@altKategori.Name</a></li>
+                    <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index" asp-route-id="@altKategori.Id">@altKategori.Name</a></li>
                 }
             </ul>
         </div>

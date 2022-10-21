@@ -1,5 +1,5 @@
-﻿using BL.Abstract;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Controllers
 {
@@ -21,6 +21,16 @@ namespace NetCoreUrunSitesi.Controllers
         public async Task<IActionResult> Index(int id)
         {
             return View(await _productRepository.GetAllAsync(p => p.CategoryId == id));
+        }
+
+        public async Task<IActionResult> Search(string q)
+        {
+            return View(await _productRepository.GetAllAsync(p => p.Name.Contains(q)));
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            return View(await _productRepository.FindAsync(id));
         }
     }
 }

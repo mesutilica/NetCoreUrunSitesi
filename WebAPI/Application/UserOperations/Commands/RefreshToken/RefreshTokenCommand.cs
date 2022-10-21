@@ -1,5 +1,5 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
+using Service.Abstract;
 using WebAPI.TokenOperations;
 using WebAPI.TokenOperations.Models;
 
@@ -8,10 +8,10 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
     public class RefreshTokenCommand
     {
         //private readonly IAppUserService _context;
-        private readonly IRepository<AppUser> _repository;
+        private readonly IService<AppUser> _repository;
         private readonly IConfiguration _configuration;
         public string RefreshToken;
-        public RefreshTokenCommand(IRepository<AppUser> context, IConfiguration configuration)
+        public RefreshTokenCommand(IService<AppUser> context, IConfiguration configuration)
         {
             _repository = context;
 

@@ -11,18 +11,7 @@
 
             @foreach (var item in Model.Products)
             {
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <a href="#">
-                            <img src="/Img/@item.Image" alt="" class="bd-placeholder-img card-img-top" />
-                            <div class="card-body">
-                                <p class="card-text">
-                                    @item.Name
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                @await Html.PartialAsync("_ProductView", item)
             }
 
         </div>

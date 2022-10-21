@@ -1,7 +1,7 @@
 ﻿using Entities;
 using FluentValidation;
 
-namespace BL.ValidationRules
+namespace Service.ValidationRules
 {
     public class AppUserValidator : AbstractValidator<AppUser>
     {

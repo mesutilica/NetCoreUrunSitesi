@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 using WebAPI.Application.UserOperations.Commands.CreateToken;
 using WebAPI.Application.UserOperations.Commands.RefreshToken;
 using WebAPI.TokenOperations.Models;
@@ -11,9 +11,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IRepository<AppUser> _repository;
+        private readonly IService<AppUser> _repository;
         readonly IConfiguration _configuration;
-        public LoginController(IRepository<AppUser> repository, IConfiguration configuration)
+        public LoginController(IService<AppUser> repository, IConfiguration configuration)
         {
             _repository = repository;
             _configuration = configuration;
