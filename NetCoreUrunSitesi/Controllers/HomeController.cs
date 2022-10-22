@@ -1,5 +1,4 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;
@@ -9,15 +8,17 @@ namespace NetCoreUrunSitesi.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRepository<Slider> _sliderRepository;
+        private readonly IService<Slider> _sliderRepository;
         private readonly IProductService _productService;
-        private readonly IRepository<News> _newsRepository;
+        private readonly IService<News> _newsRepository;
+        private readonly IService<Contact> _serviceContact;
 
-        public HomeController(IRepository<Slider> sliderRepository, IRepository<News> newsRepository, IProductService productService)
+        public HomeController(IService<Slider> sliderRepository, IService<News> newsRepository, IProductService productService, IService<Contact> serviceContact)
         {
             _sliderRepository = sliderRepository;
             _newsRepository = newsRepository;
             _productService = productService;
+            _serviceContact = serviceContact;
         }
 
         public async Task<IActionResult> Index()
@@ -42,6 +43,23 @@ namespace NetCoreUrunSitesi.Controllers
         public IActionResult AccesDenied()
         {
             return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ContactAsync(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                await _serviceContact.AddAsync(contact);
+                await _serviceContact.SaveChangesAsync();
+                TempData["mesaj"] = "<div class='alert alert-success'>Mesajınız Gönderilmiştir. Teşekkürler..</div>";
+                return RedirectToAction("Contact");
+            }
+            return View(contact);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

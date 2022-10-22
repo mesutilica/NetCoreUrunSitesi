@@ -1,7 +1,7 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -9,9 +9,9 @@ namespace WebAPI.Controllers
     [ApiController, Authorize]
     public class BrandsController : ControllerBase
     {
-        private readonly IRepository<Brand> _repository;
+        private readonly IService<Brand> _repository;
 
-        public BrandsController(IRepository<Brand> repository)
+        public BrandsController(IService<Brand> repository)
         {
             _repository = repository;
         }

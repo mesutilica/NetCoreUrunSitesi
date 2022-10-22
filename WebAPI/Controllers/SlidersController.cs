@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -8,9 +8,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class SlidersController : ControllerBase
     {
-        private readonly IRepository<Slider> _repository;
+        private readonly IService<Slider> _repository;
 
-        public SlidersController(IRepository<Slider> repository)
+        public SlidersController(IService<Slider> repository)
         {
             _repository = repository;
         }

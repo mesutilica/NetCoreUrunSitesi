@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -8,15 +8,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IRepository<Product> _repository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Brand> _brandRepository;
+        private readonly IService<Product> _repository;
 
-        public ProductsController(IRepository<Product> repository, IRepository<Category> categoryRepository, IRepository<Brand> brandRepository)
+        public ProductsController(IService<Product> repository)
         {
             _repository = repository;
-            _categoryRepository = categoryRepository;
-            _brandRepository = brandRepository;
         }
         // GET: api/<ProductsController>
         [HttpGet]

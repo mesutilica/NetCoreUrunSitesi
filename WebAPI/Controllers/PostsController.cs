@@ -1,6 +1,6 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -8,10 +8,10 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly IRepository<Post> _repository;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IService<Post> _repository;
+        private readonly IService<Category> _categoryRepository;
 
-        public PostsController(IRepository<Post> repository, IRepository<Category> categoryRepository)
+        public PostsController(IService<Post> repository, IService<Category> categoryRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;

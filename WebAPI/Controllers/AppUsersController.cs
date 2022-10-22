@@ -1,7 +1,7 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
@@ -10,9 +10,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AppUsersController : ControllerBase
     {
-        private readonly IRepository<AppUser> _repository;
+        private readonly IService<AppUser> _repository;
 
-        public AppUsersController(IRepository<AppUser> repository)
+        public AppUsersController(IService<AppUser> repository)
         {
             _repository = repository;
         }
