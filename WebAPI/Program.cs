@@ -1,6 +1,6 @@
-using BL.Abstract;
-using BL.Concrete;
 using DAL;
+using DAL.Abstract;
+using DAL.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
@@ -23,8 +23,7 @@ namespace WebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
+            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
             builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
             //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
             //{

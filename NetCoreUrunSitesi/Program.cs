@@ -1,8 +1,6 @@
-using BL.Abstract;
-using BL.Concrete;
-using Caching.Abstract;
-using Caching.Concrete;
 using DAL;
+using DAL.Abstract;
+using DAL.Concrete;
 using Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
@@ -38,7 +36,7 @@ builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // D
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
-builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
+//builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir

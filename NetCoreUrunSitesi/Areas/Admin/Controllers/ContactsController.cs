@@ -1,16 +1,16 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize]
     public class ContactsController : Controller
     {
-        private readonly IRepository<Contact> _repository;
+        private readonly IService<Contact> _repository;
 
-        public ContactsController(IRepository<Contact> repository)
+        public ContactsController(IService<Contact> repository)
         {
             _repository = repository;
         }

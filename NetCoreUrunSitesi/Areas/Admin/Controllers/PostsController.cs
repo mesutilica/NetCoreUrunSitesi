@@ -1,19 +1,19 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NetCoreUrunSitesi.Utils;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize]
     public class PostsController : Controller
     {
-        private readonly IRepository<Post> _repository;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IService<Post> _repository;
+        private readonly IService<Category> _categoryRepository;
 
-        public PostsController(IRepository<Post> repository, IRepository<Category> categoryRepository)
+        public PostsController(IService<Post> repository, IService<Category> categoryRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;

@@ -1,14 +1,14 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.ViewComponents
 {
     public class Categories : ViewComponent
     {
-        private readonly IRepository<Category> _repository;
+        private readonly IService<Category> _repository;
 
-        public Categories(IRepository<Category> repository)
+        public Categories(IService<Category> repository)
         {
             _repository = repository;
         }

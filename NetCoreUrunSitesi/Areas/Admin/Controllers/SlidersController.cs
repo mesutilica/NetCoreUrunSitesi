@@ -1,17 +1,17 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Utils;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize]
     public class SlidersController : Controller
     {
-        private readonly IRepository<Slider> _repository;
+        private readonly IService<Slider> _repository;
 
-        public SlidersController(IRepository<Slider> repository)
+        public SlidersController(IService<Slider> repository)
         {
             _repository = repository;
         }

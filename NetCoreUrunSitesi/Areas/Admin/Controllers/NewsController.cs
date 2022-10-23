@@ -1,17 +1,17 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Utils;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize]
     public class NewsController : Controller
     {
-        private readonly IRepository<News> _repository;
+        private readonly IService<News> _repository;
 
-        public NewsController(IRepository<News> repository)
+        public NewsController(IService<News> repository)
         {
             _repository = repository;
         }

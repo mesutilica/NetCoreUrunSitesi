@@ -1,19 +1,19 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NetCoreUrunSitesi.Utils;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class ProductsController : Controller
     {
-        private readonly IRepository<Product> _repository;
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Brand> _brandRepository;
+        private readonly IService<Product> _repository;
+        private readonly IService<Category> _categoryRepository;
+        private readonly IService<Brand> _brandRepository;
 
-        public ProductsController(IRepository<Product> repository, IRepository<Category> categoryRepository, IRepository<Brand> brandRepository)
+        public ProductsController(IService<Product> repository, IService<Category> categoryRepository, IService<Brand> brandRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;

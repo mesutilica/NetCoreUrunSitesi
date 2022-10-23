@@ -1,8 +1,8 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
+using Service.Abstract;
 using System.Security.Claims;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
@@ -10,9 +10,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     [Area("Admin")]
     public class LoginController : Controller
     {
-        private readonly IRepository<AppUser> _repository;
+        private readonly IService<AppUser> _repository;
 
-        public LoginController(IRepository<AppUser> repository)
+        public LoginController(IService<AppUser> repository)
         {
             _repository = repository;
         }

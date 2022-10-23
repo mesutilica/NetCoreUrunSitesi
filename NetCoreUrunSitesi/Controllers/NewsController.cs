@@ -1,14 +1,14 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Controllers
 {
     public class NewsController : Controller
     {
-        private readonly IRepository<News> _newsRepository;
+        private readonly IService<News> _newsRepository;
 
-        public NewsController(IRepository<News> newsRepository)
+        public NewsController(IService<News> newsRepository)
         {
             _newsRepository = newsRepository;
         }

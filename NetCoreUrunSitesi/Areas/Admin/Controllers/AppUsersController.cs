@@ -1,9 +1,9 @@
-﻿using BL.Abstract;
-using Entities;
+﻿using Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -12,10 +12,10 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     {
         //AppUserManager manager = new AppUserManager(); // Klasik kullandığımız yöntem
 
-        private readonly IRepository<AppUser> _repository; // DI-Dependency injection yöntemiyle
+        private readonly IService<AppUser> _repository; // DI-Dependency injection yöntemiyle
         private IValidator<AppUser> _validator;
 
-        public AppUsersController(IRepository<AppUser> repository, IValidator<AppUser> validator)
+        public AppUsersController(IService<AppUser> repository, IValidator<AppUser> validator)
         {
             _repository = repository;
             _validator = validator;

@@ -1,17 +1,18 @@
-﻿using BL.Abstract;
-using Caching.Abstract;
+﻿using Caching.Abstract;
+using Entities;
 using Microsoft.Extensions.Caching.Memory;
+using Service.Abstract;
 using System.Linq.Expressions;
 
 namespace Caching.Concrete
 {
-    public class CacheService<T> : ICacheService<T> where T : class
+    public class CacheService<T> : ICacheService<T> where T : class, IEntity, new()
     {
         private const string CacheKey = "dataCache";
         private readonly IMemoryCache _memoryCache;
-        private readonly IRepository<T> _repository;
+        private readonly IService<T> _repository;
 
-        public CacheService(IMemoryCache memoryCache, IRepository<T> repository)
+        public CacheService(IMemoryCache memoryCache, IService<T> repository)
         {
             _memoryCache = memoryCache;
             _repository = repository;
