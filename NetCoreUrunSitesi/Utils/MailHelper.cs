@@ -6,7 +6,7 @@ namespace NetCoreUrunSitesi.Utils
 {
     public class MailHelper
     {
-        public static void SendMail(Contact contact)
+        public static async Task SendMailAsync(Contact contact)
         {
             SmtpClient client = new("mail.siteadresi.com", 587); // 1. parametre mail sunucu adresi, 2. parametre mail sunucu port numarası
             client.Credentials = new NetworkCredential("email kullanıcı adı buraya", "email şifresi buraya yazılacak");
@@ -17,7 +17,9 @@ namespace NetCoreUrunSitesi.Utils
             message.Subject = "Siteden Mesaj Geldi"; // Mailin konusu
             message.Body = $"<p>Mail Bilgileri : </p> İsim : {contact.Name} <hr /> Soyisim : {contact.Surname} <hr /> Email : {contact.Email} <hr /> Telefon : {contact.Phone} <hr /> Mesaj : {contact.Message} <hr /> Gönderilme Tarihi : {contact.CreateDate}";
             message.IsBodyHtml = true; // Mail içeriğinde html elementleri kullanabilmek için 
-            client.Send(message); // Oluşturduğumuz maili gönderdiyoruz
+            //client.Send(message); // Oluşturduğumuz maili gönderdiyoruz
+            await client.SendMailAsync(message);
+            client.Dispose();
         }
     }
 }
