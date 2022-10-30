@@ -45,3 +45,39 @@
         </form>
     </div>
 </div>
+
+<div id="sonuc" class="alert alert-info" style="display:none"></div>
+
+@section Scripts{
+    <script>
+        function iletisim_formu() {
+            var ad = $("#Name").val();
+            var soyad = $("#Surname").val();
+            var email = $("#Email").val();
+            var telefon = $("#Phone").val();
+            var mesaj = $("#Message").val();
+
+            var message = {
+                "Name": ad,
+                "Surname": soyad,
+                "Email": email,
+                "Phone": telefon,
+                "Message": mesaj
+            };
+
+            $.ajax({
+                method: "POST",
+                url: "/Home/Contact",
+                type: "json",
+                data: message,
+                success: function (data) {
+                    document.getElementById("iletisim_formu").reset();
+                    $("#sonuc").show().html("Mesajınız Başarıyla Gönderilmiştir!").delay("5000").fadeOut();
+                },
+                error: function (err) {
+                    $("#sonuc").show().removeClass("alert-info").addClass("alert-danger").html("Hata Oluştu! Mesajınız Gönderilemedi!").delay("10000").fadeOut();
+                }
+            });
+        }
+    </script>
+ }
