@@ -13,7 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//builder.Services.AddControllersWithViews(options =>
+//{
+//    options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+//    options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+//    {
+//        ReferenceHandler = ReferenceHandler.Preserve,
+//    }));
+//});
 //  FluentValidation
 //builder.Services.AddFluentValidation(conf =>
 //{

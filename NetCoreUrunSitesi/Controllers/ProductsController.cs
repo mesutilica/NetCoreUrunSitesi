@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Controllers
@@ -12,10 +14,16 @@ namespace NetCoreUrunSitesi.Controllers
             _productRepository = productRepository;
         }*/
         private readonly IProductService _productRepository;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiAdres;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public ProductsController(IProductService productRepository)
+        public ProductsController(IProductService productRepository, HttpClient httpClient, IHttpClientFactory httpClientFactory)
         {
             _productRepository = productRepository;
+            _httpClient = httpClient;
+            _apiAdres = "https://localhost:7132/Api";
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<IActionResult> Index(int id)
@@ -30,7 +38,26 @@ namespace NetCoreUrunSitesi.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            return View(await _productRepository.FindAsync(id));
+            //var model = await _productRepository.GetProductByCategoryAndBrandAsync(id);
+            /* çalışan kod*/
+            var response = await _httpClient.GetAsync($"{_apiAdres}/Products/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var respBody = await response.Content.ReadAsStringAsync();
+                var product = JsonConvert.DeserializeObject<Product>(respBody);
+                return View(product);
+            }
+            /* çalışan 2
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"{_apiAdres}/Products/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<Product>(jsonData);
+                return View(data);
+            }
+            */
+            return View(null);
         }
     }
 }

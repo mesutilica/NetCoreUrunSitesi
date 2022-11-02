@@ -13,7 +13,7 @@ namespace Service.Concrete
 
         public async Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId)
         {
-            return await dbSet.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
+            return await context.Categories.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
         }
     }
 }

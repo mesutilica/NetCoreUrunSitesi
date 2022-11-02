@@ -29,9 +29,9 @@ namespace Service.Concrete
             return Task.FromResult(list);
         }
 
-        public async Task<Product> GetWithCategoryByIdAsync(int categoryId)
+        public async Task<Product> GetProductByCategoryAndBrandAsync(int id)
         {
-            return await context.Products.Include(x => x.Category).FirstOrDefaultAsync();
+            return await context.Products.Include(c => c.Category).Include(b => b.Brand).FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

@@ -2,10 +2,13 @@ using DAL;
 using DAL.Abstract;
 using DAL.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using Service.Concrete;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace WebAPI
 {
@@ -17,7 +20,19 @@ namespace WebAPI
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            //builder.Services.AddControllers();
+            //builder.Services.AddControllers().AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //});
+            builder.Services.AddControllers(options =>
+            {
+                options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
+                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                }));
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -25,6 +40,8 @@ namespace WebAPI
             builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
             builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+            builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
+            builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
             //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
             //{
             //    //x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir

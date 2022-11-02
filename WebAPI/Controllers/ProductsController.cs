@@ -9,10 +9,12 @@ namespace WebAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IService<Product> _repository;
+        private readonly IProductService _productRepository;
 
-        public ProductsController(IService<Product> repository)
+        public ProductsController(IService<Product> repository, IProductService productRepository)
         {
             _repository = repository;
+            _productRepository = productRepository;
         }
         // GET: api/<ProductsController>
         [HttpGet]
@@ -25,7 +27,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> Get(int id)
         {
-            var kayit = await _repository.FindAsync(id);
+            var kayit = await _productRepository.GetProductByCategoryAndBrandAsync(id);//_repository.FindAsync(id);
             if (kayit == null)
             {
                 return NotFound();

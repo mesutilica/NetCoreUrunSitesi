@@ -10,10 +10,11 @@ namespace WebAPI.Controllers
     {
         //private readonly IRepository<Category> _repository;
         private readonly IService<Category> _repository;
-
-        public CategoriesController(IService<Category> repository)
+        private readonly ICategoryService _categoryRepository;
+        public CategoriesController(IService<Category> repository, ICategoryService categoryRepository)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
@@ -27,6 +28,13 @@ namespace WebAPI.Controllers
         public async Task<Category> Get(int id)
         {
             return await _repository.FindAsync(id);
+        }
+
+        // GET api/<CategoriesController>/5
+        [HttpGet("GetCategoryByProducts/{categoryId}")]
+        public async Task<Category> GetCategoryByProducts(int categoryId)
+        {
+            return await _categoryRepository.GetCategoryWithProductsByCategoryIdAsync(categoryId);
         }
 
         // POST api/<CategoriesController>

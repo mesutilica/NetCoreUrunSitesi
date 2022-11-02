@@ -4,7 +4,7 @@ namespace Service.Abstract
 {
     public interface IProductService : IService<Product>
     {
-        Task<Product> GetWithCategoryByIdAsync(int categoryId);
+        Task<Product> GetProductByCategoryAndBrandAsync(int id);
         Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync();
         Task<List<Product>> GetAllProductsByCacheAsync();
     }
