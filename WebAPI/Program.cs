@@ -25,6 +25,7 @@ namespace WebAPI
             //{
             //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             //});
+            /*
             builder.Services.AddControllers(options =>
             {
                 options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
@@ -32,7 +33,12 @@ namespace WebAPI
                 {
                     ReferenceHandler = ReferenceHandler.Preserve,
                 }));
-            });
+            });*/
+
+            // aþaðýdaki kod include yaptýðýmýzda çýkan json sorununu çözüyor
+            builder.Services.AddControllersWithViews()
+                            .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
