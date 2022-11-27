@@ -26,14 +26,14 @@ namespace NetCoreUrunSitesi.Controllers
 
             //var kat = await _categoryRepository.GetCategoryWithProductsByCategoryIdAsync(id.Value);
 
-            //var katApi = await _httpClient.GetFromJsonAsync<Category>($"{_apiAdres}/GetCategoryByProducts/{id}");
+            var katApi = await _httpClient.GetFromJsonAsync<Category>($"{_apiAdres}/GetCategoryByProducts/{id}");
 
-            var resp = await _httpClient.GetAsync($"{_apiAdres}/GetCategoryByProducts/{id}");
-            var respBody = await resp.Content.ReadAsStringAsync();
+            //var resp = await _httpClient.GetAsync($"{_apiAdres}/GetCategoryByProducts/{id}");
+            //var respBody = await resp.Content.ReadAsStringAsync();
             //respBody = respBody.Trim('\"').Replace("\\", "");
             //var listOfInstances = System.Text.Json.JsonSerializer.Deserialize<Category>(respBody);
-            var category = JsonConvert.DeserializeObject<Category>(respBody);
-            return View(category);
+            //var category = JsonConvert.DeserializeObject<Category>(respBody);
+            return View(katApi);
         }
     }
 }

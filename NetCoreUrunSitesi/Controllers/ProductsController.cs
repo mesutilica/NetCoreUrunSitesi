@@ -39,14 +39,14 @@ namespace NetCoreUrunSitesi.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             //var model = await _productRepository.GetProductByCategoryAndBrandAsync(id);
-            /* çalışan kod*/
+            /* çalışan kod
             var response = await _httpClient.GetAsync($"{_apiAdres}/Products/{id}");
             if (response.IsSuccessStatusCode)
             {
                 var respBody = await response.Content.ReadAsStringAsync();
                 var product = JsonConvert.DeserializeObject<Product>(respBody);
                 return View(product);
-            }
+            }*/
             /* çalışan 2
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync($"{_apiAdres}/Products/{id}");
@@ -57,7 +57,8 @@ namespace NetCoreUrunSitesi.Controllers
                 return View(data);
             }
             */
-            return View(null);
+            var data = await _httpClient.GetFromJsonAsync<Product>($"{_apiAdres}/Products/{id}");
+            return View(data);
         }
     }
 }

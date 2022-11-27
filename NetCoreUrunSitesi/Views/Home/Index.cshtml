@@ -14,7 +14,7 @@
 
         @foreach (var item in Model.Sliders)
         {
-            <div class="carousel-item @(item == Model.Sliders.FirstOrDefault() ? "active" : "")">
+            <div class="carousel-item "> @*@(item == Model.Sliders.FirstOrDefault() ? "active" : "")*@
                 <img src="/Img/@item.Image" class="d-block w-100" alt="@item.Name" title="@item.Name">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>@item.Name</h5>
@@ -33,6 +33,12 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+@section scripts{
+    <script>
+        $(".carousel-inner .carousel-item:first-child").addClass("active");
+    </script>
+}
 
 <div class="album py-5 bg-light">
     <h1 class="text-center">Ürünlerimiz</h1>
