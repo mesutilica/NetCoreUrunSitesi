@@ -25,9 +25,11 @@ namespace Entities
         public DateTime? CreateDate { get; set; } = DateTime.Now;
         [Display(Name = "Ürün Kategorisi")]
         public int CategoryId { get; set; }
+        [Display(Name = "Kategori")]
         public virtual Category? Category { get; set; }
         [Display(Name = "Ürün Markası")]
         public int? BrandId { get; set; }
+        [Display(Name = "Marka")]
         public virtual Brand? Brand { get; set; }
     }
 }

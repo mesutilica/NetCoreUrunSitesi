@@ -10,11 +10,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     [Area("Admin"), Authorize]
     public class ProductsController : Controller
     {
-        private readonly IService<Product> _repository;
+        //private readonly IService<Product> _repository;
+        private readonly IProductService _repository;
         private readonly IService<Category> _categoryRepository;
         private readonly IService<Brand> _brandRepository;
 
-        public ProductsController(IService<Product> repository, IService<Category> categoryRepository, IService<Brand> brandRepository)
+        public ProductsController(IProductService repository, IService<Category> categoryRepository, IService<Brand> brandRepository)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
@@ -22,9 +23,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         }
 
         // GET: ProductsController
-        public async Task<ActionResult> IndexAsync()
+        public async Task<ActionResult> Index()
         {
-            return View(await _repository.GetAllAsync());
+            return View(await _repository.GetAllCategoriesByProductsAsync());
         }
 
         // GET: ProductsController/Details/5

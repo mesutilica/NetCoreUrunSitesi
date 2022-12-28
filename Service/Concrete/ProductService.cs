@@ -20,7 +20,7 @@ namespace Service.Concrete
         }
         public async Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync()
         {
-            return await context.Products.Include(x => x.Category).ToListAsync();
+            return await context.Products.Include(x => x.Category).Include(x => x.Brand).ToListAsync();
         }
 
         public Task<List<Product>> GetAllProductsByCacheAsync()
