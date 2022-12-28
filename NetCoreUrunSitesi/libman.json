@@ -1,5 +1,14 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+    {
+      "library": "ckeditor@4.20.1",
+      "destination": "wwwroot/lib/ckeditor/"
+    },
+    {
+      "library": "ckeditor5@35.4.0",
+      "destination": "wwwroot/lib/ckeditor5/"
+    }
+  ]
 }
