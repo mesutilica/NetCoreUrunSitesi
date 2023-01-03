@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetCategoryByProducts/{categoryId}")]
         public async Task<Category> GetCategoryByProducts(int categoryId)
         {
-            return await _categoryRepository.GetCategoryWithProductsByCategoryIdAsync(categoryId);
+            return await _categoryRepository.GetCategoryByProductsAsync(categoryId);
         }
 
         // POST api/<CategoriesController>

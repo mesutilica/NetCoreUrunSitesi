@@ -1,19 +1,13 @@
 ﻿using DAL;
-using Entities;
-using Microsoft.EntityFrameworkCore;
+using DAL.Concrete;
 using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService : CategoryRepository, ICategoryService
     {
-        public CategoryService(DatabaseContext _context) : base(_context)
+        public CategoryService(DatabaseContext context) : base(context)
         {
-        }
-
-        public async Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId)
-        {
-            return await context.Categories.Include(p => p.Products).FirstOrDefaultAsync(c => c.Id == categoryId);
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using Entities;
+﻿using DAL.Abstract;
 
 namespace Service.Abstract
 {
-    public interface IProductService : IService<Product>
+    public interface IProductService : IProductRepository//IService<Product>
     {
-        Task<Product> GetProductByCategoryAndBrandAsync(int id);
-        Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync();
-        Task<List<Product>> GetAllProductsByCacheAsync();
     }
 }

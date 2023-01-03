@@ -1,9 +1,8 @@
-﻿using Entities;
+﻿using DAL.Abstract;
 
 namespace Service.Abstract
 {
-    public interface ICategoryService : IService<Category>
+    public interface ICategoryService : ICategoryRepository
     {
-        Task<Category> GetCategoryWithProductsByCategoryIdAsync(int categoryId);
     }
 }
