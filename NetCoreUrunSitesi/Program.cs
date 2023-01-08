@@ -54,10 +54,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     x.Cookie.IsEssential = true;
 });
 // Authorization : Yetkilendirme : Önce servis olarak ekliyoruz
-builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(x =>
 {
-    options.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
-    options.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
+    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
+    x.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
 });
 //BasicAuthentication
 /*builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });

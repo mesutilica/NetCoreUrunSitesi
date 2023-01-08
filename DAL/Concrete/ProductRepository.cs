@@ -17,7 +17,7 @@ namespace DAL.Concrete
                 _memoryCache.Set(key, _dbSet.ToListAsync().Result);
             }
         }
-        public async Task<IEnumerable<Product>> GetAllCategoriesByProductsAsync()
+        public async Task<IEnumerable<Product>> GetAllProductsByCategoriesBrandsAsync()
         {
             return await _context.Products.Include(x => x.Category).Include(x => x.Brand).ToListAsync();
         }

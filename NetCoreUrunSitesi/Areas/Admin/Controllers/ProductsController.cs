@@ -7,7 +7,7 @@ using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class ProductsController : Controller
     {
         //private readonly IService<Product> _repository;
@@ -25,7 +25,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: ProductsController
         public async Task<ActionResult> Index()
         {
-            return View(await _repository.GetAllCategoriesByProductsAsync());
+            return View(await _repository.GetAllProductsByCategoriesBrandsAsync());
         }
 
         // GET: ProductsController/Details/5
