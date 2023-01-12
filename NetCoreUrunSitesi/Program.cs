@@ -74,6 +74,8 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
