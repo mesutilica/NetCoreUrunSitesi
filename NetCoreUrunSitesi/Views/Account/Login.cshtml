@@ -1,0 +1,29 @@
+﻿@model AppUser
+
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h1>Giriş Yap</h1>
+        <hr />
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Giriş" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

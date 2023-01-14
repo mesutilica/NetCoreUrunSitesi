@@ -85,6 +85,16 @@ namespace NetCoreUrunSitesi.Controllers
             }
             return View(appUser);
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Login(AppUser appUser)
+        {
+            return View();
+        }
     }
 }
 /*var request = (HttpWebRequest)WebRequest.Create("Istek Atılacak URL");
