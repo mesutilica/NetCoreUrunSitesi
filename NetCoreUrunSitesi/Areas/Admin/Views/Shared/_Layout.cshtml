@@ -1,4 +1,5 @@
-﻿@inject IHttpContextAccessor context
+﻿@using System.Security.Claims;
+@inject IHttpContextAccessor context
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -20,7 +21,9 @@
         <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="/Admin/Logout" data-userid="@context.HttpContext.User.FindFirst("UserId").Value">Hoşgeldin @context.HttpContext.User.Identity.Name | Çıkış</a>
+                <a class="nav-link px-3" href="/Admin/Logout" data-userid="@context.HttpContext.User.FindFirst("UserId").Value">Hoşgeldin @context.HttpContext.User.Identity.Name | Çıkış 
+                    @context.HttpContext.User.FindFirst(ClaimTypes.Name).Value
+                </a>
             </div>
         </div>
     </header>
@@ -36,14 +39,15 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                
+
                 @RenderBody()
 
             </main>
+
         </div>
     </div>
 
-    
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
