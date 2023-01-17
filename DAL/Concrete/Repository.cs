@@ -37,11 +37,6 @@ namespace DAL.Concrete
             return _dbSet.Find(id);
         }
 
-        public IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression)
-        {
-            return _dbSet.Include(expression);
-        }
-
         public async Task<T> FindAsync(int id)
         {
             return await _dbSet.FindAsync(id);
@@ -82,9 +77,14 @@ namespace DAL.Concrete
             return _dbSet.Include(table);
         }
 
-        public IQueryable<T> GetAllInclude(Expression<Func<T, bool>> expression)
+        public async Task<T> GetIncludeAsync(Expression<Func<T, bool>> expression, string table)
         {
-            return _dbSet.Include(expression);
+            return await _dbSet.Include(table).FirstOrDefaultAsync(expression);
+        }
+
+        public IQueryable<T> GetQueryable()
+        {
+            return _dbSet;
         }
 
         public int SaveChanges()

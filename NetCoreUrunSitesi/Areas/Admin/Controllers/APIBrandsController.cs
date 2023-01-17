@@ -132,7 +132,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
                 if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
-                ModelState.AddModelError("", "Kayıt Güncellenemedi!");
+                ModelState.AddModelError("", "Kayıt Silinemedi!");
             }
             catch
             {

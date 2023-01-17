@@ -6,6 +6,8 @@ namespace DAL.Abstract
     {
         List<T> GetAll();
         List<T> GetAll(Expression<Func<T, bool>> expression);
+        IQueryable<T> GetAllInclude(string table);
+        IQueryable<T> GetQueryable();
         T Get(Expression<Func<T, bool>> expression);
         T Find(int id);
         int Add(T entity);
@@ -15,8 +17,8 @@ namespace DAL.Abstract
 
         //Asenkron metotlar
         Task<T> FindAsync(int id);
+        Task<T> GetIncludeAsync(Expression<Func<T, bool>> expression, string table);
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
-        IQueryable<T> FindAllAsync(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
