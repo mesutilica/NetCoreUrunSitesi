@@ -9,42 +9,41 @@ namespace WebAPI.Controllers
     [ApiController, Authorize]
     public class BrandsController : ControllerBase
     {
-        private readonly IService<Brand> _repository;
+        private readonly IService<Brand> _service;
 
         public BrandsController(IService<Brand> repository)
         {
-            _repository = repository;
+            _service = repository;
         }
         // GET: api/<BrandsController>
         [HttpGet]
         public async Task<IEnumerable<Brand>> GetAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET api/<BrandsController>/5
         [HttpGet("{id}")]
         public async Task<Brand> Get(int id)
         {
-            return await _repository.FindAsync(id);
+            return await _service.FindAsync(id);
         }
 
         // POST api/<BrandsController>
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostAsync(Brand brand)
+        public async Task<Brand> PostAsync(Brand brand)
         {
-            await _repository.AddAsync(brand);
-            await _repository.SaveChangesAsync();
-
-            return CreatedAtAction("Get", new { id = brand.Id }, brand);
+            await _service.AddAsync(brand);
+            await _service.SaveChangesAsync();
+            return brand;
         }
 
         // PUT api/<BrandsController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Brand>> Put(int id, Brand brand)
+        [HttpPut]
+        public async Task<ActionResult<Brand>> Put(Brand brand)
         {
-            _repository.Update(brand);
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Update(brand);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -53,12 +52,13 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var kayit = await _repository.FindAsync(id);
-            if (kayit == null) return BadRequest();
-            _repository.Delete(kayit);
-
-            var sonuc = await _repository.SaveChangesAsync();
-            if (sonuc > 0) return NoContent();
+            var kayit = await _service.FindAsync(id);
+            if (kayit == null) 
+                return BadRequest();
+            _service.Delete(kayit);
+            var sonuc = await _service.SaveChangesAsync();
+            if (sonuc > 0) 
+                return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
     }

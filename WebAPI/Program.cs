@@ -1,13 +1,9 @@
 using DAL;
-using DAL.Abstract;
-using DAL.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using Service.Concrete;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace WebAPI
@@ -19,22 +15,6 @@ namespace WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
-            //builder.Services.AddControllers();
-            //builder.Services.AddControllers().AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            //});
-            /*
-            builder.Services.AddControllers(options =>
-            {
-                options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-                options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve,
-                }));
-            });*/
-
             // aþaðýdaki kod include yaptýðýmýzda çýkan json sorununu çözüyor
             builder.Services.AddControllersWithViews()
                             .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -44,8 +24,7 @@ namespace WebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
-            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
-            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));// Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
             builder.Services.AddScoped(typeof(IProductService), typeof(ProductService));
             builder.Services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
             //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
