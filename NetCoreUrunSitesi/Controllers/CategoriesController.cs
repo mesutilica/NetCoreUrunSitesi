@@ -1,6 +1,5 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Controllers

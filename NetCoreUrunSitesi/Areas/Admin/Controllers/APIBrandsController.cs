@@ -26,6 +26,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjQyNzk2OTUsImV4cCI6MTY2NDI4MDU5NSwiaXNzIjoid3d3LnRlc3QuY29tIiwiYXVkIjoid3d3LnRlc3QuY29tIn0.nC1OLppRO0xhFEFogzE0gidWCFwfSdZF0guW4nLr2u8");
+            // 1. yöntem
             var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
             // 2. Yöntem
             var responseMessage = await _httpClient.GetAsync(_apiAdres);

@@ -1,32 +1,21 @@
 using DAL;
-using Entities;
-using FluentValidation;
-using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
-using NetCoreUrunSitesi.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Service.Abstract;
 using Service.Concrete;
-using Service.ValidationRules;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 
-builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient<AppUsersApiService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
-builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
-//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
-//builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
+builder.Services.AddDbContext<DatabaseContext>();
+
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
-//builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
     x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
@@ -42,18 +31,6 @@ builder.Services.AddAuthorization(x =>
     x.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
     x.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
 });
-//BasicAuthentication
-/*builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build());
-});*/
-
-//Diðer Dependency Injection yöntemleri :
-
-// AddSingleton : Uygulama ayaða kalkarken çalýþan ConfigureServices metodunda bu yöntem ile tanýmladýðýmýz her sýnýftan sadece bir örnek oluþturulur. Kim nereden çaðýrýrsa çaðýrsýn kendisine bu örnek gönderilir. Uygulama yeniden baþlayana kadar yenisi üretilmez.
-// AddTransient : Uygulama çalýþma zamanýnda belirli koþullarda üretilir veya varolan örneði kullanýr. 
-// AddScoped : Uygulama çalýþýrken her istek için ayrý ayrý nesne üretilir.
 
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
 
@@ -86,9 +63,5 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
-    name: "custom",
-    pattern: "{customurl?}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

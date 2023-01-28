@@ -6,7 +6,7 @@ using Service.Abstract;
 namespace Service.Concrete
 {
     public class ProductService : ProductRepository, IProductService
-    {        
+    {
         public ProductService(DatabaseContext context, IMemoryCache memoryCache) : base(context, memoryCache)
         {
         }
