@@ -57,7 +57,6 @@ builder.Services.AddAuthorization(options =>
 // AddScoped : Uygulama çalýþýrken her istek için ayrý ayrý nesne üretilir.
 
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
-
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
