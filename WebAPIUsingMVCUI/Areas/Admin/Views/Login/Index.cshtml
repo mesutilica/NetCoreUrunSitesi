@@ -1,0 +1,50 @@
+﻿@model AdminLoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin Giriş</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Css/signin.css" />
+</head>
+<body class="text-center">
+
+    <main class="form-signin w-100 m-auto">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <img class="mb-4" src="/Img/lock.png" alt="lock" height="58">
+            <h1 class="h3 mb-3 fw-normal">Admin Giriş</h1>
+
+            <div class="form-floating">
+                <input asp-for="UserName" type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Kullanıcı Adı</label>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Password" type="password" class="form-control" id="floatingPassword" placeholder="Şifre">
+                <label for="floatingPassword">Şifre</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Beni Hatırla
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Giriş</button>
+            <p class="mt-5 mb-3 text-muted">© 2022</p>
+        </form>
+    </main>
+
+
+
+
+
+</body>
+</html>

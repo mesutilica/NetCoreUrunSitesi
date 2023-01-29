@@ -8,11 +8,11 @@ namespace DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
-            builder.Property(x => x.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
-            builder.Property(x => x.Surname).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
-            builder.Property(x => x.Email).HasColumnType("varchar(50)").HasMaxLength(50);
+            builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(50)").HasMaxLength(50);
+            builder.Property(x => x.Surname).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Email).HasMaxLength(50);
             builder.Property(x => x.Phone).HasColumnType("varchar(15)").HasMaxLength(15);
-            builder.Property(x => x.Message).IsRequired().HasColumnType("varchar(500)").HasMaxLength(500);
+            builder.Property(x => x.Message).IsRequired().HasColumnType("nvarchar(500)").HasMaxLength(500);
         }
     }
 }

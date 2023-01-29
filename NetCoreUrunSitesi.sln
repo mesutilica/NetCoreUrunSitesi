@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caching", "Caching\Caching.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{ADD2FD5D-B93E-43C0-88C0-FC6B8CD23DED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIUsingMVCUI", "WebAPIUsingMVCUI\WebAPIUsingMVCUI.csproj", "{4C0422D4-5FAF-437E-9912-76DEF2C35240}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{ADD2FD5D-B93E-43C0-88C0-FC6B8CD23DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADD2FD5D-B93E-43C0-88C0-FC6B8CD23DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADD2FD5D-B93E-43C0-88C0-FC6B8CD23DED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C0422D4-5FAF-437E-9912-76DEF2C35240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C0422D4-5FAF-437E-9912-76DEF2C35240}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C0422D4-5FAF-437E-9912-76DEF2C35240}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C0422D4-5FAF-437E-9912-76DEF2C35240}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
