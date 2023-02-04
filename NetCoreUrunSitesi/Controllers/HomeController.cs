@@ -57,9 +57,11 @@ namespace NetCoreUrunSitesi.Controllers
                 await _serviceContact.AddAsync(contact);
                 await _serviceContact.SaveChangesAsync();
                 TempData["mesaj"] = "<div class='alert alert-success'>Mesajınız Gönderilmiştir. Teşekkürler..</div>";
-                return RedirectToAction("Contact");
+                //return RedirectToAction("Contact");
+                return CreatedAtAction("Contact", contact);
             }
-            return View(contact);
+            //return View(contact);
+            return Problem("Kayıt Başarısız!");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

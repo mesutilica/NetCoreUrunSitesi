@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Contact">
+        <form asp-action="Contact" id="iletisimFormu">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -41,6 +41,7 @@
             </div>
             <div class="form-group mt-3">
                 <input type="submit" value="Ekle" class="btn btn-primary" />
+                <input type="button" value="Gönder" class="btn btn-primary" onclick="mesajGonder()" />
             </div>
         </form>
     </div>
@@ -52,7 +53,7 @@
             Email : info@siteadi.com
         </div>
         <div>
-            Telefon : 0216 444 44 44 
+            Telefon : 0216 444 44 44
         </div>
     </div>
     <div class="col-md-4">
@@ -64,12 +65,17 @@
 
 @section Scripts{
     <script>
-        function iletisim_formu() {
+        function mesajGonder() {
             var ad = $("#Name").val();
             var soyad = $("#Surname").val();
             var email = $("#Email").val();
             var telefon = $("#Phone").val();
             var mesaj = $("#Message").val();
+
+            if (ad == "" || soyad == "" || mesaj == "") {
+                alert("Ad, Soyad, Mesaj alanları gereklidir!")
+                return false;
+            }
 
             var message = {
                 "Name": ad,
@@ -85,8 +91,9 @@
                 type: "json",
                 data: message,
                 success: function (data) {
-                    document.getElementById("iletisim_formu").reset();
-                    $("#sonuc").show().html("Mesajınız Başarıyla Gönderilmiştir!").delay("5000").fadeOut();
+                    console.log(data);
+                    document.getElementById("iletisimFormu").reset();
+                    $("#sonuc").show().html("Sayın " + data.name + " " + data.surname + " Mesajınız Başarıyla Gönderilmiştir!").delay("5000").fadeOut();
                 },
                 error: function (err) {
                     $("#sonuc").show().removeClass("alert-info").addClass("alert-danger").html("Hata Oluştu! Mesajınız Gönderilemedi!").delay("10000").fadeOut();
