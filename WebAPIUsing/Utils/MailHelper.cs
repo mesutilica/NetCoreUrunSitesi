@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 
-namespace NetCoreUrunSitesi.Utils
+namespace WebAPIUsing.Utils
 {
     public class MailHelper
     {

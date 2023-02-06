@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace NetCoreUrunSitesi.Controllers
+namespace WebAPIUsing.Controllers
 {
     public class AccountController : Controller
     {

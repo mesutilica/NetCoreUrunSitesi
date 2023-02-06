@@ -1,7 +1,7 @@
 ﻿using Entities;
 using FluentValidation;
 
-namespace NetCoreUrunSitesi.Models.FluentValidators
+namespace WebAPIUsing.Models.FluentValidators
 {
     public class AppUserValidator : AbstractValidator<AppUser>
     {

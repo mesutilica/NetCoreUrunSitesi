@@ -1,4 +1,4 @@
-﻿namespace NetCoreUrunSitesi.Utils
+﻿namespace WebAPIUsing.Utils
 {
     public class FileHelper
     {

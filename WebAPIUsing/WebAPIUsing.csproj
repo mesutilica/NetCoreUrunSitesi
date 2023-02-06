@@ -7,20 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Admin\Views\Brands\Create.cshtml" />
-    <Content Remove="Areas\Admin\Views\Brands\Delete.cshtml" />
-    <Content Remove="Areas\Admin\Views\Brands\Edit.cshtml" />
-    <Content Remove="Areas\Admin\Views\Brands\Index.cshtml" />
-    <Content Remove="Areas\Admin\Views\Categories\Create.cshtml" />
-    <Content Remove="Areas\Admin\Views\Categories\Delete.cshtml" />
-    <Content Remove="Areas\Admin\Views\Categories\Edit.cshtml" />
-    <Content Remove="Areas\Admin\Views\Categories\Index.cshtml" />
-    <Content Remove="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Remove="Areas\Admin\Views\Login\Index.cshtml" />
-    <Content Remove="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Remove="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <Content Remove="Areas\Admin\Views\_ViewImports.cshtml" />
-    <Content Remove="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,20 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\Admin\Views\Brands\Create.cshtml" />
-    <None Include="Areas\Admin\Views\Brands\Delete.cshtml" />
-    <None Include="Areas\Admin\Views\Brands\Edit.cshtml" />
-    <None Include="Areas\Admin\Views\Brands\Index.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Create.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Delete.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Edit.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Index.cshtml" />
-    <None Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Areas\Admin\Views\Login\Index.cshtml" />
-    <None Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <None Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <None Include="Areas\Admin\Views\_ViewImports.cshtml" />
-    <None Include="Areas\Admin\Views\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>

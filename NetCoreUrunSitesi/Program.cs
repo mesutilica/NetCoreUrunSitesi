@@ -2,7 +2,7 @@ using DAL;
 using Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
-using NetCoreUrunSitesi.Services;
+using WebAPIUsing.Services;
 using Service.Abstract;
 using Service.Concrete;
 using Service.ValidationRules;

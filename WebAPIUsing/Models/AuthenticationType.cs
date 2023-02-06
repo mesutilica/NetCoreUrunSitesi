@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace NetCoreUrunSitesi.Models
+namespace WebAPIUsing.Models
 {
     public class AuthenticatedUser : IIdentity
     {

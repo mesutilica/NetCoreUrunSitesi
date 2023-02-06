@@ -1,7 +1,7 @@
 ﻿using Entities;
-using NetCoreUrunSitesi.ExtensionMethods;
+using WebAPIUsing.ExtensionMethods;
 
-namespace NetCoreUrunSitesi.Services
+namespace WebAPIUsing.Services
 {
     public class CartSessionService
     {

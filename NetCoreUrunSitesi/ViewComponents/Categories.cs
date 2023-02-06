@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
-namespace NetCoreUrunSitesi.ViewComponents
+namespace WebAPIUsing.ViewComponents
 {
     public class Categories : ViewComponent
     {

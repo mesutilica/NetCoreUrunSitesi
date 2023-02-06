@@ -1,4 +1,4 @@
-﻿namespace NetCoreUrunSitesi.Models
+﻿namespace WebAPIUsing.Models
 {
     public class CreateTokenModel
     {

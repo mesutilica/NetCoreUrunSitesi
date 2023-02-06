@@ -32,30 +32,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="Areas\Admin\Views\APIAppUsers\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APIAppUsers\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APIAppUsers\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APIAppUsers\Index.cshtml" />
-		<None Include="Areas\Admin\Views\APIBrands\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APIBrands\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APIBrands\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APIBrands\Index.cshtml" />
-		<None Include="Areas\Admin\Views\APICategories\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APICategories\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APICategories\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APICategories\Index.cshtml" />
-		<None Include="Areas\Admin\Views\APIContacts\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APIContacts\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APIContacts\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APIContacts\Index.cshtml" />
-		<None Include="Areas\Admin\Views\APINews\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APINews\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APINews\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APINews\Index.cshtml" />
-		<None Include="Areas\Admin\Views\APIPosts\Create.cshtml" />
-		<None Include="Areas\Admin\Views\APIPosts\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\APIPosts\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\APIPosts\Index.cshtml" />
 		<None Include="Areas\Admin\Views\AppUsers\Create.cshtml" />
 		<None Include="Areas\Admin\Views\AppUsers\Delete.cshtml" />
 		<None Include="Areas\Admin\Views\AppUsers\Edit.cshtml" />
@@ -340,17 +316,6 @@
 		<None Include="wwwroot\lib\ckeditor\skins\moono-lisa\readme.md" />
 		<None Include="wwwroot\lib\ckeditor\styles.js" />
 		<None Include="wwwroot\lib\ckeditor\vendor\promise.js" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Update="Areas\Admin\Views\APIAppUsers\Index.cshtml">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Update="Areas\Admin\Views\APIBrands\Index.cshtml">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
 	</ItemGroup>
 
 </Project>

@@ -4,8 +4,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
+using WebAPIUsing.Models;
 
-namespace NetCoreUrunSitesi.Models
+namespace WebAPIUsing.Models
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

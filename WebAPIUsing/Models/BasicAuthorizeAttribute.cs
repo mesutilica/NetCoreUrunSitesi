@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace NetCoreUrunSitesi.Models
+namespace WebAPIUsing.Models
 {
     public class BasicAuthorizeAttribute : AuthorizeAttribute
     {

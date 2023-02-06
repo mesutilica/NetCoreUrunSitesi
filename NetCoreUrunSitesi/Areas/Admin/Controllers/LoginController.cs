@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;

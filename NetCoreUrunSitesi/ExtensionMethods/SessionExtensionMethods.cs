@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NetCoreUrunSitesi.ExtensionMethods
+namespace WebAPIUsing.ExtensionMethods
 {
     public static class SessionExtensionMethods
     {

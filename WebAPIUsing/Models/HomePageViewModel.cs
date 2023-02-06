@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace NetCoreUrunSitesi.Models
+namespace WebAPIUsing.Models
 {
     public class HomePageViewModel
     {

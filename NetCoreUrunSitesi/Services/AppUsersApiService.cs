@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace NetCoreUrunSitesi.Services
+namespace WebAPIUsing.Services
 {
     public class AppUsersApiService
     {
