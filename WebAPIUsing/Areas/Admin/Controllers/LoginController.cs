@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using System.Security.Claims;
 using WebAPIUsing.Models;
@@ -10,15 +11,18 @@ namespace WebAPIUsing.Areas.Admin.Controllers
     [Area("Admin")]
     public class LoginController : Controller
     {
-        private readonly IService<AppUser> _repository;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiAdres = "https://localhost:7132/Api/AppUsers";
 
-        public LoginController(IService<AppUser> repository)
+        public LoginController(HttpClient httpClient)
         {
-            _repository = repository;
+            _httpClient = httpClient;
         }
-        public IActionResult Index()
+        public IActionResult Index(string ReturnUrl)
         {
-            return View();
+            var model = new AdminLoginViewModel();
+            model.ReturnUrl = ReturnUrl;
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> IndexAsync(AdminLoginViewModel adminLoginViewModel)
@@ -27,7 +31,8 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    var account = _repository.Get(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive);
+                    var userList = await _httpClient.GetFromJsonAsync<List<AppUser>>(_apiAdres);
+                    var account = userList.FirstOrDefault(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive);
                     if (account == null)
                     {
                         ModelState.AddModelError("", "Giriş Başarısız!");
@@ -45,12 +50,11 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                         {
                             AllowRefresh = true,
                             ExpiresUtc = DateTime.UtcNow.AddDays(7),
-                            IsPersistent = true,
-                            RedirectUri = "https://localhost:7113/Admin/Logout"
+                            IsPersistent = true
                         };
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal, authProperties);
-                        return Redirect("/Admin/Home");
+                        return Redirect(string.IsNullOrEmpty(adminLoginViewModel.ReturnUrl) ? "/Admin" : adminLoginViewModel.ReturnUrl);
                     }
                 }
                 catch (Exception)

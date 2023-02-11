@@ -8,7 +8,7 @@ namespace Entities
         [Display(Name = "Ad"), StringLength(50)]
         public string Name { get; set; }
         [Display(Name = "Açıklama")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [Display(Name = "Resim"), StringLength(50)]
         public string? Image { get; set; }
         [Display(Name = "Aktif?")]

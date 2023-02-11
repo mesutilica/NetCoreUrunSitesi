@@ -54,15 +54,11 @@
 		<None Include="Areas\Admin\Views\News\Delete.cshtml" />
 		<None Include="Areas\Admin\Views\News\Edit.cshtml" />
 		<None Include="Areas\Admin\Views\News\Index.cshtml" />
-		<None Include="Areas\Admin\Views\Posts\Create.cshtml" />
-		<None Include="Areas\Admin\Views\Posts\Delete.cshtml" />
-		<None Include="Areas\Admin\Views\Posts\Edit.cshtml" />
-		<None Include="Areas\Admin\Views\Posts\Index.cshtml" />
 		<None Include="Areas\Admin\Views\Products\Create.cshtml" />
 		<None Include="Areas\Admin\Views\Products\Delete.cshtml" />
 		<None Include="Areas\Admin\Views\Products\Edit.cshtml" />
 		<None Include="Areas\Admin\Views\Products\Index.cshtml" />
-		<None Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+		<None Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
 		<None Include="Areas\Admin\Views\Shared\_ValidationScriptsPartial.cshtml" />
 		<None Include="Areas\Admin\Views\Sliders\Create.cshtml" />
 		<None Include="Areas\Admin\Views\Sliders\Delete.cshtml" />

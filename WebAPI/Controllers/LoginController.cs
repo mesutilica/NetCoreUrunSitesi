@@ -11,11 +11,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IService<AppUser> _repository;
+        private readonly IService<AppUser> _service;
         readonly IConfiguration _configuration;
-        public LoginController(IService<AppUser> repository, IConfiguration configuration)
+        public LoginController(IService<AppUser> service, IConfiguration configuration)
         {
-            _repository = repository;
+            _service = service;
             _configuration = configuration;
         }
         // POST: api/AppUsers
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var user = await _repository.FirstOrDefaultAsync(x => x.Email == appUser.Email);
+                var user = await _service.FirstOrDefaultAsync(x => x.Email == appUser.Email);
                 if (user != null)
                 {
                     return Conflict(new { errMes = appUser.Email + " adresi sistemde zaten kayıtlı!" });
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
                 {
                     appUser.CreateDate = DateTime.Now;
                     appUser.IsActive = true;
-                    await _repository.AddAsync(appUser);
+                    await _service.AddAsync(appUser);
                     return CreatedAtAction("GetAppUser", new { id = appUser.Id }, appUser);
                 }
             }
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         [HttpPost("connect/token")]
         public ActionResult<Token> Login(CreateTokenModel login)//[FromBody] 
         {
-            CreateTokenCommand command = new(_configuration, _repository);
+            CreateTokenCommand command = new(_configuration, _service);
             command.Model = login;
             var token = command.HandleAsync();
             return token.Result;
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
         [HttpGet("refreshToken")]
         public ActionResult<Token> RefreshToken([FromQuery] string token)//token a gelecek refreshToken değeri RefreshTokenCommand a gönderilip yenileniyor
         {
-            RefreshTokenCommand command = new(_repository, _configuration);
+            RefreshTokenCommand command = new(_service, _configuration);
             command.RefreshToken = token;
             var resultToken = command.HandleAsync();
             return resultToken.Result;

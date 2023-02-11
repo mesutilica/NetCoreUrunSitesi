@@ -6,14 +6,14 @@ using Service.Abstract;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     public class BrandsController : ControllerBase
     {
         private readonly IService<Brand> _service;
 
-        public BrandsController(IService<Brand> repository)
+        public BrandsController(IService<Brand> service)
         {
-            _service = repository;
+            _service = service;
         }
         // GET: api/<BrandsController>
         [HttpGet]

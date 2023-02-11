@@ -17,7 +17,7 @@
     <main class="form-signin w-100 m-auto">
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <input asp-for="ReturnUrl" type="hidden" />
             <img class="mb-4" src="/Img/lock.png" alt="lock" height="58">
             <h1 class="h3 mb-3 fw-normal">Admin Giriş</h1>
 

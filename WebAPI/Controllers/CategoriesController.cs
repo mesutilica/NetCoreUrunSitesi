@@ -9,51 +9,49 @@ namespace WebAPI.Controllers
     public class CategoriesController : ControllerBase
     {
         //private readonly IRepository<Category> _repository;
-        private readonly IService<Category> _repository;
-        private readonly ICategoryService _categoryRepository;
-        public CategoriesController(IService<Category> repository, ICategoryService categoryRepository)
+        private readonly IService<Category> _service;
+        private readonly ICategoryService _categoryService;
+        public CategoriesController(IService<Category> service, ICategoryService categoryService)
         {
-            _repository = repository;
-            _categoryRepository = categoryRepository;
+            _service = service;
+            _categoryService = categoryService;
         }
         // GET: api/<CategoriesController>
         [HttpGet]
         public async Task<IEnumerable<Category>> GetAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         public async Task<Category> Get(int id)
         {
-            return await _repository.FindAsync(id);
+            return await _service.FindAsync(id);
         }
 
         // GET api/<CategoriesController>/5
         [HttpGet("GetCategoryByProducts/{categoryId}")]
         public async Task<Category> GetCategoryByProducts(int categoryId)
         {
-            return await _categoryRepository.GetCategoryByProductsAsync(categoryId);
+            return await _categoryService.GetCategoryByProductsAsync(categoryId);
         }
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public async Task<ActionResult<Category>> PostAsync(Category entity)
+        public async Task<Category> PostAsync(Category entity)
         {
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
-
-            return CreatedAtAction("Get", new { id = entity.Id }, entity);
+            await _service.AddAsync(entity);
+            await _service.SaveChangesAsync();
+            return entity;
         }
 
         // PUT api/<CategoriesController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Category>> Put(int id, Category entity)
+        [HttpPut]
+        public async Task<ActionResult<Category>> Put(Category entity)
         {
-            _repository.Update(entity);
-
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Update(entity);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -62,11 +60,10 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var kayit = await _repository.FindAsync(id);
+            var kayit = await _service.FindAsync(id);
             if (kayit == null) return BadRequest();
-            _repository.Delete(kayit);
-
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Delete(kayit);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }

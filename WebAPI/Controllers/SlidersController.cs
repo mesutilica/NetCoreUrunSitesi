@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+using WebApi.Utils;
 
 namespace WebAPI.Controllers
 {
@@ -8,47 +9,45 @@ namespace WebAPI.Controllers
     [ApiController]
     public class SlidersController : ControllerBase
     {
-        private readonly IService<Slider> _repository;
+        private readonly IService<Slider> _service;
 
         public SlidersController(IService<Slider> repository)
         {
-            _repository = repository;
+            _service = repository;
         }
         // GET: api/<SliderController>
         [HttpGet]
         public async Task<IEnumerable<Slider>> GetAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET api/<SliderController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Slider>> Get(int id)
         {
-            var kayit = await _repository.FindAsync(id);
+            var kayit = await _service.FindAsync(id);
             if (kayit == null)
-            {
                 return NotFound();
-            }
             return kayit;
         }
 
         // POST api/<SliderController>
         [HttpPost]
-        public async Task<ActionResult<Slider>> PostAsync(Slider entity)
+        public async Task<Slider> PostAsync(Slider entity, [FromForm] IFormFile? formFile)
         {
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
-            return CreatedAtAction("Get", new { id = entity.Id }, entity);
+            var result = await FileHelper.FileLoaderAsync(formFile);
+            await _service.AddAsync(entity);
+            await _service.SaveChangesAsync();
+            return entity;
         }
 
         // PUT api/<SliderController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Slider>> Put(int id, Slider entity)
+        [HttpPut]
+        public async Task<ActionResult<Slider>> Put(Slider entity)
         {
-            _repository.Update(entity);
-
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Update(entity);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -57,12 +56,13 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var kayit = await _repository.FindAsync(id);
-            if (kayit == null) return BadRequest();
-            _repository.Delete(kayit);
-
-            var sonuc = await _repository.SaveChangesAsync();
-            if (sonuc > 0) return Ok();
+            var kayit = await _service.FindAsync(id);
+            if (kayit == null) 
+                return BadRequest();
+            _service.Delete(kayit);
+            var sonuc = await _service.SaveChangesAsync();
+            if (sonuc > 0) 
+                return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }
     }

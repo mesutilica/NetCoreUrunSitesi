@@ -35,19 +35,18 @@ namespace WebAPI.Controllers
 
         // POST api/<NewsController>
         [HttpPost]
-        public async Task<ActionResult<News>> PostAsync(News entity)
+        public async Task<News> PostAsync(News entity)
         {
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
-            return CreatedAtAction("Get", new { id = entity.Id }, entity);
+            return entity;
         }
 
         // PUT api/<NewsController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<News>> Put(int id, News entity)
+        [HttpPut]
+        public async Task<ActionResult<News>> Put(News entity)
         {
             _repository.Update(entity);
-
             var sonuc = await _repository.SaveChangesAsync();
             if (sonuc > 0) return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
@@ -60,7 +59,6 @@ namespace WebAPI.Controllers
             var kayit = await _repository.FindAsync(id);
             if (kayit == null) return BadRequest();
             _repository.Delete(kayit);
-
             var sonuc = await _repository.SaveChangesAsync();
             if (sonuc > 0) return Ok();
             return StatusCode(StatusCodes.Status304NotModified);

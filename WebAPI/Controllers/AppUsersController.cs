@@ -5,40 +5,40 @@ using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AppUsersController : ControllerBase
     {
-        private readonly IService<AppUser> _repository;
+        private readonly IService<AppUser> _service;
 
-        public AppUsersController(IService<AppUser> repository)
+        public AppUsersController(IService<AppUser> service)
         {
-            _repository = repository;
+            _service = service;
         }
 
         // GET: api/<AppUsersController>
         [HttpGet]
         public async Task<IEnumerable<AppUser>> GetAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET api/<AppUsersController>/5
         [HttpGet("{id}")]
         public async Task<AppUser> Get(int id)
         {
-            return await _repository.FindAsync(id);
+            return await _service.FindAsync(id);
         }
 
         // POST api/<AppUsersController>
         [HttpPost]
-        public async Task<ActionResult<AppUser>> PostAsync(AppUser appUser)
+        public async Task<AppUser> PostAsync(AppUser appUser)
         {
-            await _repository.AddAsync(appUser);
-            await _repository.SaveChangesAsync();
+            await _service.AddAsync(appUser);
+            await _service.SaveChangesAsync();
 
-            return CreatedAtAction("Get", new { id = appUser.Id }, appUser); // ekleme işleminden sonra geriye eklenen kaydı döndür
+            return appUser; // ekleme işleminden sonra geriye eklenen kaydı döndür
             // Postman ile kayıt eklemek için uygulamada yeni sekme açıp metot türünü post seçiyoruz.
             // post yapılacak url adres kısmına swagger dan aldığımız uygulama adresini(https://localhost:7132/api/AppUsers) request url kısmından alabiliriz postmandaki adres kısmına yapıştırıyoruz.
             // Adres kısmının altından Body seçeneğini seçip oradan raw ı ve veri tipi olarak en sağdaki listeden Json ı seçiyoruz.
@@ -47,11 +47,11 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<AppUsersController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<AppUser>> Put(int id, AppUser appUser) // Güncelleme için Put metodu kullanılır
+        [HttpPut]
+        public async Task<ActionResult<AppUser>> Put(AppUser appUser) // Güncelleme için Put metodu kullanılır
         {
-            _repository.Update(appUser);
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Update(appUser);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return NoContent(); // güncellemenin geri dönüş türü no content
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -60,11 +60,11 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var appUser = await _repository.FindAsync(id);
+            var appUser = await _service.FindAsync(id);
             if (appUser == null) return BadRequest();
-            _repository.Delete(appUser);
+            _service.Delete(appUser);
 
-            var sonuc = await _repository.SaveChangesAsync();
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }

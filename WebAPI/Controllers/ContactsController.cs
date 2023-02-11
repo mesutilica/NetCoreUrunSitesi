@@ -8,24 +8,24 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly IService<Contact> _repository;
+        private readonly IService<Contact> _service;
 
-        public ContactsController(IService<Contact> repository)
+        public ContactsController(IService<Contact> service)
         {
-            _repository = repository;
+            _service = service;
         }
         // GET: api/<ContactsController>
         [HttpGet]
         public async Task<IEnumerable<Contact>> GetAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET api/<ContactsController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> Get(int id)
         {
-            var kayit = await _repository.FindAsync(id);
+            var kayit = await _service.FindAsync(id);
             if (kayit == null)
             {
                 return NotFound();
@@ -35,20 +35,19 @@ namespace WebAPI.Controllers
 
         // POST api/<ContactsController>
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostAsync(Contact entity)
+        public async Task<Contact> PostAsync(Contact entity)
         {
-            await _repository.AddAsync(entity);
-            await _repository.SaveChangesAsync();
-            return CreatedAtAction("Get", new { id = entity.Id }, entity);
+            await _service.AddAsync(entity);
+            await _service.SaveChangesAsync();
+            return entity;
         }
 
         // PUT api/<ContactsController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Contact>> Put(int id, Contact entity)
+        [HttpPut]
+        public async Task<ActionResult<Contact>> Put(Contact entity)
         {
-            _repository.Update(entity);
-
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Update(entity);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -57,11 +56,10 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var kayit = await _repository.FindAsync(id);
+            var kayit = await _service.FindAsync(id);
             if (kayit == null) return BadRequest();
-            _repository.Delete(kayit);
-
-            var sonuc = await _repository.SaveChangesAsync();
+            _service.Delete(kayit);
+            var sonuc = await _service.SaveChangesAsync();
             if (sonuc > 0) return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }
