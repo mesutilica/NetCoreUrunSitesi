@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 
 namespace WebAPIUsing.Services
 {

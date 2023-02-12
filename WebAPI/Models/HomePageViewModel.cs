@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using WebAPI.Application.UserOperations.Commands.CreateToken;
 
 namespace WebAPI.Models

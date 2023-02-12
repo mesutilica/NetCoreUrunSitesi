@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using Service.Abstract;
 using WebAPI.TokenOperations;
 using WebAPI.TokenOperations.Models;

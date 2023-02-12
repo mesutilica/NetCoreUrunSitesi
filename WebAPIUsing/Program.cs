@@ -28,6 +28,11 @@ builder.Services.AddAuthorization(x =>
     x.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
     x.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
 });
+
+//builder.Services.AddHttpClient<AppUsersApiService>(opt =>
+//{
+//    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+//});
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var app = builder.Build();

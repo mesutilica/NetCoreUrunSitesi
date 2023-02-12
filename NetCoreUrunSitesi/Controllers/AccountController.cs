@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIUsing.Controllers

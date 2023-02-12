@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreUrunSitesi", "NetCoreUrunSitesi\NetCoreUrunSitesi.csproj", "{FC04E4E3-103B-4355-8FD4-AF601FB6D628}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{A742401F-E87A-41CF-B91B-F1F7CAF2C259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Entities\Core.csproj", "{A742401F-E87A-41CF-B91B-F1F7CAF2C259}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{80D02EA4-7A85-4B44-88B3-0C713A37E0BD}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caching", "Caching\Caching.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{ADD2FD5D-B93E-43C0-88C0-FC6B8CD23DED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIUsing", "WebAPIUsing\WebAPIUsing.csproj", "{43ECC03B-CCD2-4DAD-AC30-9937CA1E6D75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIUsing", "WebAPIUsing\WebAPIUsing.csproj", "{43ECC03B-CCD2-4DAD-AC30-9937CA1E6D75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

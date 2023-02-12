@@ -1,5 +1,5 @@
-﻿using DAL.Abstract;
-using Entities;
+﻿using Core.Entities;
+using DAL.Abstract;
 
 namespace Service.Abstract
 {

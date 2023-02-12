@@ -1,5 +1,5 @@
 ﻿using Caching.Abstract;
-using Entities;
+using Core.Entities;
 using Microsoft.Extensions.Caching.Memory;
 using Service.Abstract;
 using System.Linq.Expressions;

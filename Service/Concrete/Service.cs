@@ -1,6 +1,6 @@
-﻿using DAL;
+﻿using Core.Entities;
+using DAL;
 using DAL.Concrete;
-using Entities;
 using Service.Abstract;
 
 namespace Service.Concrete

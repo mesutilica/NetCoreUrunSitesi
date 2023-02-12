@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using WebAPIUsing.ExtensionMethods;
 
 namespace WebAPIUsing.Services

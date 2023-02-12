@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;

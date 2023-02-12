@@ -1,11 +1,11 @@
+using Core.Entities;
 using DAL;
-using Entities;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using Service.Abstract;
 using Service.Concrete;
 using Service.ValidationRules;
-using WebAPIUsing.Services;
+//using WebAPIUsing.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +16,6 @@ builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
-builder.Services.AddHttpClient<AppUsersApiService>(opt =>
-{
-    opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
-});
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
 //builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
 //builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.

@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using FluentValidation;
 
 namespace WebAPIUsing.Models.FluentValidators

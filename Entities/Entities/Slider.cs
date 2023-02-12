@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+namespace Core.Entities
 {
     public class Slider : IEntity
     {

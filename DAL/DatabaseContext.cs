@@ -1,5 +1,5 @@
-﻿using DAL.Configurations;
-using Entities;
+﻿using Core.Entities;
+using DAL.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL

@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using System.Net;
 using System.Net.Mail;
 

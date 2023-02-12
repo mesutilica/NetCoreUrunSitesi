@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Core.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
