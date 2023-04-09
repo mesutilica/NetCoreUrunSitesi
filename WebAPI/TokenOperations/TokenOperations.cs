@@ -14,7 +14,7 @@ namespace WebAPI.TokenOperations
             Configuration = configuration;
         }
         //Token üretecek metot.
-        public Token CreateAccessToken(AppUser user)
+        public Token CreateAccessToken()
         {
             Token tokenInstance = new();
 
@@ -41,14 +41,8 @@ namespace WebAPI.TokenOperations
             tokenInstance.AccessToken = tokenHandler.WriteToken(securityToken);
 
             //Refresh Token üretiyoruz.
-            tokenInstance.RefreshToken = CreateRefreshToken();
+            tokenInstance.RefreshToken = Guid.NewGuid().ToString();
             return tokenInstance;
-        }
-
-        //Refresh Token üretecek metot.
-        public string CreateRefreshToken()
-        {
-            return Guid.NewGuid().ToString();
         }
     }
 }

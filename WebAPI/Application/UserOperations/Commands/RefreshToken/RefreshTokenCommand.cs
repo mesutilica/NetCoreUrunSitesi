@@ -24,7 +24,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
             {
 
                 TokenHandler tokenHandler = new(_configuration);
-                Token token = tokenHandler.CreateAccessToken(user);
+                Token token = tokenHandler.CreateAccessToken();
 
                 user.RefreshToken = token.RefreshToken;
                 user.RefreshTokenExpireDate = token.Expiration.AddMinutes(60);

@@ -24,7 +24,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
             {
                 //Token üretiliyor.
                 TokenHandler handler = new(_configuration);
-                Token token = handler.CreateAccessToken(user);
+                Token token = handler.CreateAccessToken();
 
                 //Refresh token Users tablosuna işleniyor.
                 user.RefreshToken = token.RefreshToken;
