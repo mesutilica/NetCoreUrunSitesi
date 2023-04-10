@@ -12,20 +12,20 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly IService<Product> _repository;
-        private readonly IProductService _repositoryProduct;
-        private readonly IService<Category> _categoryRepository;
-        private readonly IService<Brand> _brandRepository;
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
+        private readonly IService<Brand> _brandService;
 
-        public ProductsController(IProductService repositoryProduct, IService<Category> categoryRepository, IService<Brand> brandRepository, IService<Product> repository)
+        public ProductsController(IProductService productService, ICategoryService categoryService, IService<Brand> brandService, IService<Product> repository)
         {
-            _repositoryProduct = repositoryProduct;
-            _categoryRepository = categoryRepository;
-            _brandRepository = brandRepository;
+            _productService = productService;
+            _categoryService = categoryService;
+            _brandService = brandService;
             _repository = repository;
         }
 
         // GET: ProductsController
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             return View(await _repository.GetQueryable().Include(c => c.Category).Include(c => c.Brand).ToListAsync());
             //return View(await _repositoryProduct.GetAllProductsByCategoriesBrandsAsync());
@@ -38,17 +38,17 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         }
 
         // GET: ProductsController/Create
-        public async Task<ActionResult> CreateAsync()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAllAsync(), "Id", "Name");
-            ViewBag.BrandId = new SelectList(await _brandRepository.GetAllAsync(), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetCategoriesByIdNameAsync(), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");
             return View();
         }
 
         // POST: ProductsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(Product product, IFormFile? Image)
+        public async Task<IActionResult> CreateAsync(Product product, IFormFile? Image)
         {
             if (ModelState.IsValid)
             {
@@ -56,8 +56,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                 {
                     product.CreateDate = DateTime.Now;
                     product.Image = await FileHelper.FileLoaderAsync(Image);
-                    await _repositoryProduct.AddAsync(product);
-                    await _repositoryProduct.SaveChangesAsync();
+                    await _productService.AddAsync(product);
+                    await _productService.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -65,17 +65,17 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAllAsync(), "Id", "Name");
-            ViewBag.BrandId = new SelectList(await _brandRepository.GetAllAsync(), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetCategoriesByIdNameAsync(), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");
             return View(product);
         }
 
         // GET: ProductsController/Edit/5
         public async Task<ActionResult> EditAsync(int id)
         {
-            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAllAsync(), "Id", "Name");
-            ViewBag.BrandId = new SelectList(await _brandRepository.GetAllAsync(), "Id", "Name");
-            return View(await _repositoryProduct.FindAsync(id));
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetCategoriesByIdNameAsync(), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");
+            return View(await _productService.FindAsync(id));
         }
 
         // POST: ProductsController/Edit/5
@@ -89,8 +89,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                 {
                     if (resmiSil == true) product.Image = string.Empty;
                     if (Image != null) product.Image = await FileHelper.FileLoaderAsync(Image);
-                    _repositoryProduct.Update(product);
-                    await _repositoryProduct.SaveChangesAsync();
+                    _productService.Update(product);
+                    await _productService.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -98,15 +98,15 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAllAsync(), "Id", "Name");
-            ViewBag.BrandId = new SelectList(await _brandRepository.GetAllAsync(), "Id", "Name");
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetCategoriesByIdNameAsync(), "Id", "Name");
+            ViewBag.BrandId = new SelectList(await _brandService.GetAllAsync(), "Id", "Name");
             return View(product);
         }
 
         // GET: ProductsController/Delete/5
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View(await _repositoryProduct.FindAsync(id));
+            return View(await _productService.FindAsync(id));
         }
 
         // POST: ProductsController/Delete/5
@@ -116,7 +116,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         {
             try
             {
-                _repositoryProduct.Delete(product);
+                _productService.Delete(product);
                 return RedirectToAction(nameof(Index));
             }
             catch

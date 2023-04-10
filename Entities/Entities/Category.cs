@@ -21,10 +21,6 @@ namespace Core.Entities
         public int OrderNo { get; set; }
         [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)] // ScaffoldColumn(false) crud sayfaları oluşturulurken bu kolonun ekranda oluşmamasını sağlar
         public DateTime CreateDate { get; set; }
-        public ICollection<Product> Products { get; set; }
-        public Category()
-        {
-            Products = new List<Product>();
-        }
+        public ICollection<Product>? Products { get; set; }
     }
 }
