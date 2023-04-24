@@ -55,7 +55,24 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// builder.Services.AddOutputCache(); // sayfa çýktýlarýný önbelleklemek için
+
+builder.Services.AddOutputCache(options =>
+{
+    options.AddPolicy("custom", policy =>
+    {
+        policy.Expire(TimeSpan.FromMinutes(1)); // kendi kuralýmýzý uyguladýk
+    });
+    options.AddBasePolicy(policy =>
+    {
+        policy.Expire(TimeSpan.FromMinutes(1)); // varsayýlan output ayarlarýný özelleþtirdik
+    });
+});
+
 var app = builder.Build();
+
+app.UseOutputCache(); //uygulamada sayfa önbelleklemeyi kullan
+// Bu adýmdan sonra önbellekleme yapacaðýmýz get actionlarýna [OutputCache] veya [OutputCache(PolicyName="custom")]
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
