@@ -6,10 +6,18 @@ namespace NetCoreUrunSitesi.Utils
 {
     public class MailHelper
     {
+        private readonly IConfiguration _configuration;
+        static string email = "";
+        public MailHelper(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            email = _configuration["Email"];
+        }
+        
         public static async Task SendMailAsync(Contact contact)
         {
             SmtpClient smtpClient = new("mail.siteadresi.com", 587); // 1. parametre mail sunucu adresi, 2. parametre mail sunucu port numarası
-            smtpClient.Credentials = new NetworkCredential("email kullanıcı adı buraya", "email şifresi buraya yazılacak");
+            smtpClient.Credentials = new NetworkCredential(email, "email şifresi buraya yazılacak");
             smtpClient.EnableSsl = true; // Eğer sunucu ssl kullanıyorsa true kullanmıyorsa false olmalı
             MailMessage message = new(); // Yeni bir email nesnesi oluşturduk
             message.From = new MailAddress("info@siteadi.com"); // Mailin gönderileceği adres

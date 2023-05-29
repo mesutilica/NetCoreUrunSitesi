@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
+using NetCoreUrunSitesi.Utils;
 using Service.Abstract;
 using System.Diagnostics;
 
@@ -44,21 +45,32 @@ namespace NetCoreUrunSitesi.Controllers
         {
             return View();
         }
+        [Route("iletisim")]
         public IActionResult Contact()
         {
             return View();
         }
 
-        [HttpPost]
+        [Route("iletisim"), HttpPost]
         public async Task<IActionResult> ContactAsync(Contact contact)
         {
             if (ModelState.IsValid)
             {
-                await _serviceContact.AddAsync(contact);
-                await _serviceContact.SaveChangesAsync();
-                TempData["mesaj"] = "<div class='alert alert-success'>Mesajınız Gönderilmiştir. Teşekkürler..</div>";
-                //return RedirectToAction("Contact");
-                return CreatedAtAction("Contact", contact);
+                try
+                {
+                    await _serviceContact.AddAsync(contact);
+                    var sonuc = await _serviceContact.SaveChangesAsync();
+                    if (sonuc > 0)
+                    {
+                        await MailHelper.SendMailAsync(contact); // gelen mesajı mail gönder.
+                        TempData["Message"] = "<div class='alert alert-success'>Mesajınız Gönderildi! Teşekkürler..</div>";
+                        return RedirectToAction("ContactUs");
+                    }
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
             //return View(contact);
             return Problem("Kayıt Başarısız!");
