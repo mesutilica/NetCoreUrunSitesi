@@ -1,8 +1,81 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomePageViewModel
+
+@{
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        @for (int i = 0; i < Model.Sliders.Count; i++)
+        {
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" @(i == 0 ? "class=active aria-current=true" : "") aria-label="@Model.Sliders[i].Name"></button>
+        }
+    </div>
+    <div class="carousel-inner">
+
+        @foreach (var item in Model.Sliders)
+        {
+            <div class="carousel-item "> @*@(item == Model.Sliders.FirstOrDefault() ? "active" : "")*@
+                <img src="/Img/@item.Image" class="d-block w-100" alt="@item.Name" title="@item.Name">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>@item.Name</h5>
+                    <p>@item.Description</p>
+                </div>
+            </div>
+        }
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+@section scripts{
+    <script>
+        $(".carousel-inner .carousel-item:first-child").addClass("active");
+    </script>
+}
+
+<div class="album py-5 bg-light">
+    <h1 class="text-center">Ürünlerimiz</h1>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            @foreach (var item in Model.Products)
+            {
+                @await Html.PartialAsync("_ProductView", item)
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row my-5">
+    <h2>
+        Bizden Haberler
+    </h2>
+    @foreach (var item in Model.News)
+    {
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <h3 class="mb-0">@item.Name</h3>
+                    <div class="mb-1 text-muted">@item.CreateDate.ToShortDateString()</div>
+                    <p class="card-text mb-auto">
+                        @item.Description
+                    </p>
+                    <a href="#" class="stretched-link">Devamını Oku..</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="/Img/@item.Image" alt="" class="bd-placeholder-img" width="200" />
+                </div>
+            </div>
+        </div>
+    }
 </div>
