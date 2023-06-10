@@ -15,7 +15,8 @@
 
         @foreach (var item in Model.Sliders)
         {
-            <div class="carousel-item "> @*@(item == Model.Sliders.FirstOrDefault() ? "active" : "")*@
+            <div class="carousel-item ">
+                @*@(item == Model.Sliders.FirstOrDefault() ? "active" : "")*@
                 <img src="/Img/@item.Image" class="d-block w-100" alt="@item.Name" title="@item.Name">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>@item.Name</h5>
@@ -68,7 +69,7 @@
                     <h3 class="mb-0">@item.Name</h3>
                     <div class="mb-1 text-muted">@item.CreateDate.ToShortDateString()</div>
                     <p class="card-text mb-auto">
-                        @item.Description
+                        @Html.Raw(item.Description)
                     </p>
                     <a href="#" class="stretched-link">Devamını Oku..</a>
                 </div>

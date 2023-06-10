@@ -5,11 +5,11 @@ namespace Core.Entities
     public class Category : IEntity
     {
         public int Id { get; set; }
-        [Display(Name = "Ad"), StringLength(50)]
-        public string? Name { get; set; }
-        [Display(Name = "Açıklama")]
+        [Display(Name = "Ad")]
+        public string Name { get; set; }
+        [Display(Name = "Açıklama"), DataType(DataType.MultilineText)]
         public string? Description { get; set; }
-        [Display(Name = "Resim"), StringLength(50)]
+        [Display(Name = "Resim")]
         public string? Image { get; set; }
         [Display(Name = "Aktif?")]
         public bool IsActive { get; set; }

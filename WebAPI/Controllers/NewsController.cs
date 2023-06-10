@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<NewsController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<News>> Put(News entity)
         {
             _repository.Update(entity);

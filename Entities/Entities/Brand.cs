@@ -7,7 +7,7 @@ namespace Core.Entities
         public int Id { get; set; }
         [Display(Name = "Ad"), StringLength(50)]
         public string? Name { get; set; }
-        [Display(Name = "Açıklama")]
+        [Display(Name = "Açıklama"), DataType(DataType.MultilineText)]
         public string? Description { get; set; }
         [StringLength(50)]
         public string? Logo { get; set; }

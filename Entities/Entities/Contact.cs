@@ -13,7 +13,7 @@ namespace Core.Entities
         public string? Email { get; set; }
         [Display(Name = "Telefon"), StringLength(15)]
         public string? Phone { get; set; }
-        [Display(Name = "Mesaj"), Required(ErrorMessage = "{0} Alanı Gereklidir!")]
+        [Display(Name = "Mesaj"), DataType(DataType.MultilineText), Required(ErrorMessage = "{0} Alanı Gereklidir!")]
         public string Message { get; set; }
         [Display(Name = "Mesaj Tarihi"), ScaffoldColumn(false)]
         public DateTime? CreateDate { get; set; } = DateTime.Now; // Boş geçilebilsin, boş geçilirse o anki zaman otomatik eklensin

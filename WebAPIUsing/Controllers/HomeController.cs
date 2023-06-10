@@ -16,7 +16,7 @@ namespace WebAPIUsing.Controllers
 
         private readonly string _apiAdres = "https://localhost:7132/api/";
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres + "Products");
             var model = new HomePageViewModel()

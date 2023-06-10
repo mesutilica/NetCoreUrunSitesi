@@ -37,7 +37,6 @@ namespace DAL
                 Username = "Admin",
                 Password = "123456",
                 Email = "admin@admin.coo",
-                Phone = "",
                 Name = "Admin",
                 Surname = "Admin",
                 IsActive = true,

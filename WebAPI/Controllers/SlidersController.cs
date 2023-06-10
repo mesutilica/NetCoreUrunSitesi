@@ -34,16 +34,16 @@ namespace WebAPI.Controllers
 
         // POST api/<SliderController>
         [HttpPost]
-        public async Task<Slider> PostAsync(Slider entity, [FromForm] IFormFile? formFile)
+        public async Task<Slider> PostAsync([FromBody] Slider entity)//, [FromForm] IFormFile? formFile
         {
-            var result = await FileHelper.FileLoaderAsync(formFile);
+            var result = await FileHelper.FileLoaderAsync(entity.ImageFile);
             await _service.AddAsync(entity);
             await _service.SaveChangesAsync();
             return entity;
         }
 
         // PUT api/<SliderController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Slider>> Put(Slider entity)
         {
             _service.Update(entity);
@@ -57,11 +57,11 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var kayit = await _service.FindAsync(id);
-            if (kayit == null) 
+            if (kayit == null)
                 return BadRequest();
             _service.Delete(kayit);
             var sonuc = await _service.SaveChangesAsync();
-            if (sonuc > 0) 
+            if (sonuc > 0)
                 return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }

@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<AppUsersController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<AppUser>> Put(AppUser appUser) // Güncelleme için Put metodu kullanılır
         {
             _service.Update(appUser);

@@ -17,10 +17,13 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             _repository = repository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string ReturnUrl)
         {
-            return View();
+            var model = new AdminLoginViewModel();
+            model.ReturnUrl = ReturnUrl;
+            return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> IndexAsync(AdminLoginViewModel adminLoginViewModel)
         {
@@ -39,7 +42,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                         {
                             new Claim(ClaimTypes.Name, account.Username),
                             new Claim("Role", account.IsAdmin ? "Admin" : "User"),
-                            new Claim("UserId", account.Id.ToString())
+                            new Claim("UserId", account.Id.ToString()),
+                            new Claim("UserGuid", account.UserGuid.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         var authProperties = new AuthenticationProperties
@@ -51,7 +55,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                         };
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal, authProperties);
-                        return Redirect("/Admin/Home");
+                        return Redirect(string.IsNullOrEmpty(adminLoginViewModel.ReturnUrl) ? "/Admin" : adminLoginViewModel.ReturnUrl);
                     }
                 }
                 catch (Exception)

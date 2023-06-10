@@ -23,6 +23,12 @@ namespace WebAPI.Controllers
             return await _service.GetAllAsync();
         }
 
+        [HttpGet("GetSearch/{q}")]
+        public async Task<IEnumerable<Product>> GetSearchAsync(string q)
+        {
+            return await _service.GetAllAsync(p => p.Name.Contains(q));
+        }
+
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> Get(int id)
@@ -43,7 +49,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<ProductsController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Product>> Put(int id, Product entity)
         {
             _service.Update(entity);

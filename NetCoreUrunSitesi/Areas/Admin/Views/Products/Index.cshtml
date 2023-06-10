@@ -31,6 +31,9 @@
                 @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.IsHome)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
@@ -63,6 +66,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsHome)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)

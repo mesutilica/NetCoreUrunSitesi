@@ -43,7 +43,8 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                         {
                             new Claim(ClaimTypes.Name, account.Username),
                             new Claim("Role", account.IsAdmin ? "Admin" : "User"),
-                            new Claim("UserId", account.Id.ToString())
+                            new Claim("UserId", account.Id.ToString()),
+                            new Claim("UserGuid", account.UserGuid.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         var authProperties = new AuthenticationProperties

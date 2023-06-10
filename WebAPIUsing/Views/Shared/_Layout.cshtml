@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - P013EStore.MVCUI</title>
+    <title>@ViewData["Title"] - WebAPIUsing</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/P013EStore.MVCUI.styles.css" asp-append-version="true" />
@@ -38,7 +38,7 @@
                     </ul>
                 </div>
                 <form asp-controller="Products" asp-action="Search" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                    <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Ara..." aria-label="Search">
+                    <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Ara..." required>
                 </form>
                 <div class="text-end">
                     @if (Context.Session.GetInt32("userId") == null)

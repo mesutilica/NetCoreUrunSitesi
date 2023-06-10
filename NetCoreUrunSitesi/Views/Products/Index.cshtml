@@ -8,12 +8,10 @@
     <h1 class="text-center">Ürünlerimiz</h1>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
             @foreach (var item in Model)
             {
                 @await Html.PartialAsync("_ProductView", item)
             }
-
         </div>
     </div>
 </div>

@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<ContactsController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Contact>> Put(Contact entity)
         {
             _service.Update(entity);

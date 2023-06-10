@@ -42,6 +42,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
+                    entity.ImageFile = Image;
                     entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres, entity);
                     if (response.IsSuccessStatusCode) 

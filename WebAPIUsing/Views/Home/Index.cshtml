@@ -68,7 +68,7 @@
                     <h3 class="mb-0">@item.Name</h3>
                     <div class="mb-1 text-muted">@item.CreateDate.ToShortDateString()</div>
                     <p class="card-text mb-auto">
-                        @item.Description
+                        @Html.Raw(item.Description)
                     </p>
                     <a href="#" class="stretched-link">Devamını Oku..</a>
                 </div>

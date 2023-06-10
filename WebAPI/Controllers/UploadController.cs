@@ -11,6 +11,10 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Upload([FromForm] IFormFile formFile) // Metot ismi Upload, parametre olarak Iformfile ile bir formdan gelecek dosyayı alıyor
         {
             var result = await FileHelper.FileLoaderAsync(formFile);
+            if (string.IsNullOrEmpty(result))
+            {
+                return Problem("Dosya Yüklenemedi!");
+            }
             return Created(string.Empty, result); // Geriye dosyanın eklendiğine dair response döndük
         }
     }

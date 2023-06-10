@@ -47,12 +47,13 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<CategoriesController>/5
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<Category>> Put(Category entity)
         {
             _service.Update(entity);
             var sonuc = await _service.SaveChangesAsync();
-            if (sonuc > 0) return NoContent();
+            if (sonuc > 0) 
+                return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
 
@@ -61,10 +62,12 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var kayit = await _service.FindAsync(id);
-            if (kayit == null) return BadRequest();
+            if (kayit == null) 
+                return BadRequest();
             _service.Delete(kayit);
             var sonuc = await _service.SaveChangesAsync();
-            if (sonuc > 0) return Ok();
+            if (sonuc > 0) 
+                return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }
     }

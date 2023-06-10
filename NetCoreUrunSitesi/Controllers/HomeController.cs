@@ -28,11 +28,11 @@ namespace NetCoreUrunSitesi.Controllers
 
             var model = new HomePageViewModel()
             {
-                Sliders = _sliderRepository.GetAll(),
-                //Products = _productRepository.GetAll(),
-                News = _newsRepository.GetAll()
+                Sliders = await _sliderRepository.GetAllAsync(),
+                Products = await _productService.GetAllAsync(p => p.IsActive & p.IsHome),
+                News = await _newsRepository.GetAllAsync()
             };
-            model.Products = await _productService.GetAllProductsByCacheAsync();
+            //model.Products = await _productService.GetAllProductsByCacheAsync();
             return View(model);
         }
         [BasicAuthorize]

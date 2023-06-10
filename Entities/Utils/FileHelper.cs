@@ -1,10 +1,13 @@
-﻿namespace NetCoreUrunSitesi.Utils
+﻿using Microsoft.AspNetCore.Http;
+
+namespace NetCoreUrunSitesi.Core.Utils
 {
     public class FileHelper
     {
         public static async Task<string> FileLoaderAsync(IFormFile formFile, string filePath = "/Img/")
         {
             var fileName = "";
+
             if (formFile != null && formFile.Length > 0)
             {
                 fileName = formFile.FileName;
@@ -12,6 +15,7 @@
                 using var stream = new FileStream(directory, FileMode.Create);
                 await formFile.CopyToAsync(stream);
             }
+
             return fileName;
         }
         public static bool FileRemover(string fileName, string filePath = "/wwwroot/Img/")

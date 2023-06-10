@@ -9,8 +9,7 @@ namespace DAL.Configurations
         public void Configure(EntityTypeBuilder<News> builder)
         {
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
-            builder.Property(x => x.Description).IsRequired();
-            builder.Property(x => x.Image).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Image).HasMaxLength(100);
         }
     }
 }
