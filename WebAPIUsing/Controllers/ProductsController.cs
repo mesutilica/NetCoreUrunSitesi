@@ -35,13 +35,15 @@ namespace P013EStore.WebAPIUsing.Controllers
         }
         public async Task<IActionResult> Detail(int id)
         {
-            var products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres); // ürünleri api üzerinden çektik
-            var product = products.FirstOrDefault(p => p.Id == id); // api den çektiğimiz listeden route dan gelen id ile eşleşen kaydı bulduk
-            var model = new ProductDetailViewModel()
+            var model = new ProductDetailViewModel();
+            var products = await _httpClient.GetFromJsonAsync<List<Product>>(_apiAdres);
+            var product = await _httpClient.GetFromJsonAsync<Product>(_apiAdres + "/" + id);
+            model.Product = product;
+            model.RelatedProducts = products.Where(p => p.CategoryId == product.CategoryId && p.Id != id).ToList();
+            if (model is null)
             {
-                Product = product, // model içindeki ürün
-                RelatedProducts = products.Where(p => p.CategoryId == product.CategoryId && p.Id != id).Take(4).ToList()// aynı kategorideki diğer ürünler
-            };
+                return NotFound();
+            }
             return View(model);
         }
     }

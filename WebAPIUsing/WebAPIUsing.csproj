@@ -551,16 +551,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Account\Create.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Account\Create.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Account\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Account\Login.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Categories\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Home\AccesDenied.cshtml" />
-    <_ContentIncludedByDefault Remove="Views\Home\Contact.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -577,10 +571,6 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Home\AccesDenied.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Home\Contact.cshtml" />
   </ItemGroup>
 
 </Project>

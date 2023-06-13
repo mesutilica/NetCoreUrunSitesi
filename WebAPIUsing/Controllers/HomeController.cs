@@ -38,13 +38,13 @@ namespace WebAPIUsing.Controllers
             return View();
         }
         [Route("iletisim")]
-        public IActionResult Contact()
+        public IActionResult ContactUs()
         {
             return View();
         }
 
         [Route("iletisim"), HttpPost]
-        public async Task<IActionResult> ContactAsync(Contact contact)
+        public async Task<IActionResult> ContactUs(Contact contact)
         {
             if (ModelState.IsValid)
             {
