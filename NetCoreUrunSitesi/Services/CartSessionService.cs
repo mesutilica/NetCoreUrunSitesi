@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using WebAPIUsing.ExtensionMethods;
+using NetCoreUrunSitesi.ExtensionMethods;
 
 namespace WebAPIUsing.Services
 {
@@ -12,18 +12,18 @@ namespace WebAPIUsing.Services
         }
         public Cart GetCart()
         {
-            Cart cartToCheck = _httpContextAccessor.HttpContext.Session.GetObject<Cart>("cart");
+            Cart cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<Cart>("cart");
             if (cartToCheck == null)
             {
-                _httpContextAccessor.HttpContext.Session.SetObject("cart", new Cart());
-                cartToCheck = _httpContextAccessor.HttpContext.Session.GetObject<Cart>("cart");
+                _httpContextAccessor.HttpContext.Session.SetJson("cart", new Cart());
+                cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<Cart>("cart");
             }
             return cartToCheck;
         }
 
         public void SetCart(Cart cart)
         {
-            _httpContextAccessor.HttpContext.Session.SetObject("cart", cart);
+            _httpContextAccessor.HttpContext.Session.SetJson("cart", cart);
         }
     }
 }

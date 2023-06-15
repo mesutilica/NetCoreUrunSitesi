@@ -2,15 +2,43 @@
 {
     public class Cart
     {
-        public Cart()
-        {
-            CartLines = new List<CartLine>();
-        }
-        public List<CartLine> CartLines { get; set; }
+        private List<CartLine> products = new List<CartLine>();
+        public List<CartLine> Products => products;
 
-        public decimal Total
+        public void AddProduct(Product product, int quantity)
         {
-            get { return CartLines.Sum(c => c.Product.Price * c.Quantity); }
+            var prd = products
+                .Where(i => i.Product.Id == product.Id)
+                .FirstOrDefault();
+
+            if (prd == null)
+            {
+                products.Add(new CartLine()
+                {
+                    Product = product,
+                    Quantity = quantity
+                });
+            }
+            else
+            {
+                prd.Quantity += quantity;
+            }
         }
+
+        public void RemoveProduct(Product product)
+        {
+            products.RemoveAll(i => i.Product.Id == product.Id);
+        }
+
+        public decimal TotalPrice()
+        {
+            return products.Sum(i => i.Product.Price * i.Quantity);
+        }
+
+        public void ClearAll()
+        {
+            products.Clear();
+        }
+
     }
 }

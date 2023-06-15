@@ -14,6 +14,8 @@ namespace DAL
         public DbSet<News> News { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MssqlLocalDB; Database=NetCoreUrunSitesi; Trusted_Connection=True; MultipleActiveResultSets=True");
