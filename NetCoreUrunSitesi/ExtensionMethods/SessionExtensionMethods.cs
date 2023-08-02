@@ -6,18 +6,14 @@ namespace NetCoreUrunSitesi.ExtensionMethods
     {
         public static void SetJson(this ISession session, string key, object value)
         {
-            string objectString = JsonConvert.SerializeObject(value);
-            session.SetString(key, objectString);
+            session.SetString(key, JsonConvert.SerializeObject(value));
         }
         public static T GetJson<T>(this ISession session, string key) where T : class
         {
-            string objectString = session.GetString(key);
-            if (string.IsNullOrEmpty(objectString))
-            {
-                return null;
-            }
-            T value = JsonConvert.DeserializeObject<T>(objectString);
-            return value;
+            var data = session.GetString(key);
+
+            return data == null ?
+                default(T) : JsonConvert.DeserializeObject<T>(data);
         }
     }
 }
