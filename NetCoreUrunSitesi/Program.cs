@@ -2,9 +2,11 @@ using Core.Entities;
 using DAL;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
+using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 using Service.Concrete;
 using Service.ValidationRules;
+using System.Security.Claims;
 //using WebAPIUsing.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
+//builder.Services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase("InMemoryDb"));
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
 //builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
 //builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
@@ -36,8 +39,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // Authorization : Yetkilendirme : Önce servis olarak ekliyoruz
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
-    x.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
+    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
+    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
 });
 //BasicAuthentication
 /*builder.Services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", options => { });

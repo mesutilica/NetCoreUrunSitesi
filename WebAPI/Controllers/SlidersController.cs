@@ -36,7 +36,6 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<Slider> PostAsync([FromBody] Slider entity)//, [FromForm] IFormFile? formFile
         {
-            var result = await FileHelper.FileLoaderAsync(entity.ImageFile);
             await _service.AddAsync(entity);
             await _service.SaveChangesAsync();
             return entity;

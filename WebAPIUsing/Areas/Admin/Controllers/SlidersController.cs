@@ -10,6 +10,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiAdres = "https://localhost:7132/Api/Sliders";
+        private readonly string _apiAdres2 = "https://localhost:7132/Api/Upload/";
 
         public SlidersController(HttpClient httpClient)
         {
@@ -42,7 +43,17 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    entity.ImageFile = Image;
+                    var stream = new MemoryStream();
+                    await Image.CopyToAsync(stream);
+
+                    var bytes = stream.ToArray();
+
+                    ByteArrayContent content = new ByteArrayContent(bytes);
+                    content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(Image.ContentType);
+                    MultipartFormDataContent formData = new MultipartFormDataContent();
+                    formData.Add(content, "formFile", Image.FileName);
+                    var formDataResponse = await _httpClient.PostAsync(_apiAdres2 + "?path=Slider/", formData);
+
                     entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres, entity);
                     if (response.IsSuccessStatusCode) 

@@ -1,5 +1,4 @@
-﻿using Azure;
-using Core.Entities;
+﻿using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIUsing.Utils;

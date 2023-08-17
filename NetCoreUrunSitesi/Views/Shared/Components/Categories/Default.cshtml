@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Category>
 
 @{
-    foreach (var anaKategori in Model.Where(c => c.ParentId == 0 & c.IsActive  & c.IsTopMenu))
+    foreach (var anaKategori in Model.Where(c => c.ParentId == 0 & c.IsActive & c.IsTopMenu))
     {
         <div class="dropdown">
             <a class="nav-link dropdown-toggle text-black" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -9,9 +9,11 @@
             </a>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                @foreach (var altKategori in Model.Where(c => c.ParentId == anaKategori.Id & c.IsActive  & c.IsTopMenu))
+                @foreach (var altKategori in Model.Where(c => c.ParentId == anaKategori.Id & c.IsActive & c.IsTopMenu))
                 {
-                    <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index" asp-route-id="@altKategori.Id">@altKategori.Name</a></li>
+                    <li>
+                        <a class="dropdown-item" href="/@altKategori.Name.ToLower().Replace(' ','-')/Categories/Index/@altKategori.Id">@altKategori.Name</a>
+                    </li>
                 }
             </ul>
         </div>

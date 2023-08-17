@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
 {
@@ -16,8 +13,5 @@ namespace Core.Entities
         public string? Image { get; set; }
         [Display(Name = "Resim Link"), StringLength(100)]
         public string? Link { get; set; }
-        [NotMapped]
-        [DisplayName("Upload File")]
-        public IFormFile? ImageFile { get; set; }
     }
 }

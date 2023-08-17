@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using DAL.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DAL
 {
@@ -16,9 +17,19 @@ namespace DAL
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
+
+        // StreamWriter _log = new("logs.txt", append: true);
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MssqlLocalDB; Database=NetCoreUrunSitesi; Trusted_Connection=True; MultipleActiveResultSets=True");
+            optionsBuilder.UseSqlServer(@"Server=(LocalDB)\MssqlLocalDB; Database=NetCoreUrunSitesi; Trusted_Connection=True; TrustServerCertificate=True");
+
+            //optionsBuilder.LogTo(Console.WriteLine);
+            //optionsBuilder.LogTo(message => Debug.WriteLine(message));
+            //optionsBuilder.LogTo(async message => await _log.WriteLineAsync(message), LogLevel.Information)
+            //    .EnableSensitiveDataLogging() // hassas verileri de logla
+            //    .EnableDetailedErrors(); // detaylı hataları da logla
+            //optionsBuilder.LogTo(message => _log.WriteLine(message));
+
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

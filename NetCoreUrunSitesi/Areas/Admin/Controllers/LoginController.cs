@@ -41,7 +41,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                         var claims = new List<Claim>() // Claim = hak
                         {
                             new Claim(ClaimTypes.Name, account.Username),
-                            new Claim("Role", account.IsAdmin ? "Admin" : "User"),
+                            new Claim(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
                             new Claim("UserId", account.Id.ToString()),
                             new Claim("UserGuid", account.UserGuid.ToString())
                         };
