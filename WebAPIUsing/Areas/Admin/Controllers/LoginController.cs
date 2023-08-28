@@ -1,8 +1,6 @@
 ﻿using Core.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Service.Abstract;
 using System.Security.Claims;
 using WebAPIUsing.Models;
 

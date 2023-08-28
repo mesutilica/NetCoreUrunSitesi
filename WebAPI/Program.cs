@@ -5,6 +5,7 @@ using Service.Abstract;
 using Service.Concrete;
 using System.Text;
 using System.Text.Json.Serialization;
+using WebAPI.Middlewares;
 
 namespace WebAPI
 {
@@ -68,6 +69,7 @@ namespace WebAPI
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseCutomExceptionMiddleware();
 
             app.Run();
         }

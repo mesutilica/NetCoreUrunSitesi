@@ -3,6 +3,7 @@ using DAL;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using Microsoft.EntityFrameworkCore;
+using NetCoreUrunSitesi.Middlewares;
 using Service.Abstract;
 using Service.Concrete;
 using Service.ValidationRules;
@@ -93,6 +94,7 @@ app.UseSession();
 
 app.UseAuthentication(); // Admin login sistemi için
 app.UseAuthorization();
+app.UseCutomExceptionMiddleware();
 
 app.MapControllerRoute(
         name: "admin",

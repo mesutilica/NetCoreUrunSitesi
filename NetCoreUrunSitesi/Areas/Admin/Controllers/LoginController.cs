@@ -46,15 +46,15 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                             new Claim("UserGuid", account.UserGuid.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
-                        var authProperties = new AuthenticationProperties
+                        /*var authProperties = new AuthenticationProperties
                         {
                             AllowRefresh = true,
                             ExpiresUtc = DateTime.UtcNow.AddDays(7),
                             IsPersistent = true,
                             RedirectUri = "https://localhost:7113/Admin/Logout"
-                        };
+                        };*/
                         ClaimsPrincipal principal = new(userIdentity);
-                        await HttpContext.SignInAsync(principal, authProperties);
+                        await HttpContext.SignInAsync(principal); // , authProperties
                         return Redirect(string.IsNullOrEmpty(adminLoginViewModel.ReturnUrl) ? "/Admin" : adminLoginViewModel.ReturnUrl);
                     }
                 }

@@ -12,7 +12,6 @@
         }
     </div>
     <div class="carousel-inner">
-
         @foreach (var item in Model.Sliders)
         {
             <div class="carousel-item ">
@@ -24,7 +23,6 @@
                 </div>
             </div>
         }
-
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -46,16 +44,13 @@
     <h1 class="text-center">Ürünlerimiz</h1>
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
             @foreach (var item in Model.Products)
             {
                 @await Html.PartialAsync("_ProductView", item)
             }
-
         </div>
     </div>
 </div>
-
 
 <div class="row my-5">
     <h2>

@@ -6,16 +6,16 @@ namespace WebAPIUsing.ViewComponents
 {
     public class Categories : ViewComponent
     {
-        private readonly IService<Category> _repository;
+        private readonly IService<Category> _service;
 
         public Categories(IService<Category> repository)
         {
-            _repository = repository;
+            _service = repository;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(await _repository.GetAllAsync());
+            return View(await _service.GetAllAsync());
         }
 
     }
