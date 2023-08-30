@@ -1,4 +1,6 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.DTOs;
+using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
 using NetCoreUrunSitesi.Utils;
@@ -13,13 +15,15 @@ namespace NetCoreUrunSitesi.Controllers
         private readonly IProductService _productService;
         private readonly IService<News> _newsRepository;
         private readonly IService<Contact> _serviceContact;
+        private readonly IMapper _mapper;
 
-        public HomeController(IService<Slider> sliderRepository, IService<News> newsRepository, IProductService productService, IService<Contact> serviceContact)
+        public HomeController(IService<Slider> sliderRepository, IService<News> newsRepository, IProductService productService, IService<Contact> serviceContact, IMapper mapper)
         {
             _sliderRepository = sliderRepository;
             _newsRepository = newsRepository;
             _productService = productService;
             _serviceContact = serviceContact;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -29,7 +33,8 @@ namespace NetCoreUrunSitesi.Controllers
             var model = new HomePageViewModel()
             {
                 Sliders = await _sliderRepository.GetAllAsync(),
-                Products = await _productService.GetAllAsync(p => p.IsActive & p.IsHome),
+                //Products = await _productService.GetAllAsync(p => p.IsActive & p.IsHome),
+                Products = _mapper.Map<List<ProductListViewDto>>(await _productService.GetAllAsync(p => p.IsActive & p.IsHome)),
                 News = await _newsRepository.GetAllAsync()
             };
             //model.Products = await _productService.GetAllProductsByCacheAsync();

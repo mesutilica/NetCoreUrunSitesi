@@ -2,11 +2,11 @@ using Core.Entities;
 using DAL;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
-using Microsoft.EntityFrameworkCore;
 using NetCoreUrunSitesi.Middlewares;
 using Service.Abstract;
 using Service.Concrete;
 using Service.ValidationRules;
+using System.Reflection;
 using System.Security.Claims;
 //using WebAPIUsing.Services;
 
@@ -23,9 +23,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
 //builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
 //builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IBrandService, BrandService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 //builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
@@ -53,8 +53,8 @@ builder.Services.AddAuthorization(options =>
 //Diðer Dependency Injection yöntemleri :
 
 // AddSingleton : Uygulama ayaða kalkarken çalýþan ConfigureServices metodunda bu yöntem ile tanýmladýðýmýz her sýnýftan sadece bir örnek oluþturulur. Kim nereden çaðýrýrsa çaðýrsýn kendisine bu örnek gönderilir. Uygulama yeniden baþlayana kadar yenisi üretilmez.
-// AddTransient : Uygulama çalýþma zamanýnda belirli koþullarda üretilir veya varolan örneði kullanýr. 
-// AddScoped : Uygulama çalýþýrken her istek için ayrý ayrý nesne üretilir.
+// AddTransient : Her servis isteðinde yeni bir instance oluþturulur. 
+// AddScoped : Gelen her bir web requesti için bir instance oluþturur ve gelen her ayný requestte ayný instance’ý kullanýr, farklý web requestler içinde yeni bir instance oluþturur..
 
 builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -73,6 +73,10 @@ builder.Services.AddOutputCache(options =>
     //});
 });
 
+//AddAutoMapper 
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+//builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 var app = builder.Build();
 
 // app.UseOutputCache(); //uygulamada sayfa önbelleklemeyi kullan
@@ -83,6 +87,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseCutomExceptionMiddleware(); // eðer geliþtirme ortamýnda deðilsek özel global hata yakalamayý kullan
     app.UseHsts();
 }
 
@@ -94,7 +99,6 @@ app.UseSession();
 
 app.UseAuthentication(); // Admin login sistemi için
 app.UseAuthorization();
-app.UseCutomExceptionMiddleware();
 
 app.MapControllerRoute(
         name: "admin",

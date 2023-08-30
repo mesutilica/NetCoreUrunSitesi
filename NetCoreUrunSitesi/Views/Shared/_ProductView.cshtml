@@ -1,8 +1,8 @@
-﻿@model Product
+﻿@model Core.DTOs.ProductListViewDto // Product
 
 <div class="col">
     <div class="card shadow-sm">
-        <a class="nav-link text-dark" asp-controller="Products" asp-action="Detail" asp-route-id="@Model.Id">
+        <a class="nav-link text-dark" href="/@Model.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@Model.Id">
             <img src="/Img/@Model.Image" alt="" class="bd-placeholder-img card-img-top" />
             <div class="card-body">
                 <p class="card-text">
