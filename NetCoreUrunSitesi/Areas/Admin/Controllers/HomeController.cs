@@ -8,6 +8,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.UserId = HttpContext.User.FindFirst("UserId").Value;
             return View();
         }
     }

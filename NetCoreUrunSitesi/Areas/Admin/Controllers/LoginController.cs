@@ -40,10 +40,10 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     {
                         var claims = new List<Claim>() // Claim = hak
                         {
-                            new Claim(ClaimTypes.Name, account.Username),
-                            new Claim(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
-                            new Claim("UserId", account.Id.ToString()),
-                            new Claim("UserGuid", account.UserGuid.ToString())
+                            new(ClaimTypes.Name, account.Username),
+                            new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
+                            new("UserId", account.Id.ToString()),
+                            new("UserGuid", account.UserGuid.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         /*var authProperties = new AuthenticationProperties

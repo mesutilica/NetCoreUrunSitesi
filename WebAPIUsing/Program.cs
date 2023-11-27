@@ -2,6 +2,7 @@ using DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Service.Abstract;
 using Service.Concrete;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +26,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 builder.Services.AddAuthorization(x =>
 {
-    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
-    x.AddPolicy("UserPolicy", policy => policy.RequireClaim("Role", "User"));
+    x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
+    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
 });
 
 //builder.Services.AddHttpClient<AppUsersApiService>(opt =>

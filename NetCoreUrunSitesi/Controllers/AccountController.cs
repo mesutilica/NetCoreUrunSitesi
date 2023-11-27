@@ -15,7 +15,7 @@ namespace WebAPIUsing.Controllers
             _apiAdres = "https://localhost:7132/Api/";
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var anotherKey = "test";
             /*HttpClient httpClient = new HttpClient
@@ -75,7 +75,7 @@ namespace WebAPIUsing.Controllers
                     //_httpClient.DefaultRequestHeaders.Authorization.Parameter.Insert(0,"test");
                     appUser.CreateDate = DateTime.Now;
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres + "AppUsers", appUser);
-                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(IndexAsync));
+                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Başarısız!");
                 }
                 catch
