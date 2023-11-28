@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
@@ -20,9 +21,9 @@ namespace WebAPI.Controllers
             _configuration = configuration;
         }
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(AppUser appUser)//[FromBody] 
+        public async Task<IActionResult> LoginAsync(AdminLoginViewModel appUser)//[FromBody] 
         {
-            var account = await _service.FirstOrDefaultAsync(u => u.Username == appUser.Username && u.Password == appUser.Password && u.IsActive && u.IsAdmin);
+            var account = await _service.FirstOrDefaultAsync(u => u.Email == appUser.Email && u.Password == appUser.Password && u.IsActive);
             if (account == null)
             {
                 return NotFound();
@@ -37,7 +38,7 @@ namespace WebAPI.Controllers
             var claims = new List<Claim>() // Claim = hak
                         {
                             new Claim(ClaimTypes.Name, account.Username),
-                            new Claim("Role", account.IsAdmin ? "Admin" : "User"),
+                            new Claim(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
                             new Claim("UserId", account.Id.ToString())
                         };
 

@@ -39,7 +39,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     {
                         var claims = new List<Claim>() // Claim = hak
                         {
-                            new(ClaimTypes.Name, account.Username),
+                            new(ClaimTypes.Name, account.Name),
                             new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
                             new("UserId", account.Id.ToString()),
                             new("UserGuid", account.UserGuid.ToString())

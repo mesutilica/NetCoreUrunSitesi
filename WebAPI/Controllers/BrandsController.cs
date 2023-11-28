@@ -5,7 +5,7 @@ using Service.Abstract;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]//, Authorize
+    [Route("api/[controller]"), Authorize]//
     [ApiController]
     public class BrandsController : ControllerBase
     {
