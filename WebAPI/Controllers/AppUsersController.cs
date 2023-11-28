@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<AppUser>> GetAsync()
         {
-            throw new InvalidOperationException("Kitap zaten mevcut.");
+            //throw new InvalidOperationException("Kitap zaten mevcut.");
             return await _service.GetAllAsync();
         }
 
