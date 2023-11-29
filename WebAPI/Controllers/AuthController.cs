@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _service = service;
             _configuration = configuration;
         }
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync(AdminLoginViewModel appUser)//[FromBody] 
         {
             var account = await _service.FirstOrDefaultAsync(u => u.Email == appUser.Email && u.Password == appUser.Password && u.IsActive);
@@ -62,5 +62,30 @@ namespace WebAPI.Controllers
          * bu tokenla postmanı açıp get isteği olarak headers sekmesine sola Authorization sağa Bearer token ı yapıştırıp isteği yolla
          */
         //return Created("", new JwtTokenGenerator(_configuration).GenerateToken());
+        // POST: api/AppUsers
+        [HttpPost("CreateAppUser")]
+        public async Task<ActionResult<AppUser>> CreateAppUser(AppUser appUser)
+        {
+            try
+            {
+                var user = await _service.FirstOrDefaultAsync(x => x.Email == appUser.Email);
+                if (user != null)
+                {
+                    return Conflict(new { errMes = appUser.Email + " adresi sistemde zaten kayıtlı!" });
+                }
+                else
+                {
+                    appUser.CreateDate = DateTime.Now;
+                    appUser.IsActive = true;
+                    await _service.AddAsync(appUser);
+                    await _service.SaveChangesAsync();
+                    return Ok(appUser);
+                }
+            }
+            catch (Exception)
+            {
+                return Problem("Hata Oluştu!");
+            }
+        }
     }
 }

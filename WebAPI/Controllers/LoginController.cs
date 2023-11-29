@@ -17,31 +17,7 @@ namespace WebAPI.Controllers
         {
             _service = service;
             _configuration = configuration;
-        }
-        // POST: api/AppUsers
-        [HttpPost]
-        public async Task<ActionResult<AppUser>> PostAppUser(AppUser appUser)
-        {
-            try
-            {
-                var user = await _service.FirstOrDefaultAsync(x => x.Email == appUser.Email);
-                if (user != null)
-                {
-                    return Conflict(new { errMes = appUser.Email + " adresi sistemde zaten kayıtlı!" });
-                }
-                else
-                {
-                    appUser.CreateDate = DateTime.Now;
-                    appUser.IsActive = true;
-                    await _service.AddAsync(appUser);
-                    return CreatedAtAction("GetAppUser", new { id = appUser.Id }, appUser);
-                }
-            }
-            catch (Exception)
-            {
-                return Problem("Hata Oluştu!");
-            }
-        }
+        }        
 
         [HttpPost("connect/token")]
         public ActionResult<Token> Login(CreateTokenModel login)//[FromBody] 
