@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 using WebAPI.Application.UserOperations.Commands.CreateToken;
 using WebAPI.Application.UserOperations.Commands.RefreshToken;
-using WebAPI.TokenOperations.Models;
+using Core.Models;
 
 namespace WebAPI.Controllers
 {
@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         {
             _service = service;
             _configuration = configuration;
-        }        
+        }
 
         [HttpPost("connect/token")]
         public ActionResult<Token> Login(CreateTokenModel login)//[FromBody] 

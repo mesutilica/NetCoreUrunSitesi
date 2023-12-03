@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Service.Abstract;
+using Core.Models;
 using WebAPI.TokenOperations;
-using WebAPI.TokenOperations.Models;
 
 namespace WebAPI.Application.UserOperations.Commands.CreateToken
 {
@@ -19,7 +19,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
         }
         public async Task<Token> HandleAsync()
         {
-            AppUser user = _repository.FirstOrDefaultAsync(x => x.Email == Model.Email && x.Password == Model.Password).Result;
+            AppUser user = await _repository.FirstOrDefaultAsync(x => x.Email == Model.Email && x.Password == Model.Password);
             if (user is not null)
             {
                 //Token üretiliyor.

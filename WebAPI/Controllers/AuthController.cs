@@ -6,6 +6,7 @@ using Service.Abstract;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -41,20 +42,34 @@ namespace WebAPI.Controllers
                             new Claim(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
                             new Claim("UserId", account.Id.ToString())
                         };
-
+            Token tokenInstance = new();
             //Oluşturulacak token ayarlarını veriyoruz.
-            //tokenInstance.Expiration = DateTime.Now.AddMinutes(15);
+            tokenInstance.Expiration = DateTime.Now.AddMinutes(15);
+            
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
-                expires: DateTime.Now.AddMinutes(1),
+                expires: DateTime.Now.AddMinutes(10),
                 notBefore: DateTime.Now,//Token üretildikten ne kadar süre sonra devreye girsin ayarlıyouz.
                 signingCredentials: signingCredentials,
                 claims: claims
                 );
             //Token oluşturucu sınıfında bir örnek alıyoruz.
             JwtSecurityTokenHandler tokenHandler = new();
-            return Created("", tokenHandler.WriteToken(securityToken));
+
+            //Token üretiyoruz.
+            tokenInstance.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            //Refresh Token üretiyoruz.
+            tokenInstance.RefreshToken = Guid.NewGuid().ToString();
+
+            //Refresh token Users tablosuna işleniyor.
+            account.RefreshToken = tokenInstance.RefreshToken;
+            account.RefreshTokenExpireDate = tokenInstance.Expiration.AddMinutes(30);
+            _service.Update(account);
+            await _service.SaveChangesAsync();
+
+            return Ok(tokenInstance);
         }
         /*
          * https://localhost:7132/api/Brands api adresi, auth ile korumaya aldık

@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Service.Abstract;
+using Core.Models;
 using WebAPI.TokenOperations;
-using WebAPI.TokenOperations.Models;
 
 namespace WebAPI.Application.UserOperations.Commands.RefreshToken
 {

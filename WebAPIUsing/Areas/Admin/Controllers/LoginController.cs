@@ -1,6 +1,10 @@
-﻿using Core.Entities;
+﻿using Azure;
+using Core.Entities;
+using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
 using System.Security.Claims;
 using WebAPIUsing.Models;
 
@@ -10,7 +14,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
     public class LoginController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly string _apiAdres = "https://localhost:7132/Api/AppUsers";
+        private readonly string _apiAdres = "https://localhost:7132/Api/Auth/Login"; // AppUsers
 
         public LoginController(HttpClient httpClient)
         {
@@ -29,20 +33,27 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    var userList = await _httpClient.GetFromJsonAsync<List<AppUser>>(_apiAdres);
+                    /*var userList = await _httpClient.GetFromJsonAsync<List<AppUser>>(_apiAdres);
                     var account = userList.FirstOrDefault(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive);
-                    if (account == null)
+                    */
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, adminLoginViewModel);
+                    //string stringJWT = await response.Content.ReadAsStringAsync(); // 
+                    Token jwt = await response.Content.ReadFromJsonAsync<Token>(); // JsonConvert.DeserializeObject<Token>(stringJWT);
+                    if (!response.IsSuccessStatusCode) //  == null
                     {
                         ModelState.AddModelError("", "Giriş Başarısız!");
                     }
                     else
                     {
+                        HttpContext.Session.SetString("token", jwt.AccessToken);
                         var claims = new List<Claim>() // Claim = hak
                         {
-                            new(ClaimTypes.Name, account.Name),
-                            new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
-                            new("UserId", account.Id.ToString()),
-                            new("UserGuid", account.UserGuid.ToString())
+                            new(ClaimTypes.Email, adminLoginViewModel.Email),
+                            //new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
+                            //new("UserId", account.Id.ToString()),
+                            //new("UserGuid", account.UserGuid.ToString())
+                            new("RefreshToken", jwt.RefreshToken),
+                            new("Expiration", jwt.Expiration.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         var authProperties = new AuthenticationProperties
@@ -67,6 +78,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
         [Route("Admin/Logout")]
         public async Task<IActionResult> LogoutAsync()
         {
+            HttpContext.Session.Remove("token");
             await HttpContext.SignOutAsync(); // Çıkış işlemi
             return RedirectToAction("Index", "Login");
         }

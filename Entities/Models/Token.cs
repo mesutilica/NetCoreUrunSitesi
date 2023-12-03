@@ -1,4 +1,4 @@
-﻿namespace WebAPI.TokenOperations.Models
+﻿namespace Core.Models
 {
     public class Token
     {

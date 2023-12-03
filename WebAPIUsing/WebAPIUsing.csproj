@@ -573,4 +573,8 @@
     <UpToDateCheckInput Remove="Views\Home\AccesDenied.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>

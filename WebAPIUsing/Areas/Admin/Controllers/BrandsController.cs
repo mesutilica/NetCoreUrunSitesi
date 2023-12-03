@@ -23,7 +23,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
         // GET: APIBrandsController
         public async Task<IActionResult> IndexAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NjQyNzk2OTUsImV4cCI6MTY2NDI4MDU5NSwiaXNzIjoid3d3LnRlc3QuY29tIiwiYXVkIjoid3d3LnRlc3QuY29tIn0.nC1OLppRO0xhFEFogzE0gidWCFwfSdZF0guW4nLr2u8");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token"));
             // 1. yöntem
             var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
             // 2. Yöntem
@@ -36,7 +36,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             }
             else if (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                var tokenModel = new CreateTokenModel()
+                /*var tokenModel = new CreateTokenModel()
                 {
                     Email = "admin@admin.coo",
                     Password = "123456"
@@ -47,7 +47,8 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     var tokenReques = await _httpClient.GetAsync(_apiTokenAdres);
                 }
 
-                return View(null);
+                return View(null);*/
+                return Redirect("/admin/logout");
             }
             return View(request);
         }
