@@ -27,7 +27,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             // 1. yöntem
             var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
             // 2. Yöntem
-            var responseMessage = await _httpClient.GetAsync(_apiAdres);
+            /*var responseMessage = await _httpClient.GetAsync(_apiAdres);
             if (responseMessage.IsSuccessStatusCode) // api ye yaptığımız isteğin sonucu başarılıysa
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync(); // responseMessage içeriğini json olarak okuyoruz
@@ -36,7 +36,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             }
             else if (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                /*var tokenModel = new CreateTokenModel()
+                var tokenModel = new CreateTokenModel()
                 {
                     Email = "admin@admin.coo",
                     Password = "123456"
@@ -47,9 +47,9 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     var tokenReques = await _httpClient.GetAsync(_apiTokenAdres);
                 }
 
-                return View(null);*/
+                return View(null);
                 return Redirect("/admin/logout");
-            }
+            }*/
             return View(request);
         }
 
@@ -103,10 +103,13 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    if (resmiSil == true) entity.Logo = string.Empty;
-                    if (Logo != null) entity.Logo = await FileHelper.FileLoaderAsync(Logo);
+                    if (resmiSil == true)
+                        entity.Logo = string.Empty;
+                    if (Logo != null)
+                        entity.Logo = await FileHelper.FileLoaderAsync(Logo);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
-                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
+                    if (response.IsSuccessStatusCode)
+                        return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Güncelleme Başarısız Oldu!");
                 }
                 catch
@@ -131,7 +134,8 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             try
             {
                 var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
-                if (response.IsSuccessStatusCode) return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                    return RedirectToAction(nameof(Index));
                 ModelState.AddModelError("", "Kayıt Silinemedi!");
             }
             catch

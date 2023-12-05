@@ -45,7 +45,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     }
                     else
                     {
-                        HttpContext.Session.SetString("token", jwt.AccessToken);
+                        //HttpContext.Session.SetString("token", jwt.AccessToken);
                         var claims = new List<Claim>() // Claim = hak
                         {
                             new(ClaimTypes.Email, adminLoginViewModel.Email),

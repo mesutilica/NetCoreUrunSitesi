@@ -1,5 +1,14 @@
 ﻿@using System.Security.Claims;
 @inject IHttpContextAccessor context
+@{
+    var token = Context.Session.GetString("token");
+    if (string.IsNullOrEmpty(token))
+    {
+        //new RedirectResult("/admin/logout");
+        //Context.Response.Redirect("/admin/logout");
+    }
+}
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
