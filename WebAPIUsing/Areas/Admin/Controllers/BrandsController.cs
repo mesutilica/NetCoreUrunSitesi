@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPIUsing.Models;
 using WebAPIUsing.Utils;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using Core.Entities;
 
@@ -25,32 +24,21 @@ namespace WebAPIUsing.Areas.Admin.Controllers
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", HttpContext.Session.GetString("token"));
             // 1. yöntem
-            var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
+            //var request = await _httpClient.GetFromJsonAsync<List<Brand>>(_apiAdres);
+            // return View(request);
             // 2. Yöntem
-            /*var responseMessage = await _httpClient.GetAsync(_apiAdres);
+            var responseMessage = await _httpClient.GetAsync(_apiAdres);
             if (responseMessage.IsSuccessStatusCode) // api ye yaptığımız isteğin sonucu başarılıysa
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync(); // responseMessage içeriğini json olarak okuyoruz
-                var result = JsonConvert.DeserializeObject<List<Brand>>(jsonData);
+                // var jsonData = await responseMessage.Content.ReadAsStringAsync(); // responseMessage içeriğini json olarak okuyoruz
+                var result = await responseMessage.Content.ReadFromJsonAsync<List<Brand>>();// JsonConvert.DeserializeObject<List<Brand>>(jsonData);
                 return View(result); // Sayfa modelimiz olan appuser listesine çevirdiğimiz modeli view a gönderiyoruz
             }
             else if (responseMessage.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                var tokenModel = new CreateTokenModel()
-                {
-                    Email = "admin@admin.coo",
-                    Password = "123456"
-                };
-                var response = await _httpClient.PostAsJsonAsync(_apiTokenAdres, tokenModel);
-                if (response.IsSuccessStatusCode)
-                {
-                    var tokenReques = await _httpClient.GetAsync(_apiTokenAdres);
-                }
-
-                return View(null);
                 return Redirect("/admin/logout");
-            }*/
-            return View(request);
+            }
+            return View(responseMessage.RequestMessage);
         }
 
         // GET: APIBrandsController/Details/5

@@ -32,10 +32,9 @@
             <div class="nav-item text-nowrap">
                 @if (Context.User.Identity.IsAuthenticated)
                 {
-                    @* <a class="nav-link px-3" href="/Admin/Logout" data-userGuid="@Context.User.FindFirst("UserGuid").Value" data-userid="@context.HttpContext.User.FindFirst("UserId").Value">
+                    <a class="nav-link px-3" href="/Admin/Logout" data-userGuid="@Context.User.FindFirst("RefreshToken").Value">
                         Hoşgeldin @Context.User.Identity.Name | Çıkış
-                        @context.HttpContext.User.FindFirst(ClaimTypes.Name).Value
-                    </a> *@
+                    </a>
                 }
             </div>
         </div>
