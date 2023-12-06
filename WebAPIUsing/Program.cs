@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Service.Abstract;
 using Service.Concrete;
 using System.Security.Claims;
+using WebAPIUsing.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
+/*builder.Services.AddHttpClient("GitHub", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("https://api.github.com/");
+    // The GitHub API requires two headers. The Use-Agent header is added
+    // dynamically through UserAgentHeaderHandler
+    httpClient.DefaultRequestHeaders.Add(
+        HeaderNames.Authorization, "Bearer ");
+});*/
 builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
@@ -54,6 +63,16 @@ app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//app.Use(async (context, next) =>
+//{
+//    context.Response.Headers.Add("Authorization", "Bearer " + context.Session.GetString("token"));
+//    //context.Response.Headers["Authorization"] = "Bearer " + context.Session.GetString("token");
+//    await next();
+//});
+
+// custom ExceptionHandlingMiddleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllerRoute(
             name: "admin",
