@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPIUsing.Utils;
 //using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using Core.Entities;
+using WebAPIUsing.Utils;
 
 namespace WebAPIUsing.Areas.Admin.Controllers
 {

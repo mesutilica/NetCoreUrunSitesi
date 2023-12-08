@@ -56,7 +56,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
 
                     entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres, entity);
-                    if (response.IsSuccessStatusCode) 
+                    if (response.IsSuccessStatusCode)
                         return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -82,12 +82,12 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    if (resmiSil == true) 
+                    if (resmiSil == true)
                         entity.Image = string.Empty;
-                    if (Image != null) 
+                    if (Image != null)
                         entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}", entity);
-                    if (response.IsSuccessStatusCode) 
+                    if (response.IsSuccessStatusCode)
                         return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Güncellenemedi!");
                 }
@@ -113,7 +113,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             try
             {
                 var response = await _httpClient.DeleteAsync($"{_apiAdres}/{id}");
-                if (response.IsSuccessStatusCode) 
+                if (response.IsSuccessStatusCode)
                     return RedirectToAction(nameof(Index));
                 ModelState.AddModelError("", "İşlem Başarısız!");
             }

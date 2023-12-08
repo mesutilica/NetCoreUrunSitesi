@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
         {
             _service.Update(entity);
             var sonuc = await _service.SaveChangesAsync();
-            if (sonuc > 0) 
+            if (sonuc > 0)
                 return NoContent();
             return StatusCode(StatusCodes.Status304NotModified);
         }
@@ -62,11 +62,11 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var kayit = await _service.FindAsync(id);
-            if (kayit == null) 
+            if (kayit == null)
                 return BadRequest();
             _service.Delete(kayit);
             var sonuc = await _service.SaveChangesAsync();
-            if (sonuc > 0) 
+            if (sonuc > 0)
                 return Ok();
             return StatusCode(StatusCodes.Status304NotModified);
         }

@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
 using DAL.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace DAL
 {

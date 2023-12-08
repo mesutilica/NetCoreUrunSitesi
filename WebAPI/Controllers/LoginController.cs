@@ -1,9 +1,9 @@
 ﻿using Core.Entities;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 using WebAPI.Application.UserOperations.Commands.CreateToken;
 using WebAPI.Application.UserOperations.Commands.RefreshToken;
-using Core.Models;
 
 namespace WebAPI.Controllers
 {

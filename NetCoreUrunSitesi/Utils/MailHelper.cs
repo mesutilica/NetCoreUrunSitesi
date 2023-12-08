@@ -13,7 +13,7 @@ namespace NetCoreUrunSitesi.Utils
             _configuration = configuration;
             email = _configuration["Email"];
         }
-        
+
         public static async Task SendMailAsync(Contact contact)
         {
             SmtpClient smtpClient = new("mail.siteadresi.com", 587); // 1. parametre mail sunucu adresi, 2. parametre mail sunucu port numarası

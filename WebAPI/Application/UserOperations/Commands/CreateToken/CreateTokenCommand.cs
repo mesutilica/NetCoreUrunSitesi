@@ -1,6 +1,6 @@
 ﻿using Core.Entities;
-using Service.Abstract;
 using Core.Models;
+using Service.Abstract;
 using WebAPI.TokenOperations;
 
 namespace WebAPI.Application.UserOperations.Commands.CreateToken

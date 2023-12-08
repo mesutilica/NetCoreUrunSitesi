@@ -18,7 +18,7 @@ namespace WebAPI
 
             // Add services to the container.
             // aþaðýdaki kod include yaptýðýmýzda çýkan json sorununu çözüyor
-            builder.Services.AddControllersWithViews()
+            builder.Services.AddControllers()
                             .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

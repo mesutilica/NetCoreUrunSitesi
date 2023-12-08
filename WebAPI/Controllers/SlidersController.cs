@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
-using WebApi.Utils;
 
 namespace WebAPI.Controllers
 {

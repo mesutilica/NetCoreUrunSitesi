@@ -6,7 +6,6 @@ using Service.Abstract;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -45,7 +44,7 @@ namespace WebAPI.Controllers
             Token tokenInstance = new();
             //Oluşturulacak token ayarlarını veriyoruz.
             tokenInstance.Expiration = DateTime.Now.AddMinutes(15);
-            
+
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],

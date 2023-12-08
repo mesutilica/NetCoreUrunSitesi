@@ -76,12 +76,12 @@ namespace WebAPIUsing.Areas.Admin.Controllers
             {
                 try
                 {
-                    if (resmiSil == true) 
+                    if (resmiSil == true)
                         entity.Image = string.Empty;
-                    if (Image != null) 
+                    if (Image != null)
                         entity.Image = await FileHelper.FileLoaderAsync(Image);
                     var response = await _httpClient.PutAsJsonAsync($"{_apiAdres}/{id}", entity);
-                    if (response.IsSuccessStatusCode) 
+                    if (response.IsSuccessStatusCode)
                         return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Güncelleme Başarısız Oldu!");
                 }

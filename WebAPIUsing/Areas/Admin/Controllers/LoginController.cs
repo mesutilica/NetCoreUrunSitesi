@@ -1,12 +1,7 @@
-﻿using Azure;
-using Core.Entities;
-using Core.Models;
+﻿using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net.Http.Json;
 using System.Security.Claims;
-using WebAPIUsing.Models;
 
 namespace WebAPIUsing.Areas.Admin.Controllers
 {
@@ -47,7 +42,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     {
                         HttpContext.Session.SetString("token", jwt.AccessToken);
                         var claims = new List<Claim>() // Claim = hak
-                        { 
+                        {
                             new(ClaimTypes.Name, "Admin"),
                             new(ClaimTypes.Email, adminLoginViewModel.Email),
                             //new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
