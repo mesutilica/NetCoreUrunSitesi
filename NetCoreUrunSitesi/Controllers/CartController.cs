@@ -7,11 +7,11 @@ namespace NetCoreUrunSitesi.Controllers
 {
     public class CartController : Controller
     {
-        private IProductService repository;
+        private IProductService _productService;
 
-        public CartController(IProductService _repository)
+        public CartController(IProductService productService)
         {
-            repository = _repository;
+            _productService = productService;
         }
         public IActionResult Index()
         {
@@ -20,7 +20,7 @@ namespace NetCoreUrunSitesi.Controllers
 
         public IActionResult AddToCart(int ProductId, int quantity = 1)
         {
-            var product = repository.Find(ProductId);
+            var product = _productService.Find(ProductId);
 
             if (product != null)
             {
@@ -34,7 +34,7 @@ namespace NetCoreUrunSitesi.Controllers
 
         public IActionResult RemoveFromCart(int ProductId)
         {
-            var product = repository.Find(ProductId);
+            var product = _productService.Find(ProductId);
 
             if (product != null)
             {
