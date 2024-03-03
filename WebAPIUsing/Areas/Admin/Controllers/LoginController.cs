@@ -15,14 +15,12 @@ namespace WebAPIUsing.Areas.Admin.Controllers
         {
             _httpClient = httpClient;
         }
-        public IActionResult Index(string ReturnUrl)
+        public IActionResult Index()
         {
-            var model = new AdminLoginViewModel();
-            model.ReturnUrl = ReturnUrl;
-            return View(model);
+            return View();
         }
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(AdminLoginViewModel adminLoginViewModel)
+        public async Task<IActionResult> Index(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -31,7 +29,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     /*var userList = await _httpClient.GetFromJsonAsync<List<AppUser>>(_apiAdres);
                     var account = userList.FirstOrDefault(x => x.Username == adminLoginViewModel.UserName & x.Password == adminLoginViewModel.Password & x.IsActive);
                     */
-                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, adminLoginViewModel);
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres, loginViewModel);
                     //string stringJWT = await response.Content.ReadAsStringAsync(); // 
                     Token jwt = await response.Content.ReadFromJsonAsync<Token>(); // JsonConvert.DeserializeObject<Token>(stringJWT);
                     if (!response.IsSuccessStatusCode) //  == null
@@ -44,7 +42,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                         var claims = new List<Claim>() // Claim = hak
                         {
                             new(ClaimTypes.Name, "Admin"),
-                            new(ClaimTypes.Email, adminLoginViewModel.Email),
+                            new(ClaimTypes.Email, loginViewModel.Email),
                             //new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
                             //new("UserId", account.Id.ToString()),
                             //new("UserGuid", account.UserGuid.ToString())
@@ -60,7 +58,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                         };
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal, authProperties);
-                        return Redirect(string.IsNullOrEmpty(adminLoginViewModel.ReturnUrl) ? "/Admin" : adminLoginViewModel.ReturnUrl);
+                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/Admin" : HttpContext.Request.Query["ReturnUrl"]);
                     }
                 }
                 catch (Exception)
@@ -68,7 +66,7 @@ namespace WebAPIUsing.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            return View(adminLoginViewModel);
+            return View(loginViewModel);
         }
 
         [Route("Admin/Logout")]

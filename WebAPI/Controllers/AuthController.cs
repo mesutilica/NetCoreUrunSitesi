@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
             _configuration = configuration;
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync(AdminLoginViewModel appUser)//[FromBody] 
+        public async Task<IActionResult> LoginAsync(LoginViewModel appUser)//[FromBody] 
         {
             var account = await _service.FirstOrDefaultAsync(u => u.Email == appUser.Email && u.Password == appUser.Password && u.IsActive);
             if (account == null)

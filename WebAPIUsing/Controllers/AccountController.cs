@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIUsing.Controllers
@@ -15,16 +16,16 @@ namespace WebAPIUsing.Controllers
             _apiAdres = "https://localhost:7132/Api/";
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult Index()
         {
             return View();
         }
-        public IActionResult SignIn()
+        public IActionResult SignUp()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SignIn(AppUser appUser)
+        public async Task<IActionResult> SignUp(AppUser appUser)
         {
             if (ModelState.IsValid)
             {
@@ -33,7 +34,8 @@ namespace WebAPIUsing.Controllers
                     //_httpClient.DefaultRequestHeaders.Authorization.Parameter.Insert(0,"test");
                     appUser.CreateDate = DateTime.Now;
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres + "AppUsers", appUser);
-                    if (response.IsSuccessStatusCode) return RedirectToAction(nameof(IndexAsync));
+                    if (response.IsSuccessStatusCode) 
+                        return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Başarısız!");
                 }
                 catch
@@ -49,7 +51,7 @@ namespace WebAPIUsing.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(AppUser appUser)
+        public IActionResult Login(LoginViewModel appUser)
         {
             return View();
         }
