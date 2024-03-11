@@ -61,12 +61,12 @@ namespace WebAPIUsing.Controllers
             */
             return View();
         }
-        public IActionResult SignIn()
+        public IActionResult SignUp()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> SignIn(AppUser appUser)
+        public async Task<IActionResult> SignUp(AppUser appUser)
         {
             if (ModelState.IsValid)
             {

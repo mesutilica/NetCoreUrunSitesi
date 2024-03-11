@@ -34,7 +34,7 @@ namespace WebAPIUsing.Controllers
                     //_httpClient.DefaultRequestHeaders.Authorization.Parameter.Insert(0,"test");
                     appUser.CreateDate = DateTime.Now;
                     var response = await _httpClient.PostAsJsonAsync(_apiAdres + "AppUsers", appUser);
-                    if (response.IsSuccessStatusCode) 
+                    if (response.IsSuccessStatusCode)
                         return RedirectToAction(nameof(Index));
                     ModelState.AddModelError("", "Kayıt Başarısız!");
                 }
