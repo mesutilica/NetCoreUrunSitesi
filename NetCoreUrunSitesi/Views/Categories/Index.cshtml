@@ -11,7 +11,21 @@
 
             @foreach (var item in Model.Products)
             {
-                @await Html.PartialAsync("_ProductView", item)
+                // @await Html.PartialAsync("_ProductView", item)
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
+                            <img src="/Img/@item.Image" alt="" class="bd-placeholder-img card-img-top" />
+                            <div class="card-body">
+                                <p class="card-text">
+                                    @item.Name
+                                    <br />
+                                    @item.Price ₺
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             }
 
         </div>
