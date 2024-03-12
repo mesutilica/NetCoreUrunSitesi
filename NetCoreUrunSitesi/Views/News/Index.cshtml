@@ -1,0 +1,14 @@
+﻿@model IEnumerable<News>
+@{
+    ViewData["Title"] = "Bizden Haberler";
+}
+
+<div class="row my-5">
+    <h2>
+        Bizden Haberler
+    </h2>
+    @foreach (var item in Model)
+    {
+        <partial name="_NewsPartial" model="item" />
+    }
+</div>

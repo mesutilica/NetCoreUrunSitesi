@@ -54,24 +54,10 @@
 
 <div class="row my-5">
     <h2>
-        Bizden Haberler
+        <a href="/News">Bizden Haberler</a>
     </h2>
     @foreach (var item in Model.News)
     {
-        <div class="col-md-6">
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <h3 class="mb-0">@item.Name</h3>
-                    <div class="mb-1 text-muted">@item.CreateDate.ToShortDateString()</div>
-                    <p class="card-text mb-auto">
-                        @Html.Raw(item.Description)
-                    </p>
-                    <a href="#" class="stretched-link">Devamını Oku..</a>
-                </div>
-                <div class="col-auto d-none d-lg-block">
-                    <img src="/Img/@item.Image" alt="" class="bd-placeholder-img" width="200" />
-                </div>
-            </div>
-        </div>
+        <partial name="_NewsPartial" model="item" />
     }
 </div>

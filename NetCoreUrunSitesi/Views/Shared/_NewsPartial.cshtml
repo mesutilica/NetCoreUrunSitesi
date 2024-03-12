@@ -6,7 +6,7 @@
             <h3 class="mb-0">@Model.Name</h3>
             <div class="mb-1 text-muted">@Model.CreateDate.ToShortDateString()</div>
             <p class="card-text mb-auto">
-                @Model.Description
+                @Html.Raw(Model.Description)
             </p>
             <a asp-controller="News" asp-action="Detail" asp-route-id="@Model.Id" class="stretched-link">Devamını Oku..</a>
         </div>
