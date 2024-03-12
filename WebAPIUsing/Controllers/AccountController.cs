@@ -57,3 +57,67 @@ namespace WebAPIUsing.Controllers
         }
     }
 }
+
+/*var anotherKey = "test";
+            HttpClient httpClient = new HttpClient
+             {
+                 BaseAddress = new Uri("https://google.com/")
+             };
+             _httpClient.DefaultRequestHeaders.Add($"Authorization", $"Basic {Base64Encode($"{Username}:{Password}")}");
+             _httpClient.DefaultRequestHeaders.Add($"anotherKey", $"{anotherKey}");
+             HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync("user/123").ConfigureAwait(false);
+             //For Get Method
+            var response = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+             //For Post Method
+            AppUser user = new AppUser(1, "ABC");
+             HttpResponseMessage httpResponseMessage = await _httpClient.PostAsJsonAsync("/post", user).ConfigureAwait(false);
+             UserDetail userDetail = await httpResponseMessage.Content.ReadAsAsync<UserDetail>().ConfigureAwait(false);
+            */
+//setup reusable http client
+/*
+HttpClient client = new HttpClient();
+Uri baseUri = new Uri(_apiAdres);
+client.BaseAddress = baseUri;
+client.DefaultRequestHeaders.Clear();
+client.DefaultRequestHeaders.ConnectionClose = true;
+
+//Post body content
+var values = new List<KeyValuePair<string, string>>();
+values.Add(new KeyValuePair<string, string>("grant_type", "client_credentials"));
+var content = new FormUrlEncodedContent(values);
+
+var authenticationString = $"{clientId}:{clientSecret}";
+var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
+
+var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/oauth2/token");
+requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
+requestMessage.Content = content;
+
+//make the request
+var task = client.SendAsync(requestMessage);
+var response = task.Result;
+response.EnsureSuccessStatusCode();
+string responseBody = response.Content.ReadAsStringAsync().Result;
+Console.WriteLine(responseBody);
+*/
+/*var request = (HttpWebRequest)WebRequest.Create("Istek Atılacak URL");
+            var ornekFormBody = new
+            {
+                adi = "fatih",
+                soyadi = "gürdal",
+                email = "f.gurdal@hotmail.com.tr",
+                //....
+            };
+            var data = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(ornekFormBody));
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, "TOKEN"); //Oturum bilgisini göndermek için
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            var response = (HttpWebResponse)request.GetResponse();*/
+//Gelen Sonucun JSON hali
+//var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+//Sonucuda istediğin tipe çevirebilirsin JsonConvert.DeserializeObject metodu ile

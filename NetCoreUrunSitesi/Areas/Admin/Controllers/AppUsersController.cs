@@ -12,12 +12,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
     {
         //AppUserManager manager = new AppUserManager(); // Klasik kullandığımız yöntem
 
-        private readonly IService<AppUser> _repository; // DI-Dependency injection yöntemiyle
+        private readonly IService<AppUser> _service; // DI-Dependency injection yöntemiyle
         private IValidator<AppUser> _validator;
 
-        public AppUsersController(IService<AppUser> repository, IValidator<AppUser> validator)
+        public AppUsersController(IService<AppUser> service, IValidator<AppUser> validator)
         {
-            _repository = repository;
+            _service = service;
             _validator = validator;
         }
 
@@ -25,7 +25,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         public ActionResult Index()
         {
             //return View(manager.GetAll()); el klasiko
-            return View(_repository.GetAll());
+            return View(_service.GetAll());
         }
 
         // GET: AppUsersController/Details/5
@@ -50,8 +50,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 try
                 {
-                    await _repository.AddAsync(appUser);
-                    await _repository.SaveChangesAsync();
+                    await _service.AddAsync(appUser);
+                    await _service.SaveChangesAsync();
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -75,7 +75,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: AppUsersController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            return View(await _repository.FindAsync(id));
+            return View(await _service.FindAsync(id));
         }
 
         // POST: AppUsersController/Edit/5
@@ -87,8 +87,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 try
                 {
-                    _repository.Update(appUser);
-                    await _repository.SaveChangesAsync();
+                    _service.Update(appUser);
+                    await _service.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -102,7 +102,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: AppUsersController/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            return View(await _repository.FindAsync(id));
+            return View(await _service.FindAsync(id));
         }
 
         // POST: AppUsersController/Delete/5
@@ -112,7 +112,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         {
             try
             {
-                _repository.Delete(appUser);
+                _service.Delete(appUser);
                 return RedirectToAction(nameof(Index));
             }
             catch

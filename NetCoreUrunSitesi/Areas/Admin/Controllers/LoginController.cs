@@ -17,15 +17,13 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             _repository = repository;
         }
 
-        public IActionResult Index(string ReturnUrl)
+        public IActionResult Index()
         {
-            var model = new AdminLoginViewModel();
-            model.ReturnUrl = ReturnUrl;
-            return View(model);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> IndexAsync(AdminLoginViewModel adminLoginViewModel)
+        public async Task<IActionResult> Index(AdminLoginViewModel adminLoginViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -46,16 +44,9 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                             new("UserGuid", account.UserGuid.ToString())
                         };
                         var userIdentity = new ClaimsIdentity(claims, "Login");
-                        /*var authProperties = new AuthenticationProperties
-                        {
-                            AllowRefresh = true,
-                            ExpiresUtc = DateTime.UtcNow.AddDays(7),
-                            IsPersistent = true,
-                            RedirectUri = "https://localhost:7113/Admin/Logout"
-                        };*/
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal); // , authProperties
-                        return Redirect(string.IsNullOrEmpty(adminLoginViewModel.ReturnUrl) ? "/Admin" : adminLoginViewModel.ReturnUrl);
+                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/Admin" : HttpContext.Request.Query["ReturnUrl"]);
                     }
                 }
                 catch (Exception)

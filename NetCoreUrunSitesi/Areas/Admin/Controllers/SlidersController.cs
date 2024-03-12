@@ -6,20 +6,20 @@ using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class SlidersController : Controller
     {
-        private readonly IService<Slider> _repository;
+        private readonly IService<Slider> _service;
 
         public SlidersController(IService<Slider> repository)
         {
-            _repository = repository;
+            _service = repository;
         }
 
         // GET: SlidersController
         public async Task<ActionResult> IndexAsync()
         {
-            return View(await _repository.GetAllAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: SlidersController/Details/5
@@ -44,8 +44,8 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                 try
                 {
                     slider.Image = await FileHelper.FileLoaderAsync(Image);
-                    await _repository.AddAsync(slider);
-                    await _repository.SaveChangesAsync();
+                    await _service.AddAsync(slider);
+                    await _service.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -59,7 +59,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: SlidersController/Edit/5
         public async Task<ActionResult> EditAsync(int id)
         {
-            return View(await _repository.FindAsync(id));
+            return View(await _service.FindAsync(id));
         }
 
         // POST: SlidersController/Edit/5
@@ -71,10 +71,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
             {
                 try
                 {
-                    if (resmiSil == true) slider.Image = string.Empty;
-                    if (Image != null) slider.Image = await FileHelper.FileLoaderAsync(Image);
-                    _repository.Update(slider);
-                    await _repository.SaveChangesAsync();
+                    if (resmiSil == true)
+                        slider.Image = string.Empty;
+                    if (Image != null)
+                        slider.Image = await FileHelper.FileLoaderAsync(Image);
+                    _service.Update(slider);
+                    await _service.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -88,17 +90,18 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         // GET: SlidersController/Delete/5
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            return View(await _repository.FindAsync(id));
+            return View(await _service.FindAsync(id));
         }
 
         // POST: SlidersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Slider slider)
+        public async Task<ActionResult> DeleteAsync(int id, Slider slider)
         {
             try
             {
-                _repository.Delete(slider);
+                _service.Delete(slider);
+                await _service.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

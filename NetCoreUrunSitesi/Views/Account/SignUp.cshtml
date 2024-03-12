@@ -8,8 +8,10 @@
     <div class="col-md-4">
         <h1>Üye Ol</h1>
         <hr />
-        <form asp-action="Create">
+        <form asp-action="SignUp">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IsActive" value="false" />
+            <input type="hidden" asp-for="IsAdmin" value="false" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />

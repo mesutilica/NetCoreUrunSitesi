@@ -35,6 +35,7 @@
                         @if (context.HttpContext.User.Identity.IsAuthenticated)
                         {
                             <a asp-controller="Account" asp-action="Index" class="btn btn-primary">Hesabım</a>
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Oturumu Kapat</a>
                         }
                         else
                         {
@@ -45,12 +46,10 @@
                 </div>
             </div>
         </header>
-
     </div>
 
-
-
     <div class="container">
+        @Html.Raw(TempData["Message"])
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
