@@ -14,7 +14,6 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
         public RefreshTokenCommand(IService<AppUser> context, IConfiguration configuration)
         {
             _repository = context;
-
             _configuration = configuration;
         }
         public async Task<Token> HandleAsync()

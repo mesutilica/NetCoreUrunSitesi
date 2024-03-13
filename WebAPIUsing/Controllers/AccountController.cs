@@ -1,6 +1,9 @@
 ﻿using Core.Entities;
 using Core.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace WebAPIUsing.Controllers
 {
@@ -15,10 +18,20 @@ namespace WebAPIUsing.Controllers
             _httpClient = httpClient;
             _apiAdres = "https://localhost:7132/Api/";
         }
-
-        public IActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var id = HttpContext.User.FindFirst("UserGuid");
+            if (id is null)
+            {
+                return RedirectToAction("Login");
+            }
+            var model = await _httpClient.GetFromJsonAsync<AppUser>(_apiAdres + "/Auth/GetUserByUserGuid/" + id.Value);
+            if (model is null)
+            {
+                return NotFound();
+            }
+            return View(model);
         }
         public IActionResult SignUp()
         {
@@ -51,9 +64,50 @@ namespace WebAPIUsing.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(LoginViewModel appUser)
+        public async Task<IActionResult> LoginAsync(LoginViewModel appUser)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var response = await _httpClient.PostAsJsonAsync(_apiAdres + "Auth/Login", appUser);
+                    //string stringJWT = await response.Content.ReadAsStringAsync(); // 
+                    Token jwt = await response.Content.ReadFromJsonAsync<Token>(); // JsonConvert.DeserializeObject<Token>(stringJWT);
+                    if (!response.IsSuccessStatusCode) //  == null
+                    {
+                        ModelState.AddModelError("", "Giriş Başarısız!");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("token", jwt.AccessToken);
+                        var claims = new List<Claim>() // Claim = hak
+                        {
+                            new(ClaimTypes.Name, "Admin"),
+                            new(ClaimTypes.Email, appUser.Email),
+                            //new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
+                            //new("UserId", account.Id.ToString()),
+                            //new("UserGuid", account.UserGuid.ToString())
+                            new("RefreshToken", jwt.RefreshToken),
+                            new("Expiration", jwt.Expiration.ToString())
+                        };
+                        var userIdentity = new ClaimsIdentity(claims, "Login");
+                        var authProperties = new AuthenticationProperties
+                        {
+                            AllowRefresh = true,
+                            ExpiresUtc = DateTime.UtcNow.AddDays(7),
+                            IsPersistent = true
+                        };
+                        ClaimsPrincipal principal = new(userIdentity);
+                        await HttpContext.SignInAsync(principal, authProperties);
+                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/Admin" : HttpContext.Request.Query["ReturnUrl"]);
+                    }
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
+            }
+            return View(appUser);
         }
     }
 }

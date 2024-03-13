@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;
 
-namespace WebAPIUsing.Controllers
+namespace NetCoreUrunSitesi.Controllers
 {
     public class ProductsController : Controller
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
 
-namespace WebAPIUsing.Controllers
+namespace NetCoreUrunSitesi.Controllers
 {
     public class NewsController : Controller
     {
@@ -13,7 +13,7 @@ namespace WebAPIUsing.Controllers
             _newsRepository = newsRepository;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             return View(await _newsRepository.GetAllAsync());
         }

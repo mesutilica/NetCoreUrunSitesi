@@ -1,6 +1,8 @@
 ﻿using Core.Entities;
 using Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using System.IdentityModel.Tokens.Jwt;
@@ -100,6 +102,18 @@ namespace WebAPI.Controllers
             {
                 return Problem("Hata Oluştu!");
             }
+        }
+        [HttpGet("GetUserByUserGuid/{id}")]
+        public async Task<ActionResult<AppUser>> GetUserByUserGuid(string id)
+        {
+            var user = await _service.FirstOrDefaultAsync(x => x.UserGuid.ToString() == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
     }
 }
