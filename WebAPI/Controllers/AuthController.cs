@@ -1,8 +1,6 @@
 ﻿using Core.Entities;
 using Core.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Service.Abstract;
 using System.IdentityModel.Tokens.Jwt;

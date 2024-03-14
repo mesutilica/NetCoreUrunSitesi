@@ -26,17 +26,17 @@ builder.Services.AddTransient<IBrandService, BrandService>();
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
-    x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+    x.LoginPath = "/Account/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
     x.AccessDeniedPath = "/AccesDenied";
-    x.LogoutPath = "/Admin/Logout";
-    x.Cookie.Name = "Admin";
+    x.LogoutPath = "/Account/Logout";
+    x.Cookie.Name = "Account";
     x.Cookie.MaxAge = TimeSpan.FromDays(7);
     x.Cookie.IsEssential = true;
 });
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
-    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
+    x.AddPolicy("UserPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin","User"));
 });
 
 //builder.Services.AddHttpClient<AppUsersApiService>(opt =>

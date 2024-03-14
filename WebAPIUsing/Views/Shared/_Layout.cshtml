@@ -41,15 +41,15 @@
                     <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Ara..." required>
                 </form>
                 <div class="text-end">
-                    @if (Context.Session.GetInt32("userId") == null)
-                    {
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Giriş</a>
-                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-primary">Kayıt</a>
-                    }
-                    else
+                    @if (Context.User.Identity.IsAuthenticated)
                     {
                         <a asp-controller="Account" asp-action="Index" class="btn btn-primary">Hesabım</a>
                         <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Oturumu Kapat</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Giriş</a>
+                        <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary">Kayıt Ol</a>
                     }
                 </div>
             </div>

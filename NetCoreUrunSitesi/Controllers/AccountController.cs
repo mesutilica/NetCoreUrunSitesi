@@ -1,8 +1,10 @@
 ﻿using Core.Entities;
+using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+using System.Security.Claims;
 
 namespace NetCoreUrunSitesi.Controllers
 {
@@ -14,7 +16,7 @@ namespace NetCoreUrunSitesi.Controllers
         {
             _service = service;
         }
-        [Authorize]
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> Index()
         {
             var model = await _service.FirstOrDefaultAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
@@ -24,7 +26,7 @@ namespace NetCoreUrunSitesi.Controllers
             }
             return View(model);
         }
-        [HttpPost, Authorize]
+        [HttpPost, Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> Index(AppUser appUser)
         {
             try
@@ -70,8 +72,37 @@ namespace NetCoreUrunSitesi.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(AppUser appUser)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var account = _service.Get(x => x.Email == loginViewModel.Email & x.Password == loginViewModel.Password & x.IsActive);
+                    if (account == null)
+                    {
+                        ModelState.AddModelError("", "Giriş Başarısız!");
+                    }
+                    else
+                    {
+                        var claims = new List<Claim>() // Claim = hak
+                        {
+                            new(ClaimTypes.Name, account.Username),
+                            new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
+                            new("UserId", account.Id.ToString()),
+                            new("UserGuid", account.UserGuid.ToString())
+                        };
+                        var userIdentity = new ClaimsIdentity(claims, "Login");
+                        ClaimsPrincipal principal = new(userIdentity);
+                        await HttpContext.SignInAsync(principal); // , authProperties
+                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/" : HttpContext.Request.Query["ReturnUrl"]);
+                    }
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
+            }
             return View();
         }
 

@@ -5,7 +5,7 @@ using WebAPIUsing.Utils;
 
 namespace WebAPIUsing.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class NewsController : Controller
     {
         private readonly HttpClient _httpClient;

@@ -51,7 +51,6 @@
 		<None Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
 		<None Include="Areas\Admin\Views\Contacts\Index.cshtml" />
 		<None Include="Areas\Admin\Views\Home\Index.cshtml" />
-		<None Include="Areas\Admin\Views\Login\Index.cshtml" />
 		<None Include="Areas\Admin\Views\News\Create.cshtml" />
 		<None Include="Areas\Admin\Views\News\Delete.cshtml" />
 		<None Include="Areas\Admin\Views\News\Edit.cshtml" />

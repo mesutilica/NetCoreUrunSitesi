@@ -4,9 +4,9 @@ namespace Core.Models
 {
     public class LoginViewModel
     {
-        [Display(Name = "Email"), StringLength(50), Required(ErrorMessage = "{0} Boş Geçilemez!")]
+        [Display(Name = "Email"), StringLength(50), Required(ErrorMessage = "{0} Boş Geçilemez!"), DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Display(Name = "Şifre"), StringLength(50), Required(ErrorMessage = "Şifre Boş Geçilemez!")]
+        [Display(Name = "Şifre"), StringLength(18), Required(ErrorMessage = "Şifre Boş Geçilemez!"), DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

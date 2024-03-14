@@ -30,10 +30,10 @@ builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 //builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
-    x.LoginPath = "/Admin/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+    x.LoginPath = "/Account/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
     x.AccessDeniedPath = "/AccesDenied";
-    x.LogoutPath = "/Admin/Logout";
-    x.Cookie.Name = "Admin";
+    x.LogoutPath = "/Account/Logout";
+    x.Cookie.Name = "Account";
     x.Cookie.MaxAge = TimeSpan.FromDays(7);
     x.Cookie.IsEssential = true;
 });

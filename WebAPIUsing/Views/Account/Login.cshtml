@@ -4,7 +4,7 @@
     ViewData["Title"] = "Giriş";
 }
 
-<div class="row justify-content-center">
+<div class="row justify-content-center" data-userGuid="@Context.User.FindFirst("UserGuid")?.Value" data-userid="@Context.User.FindFirst("UserId")?.Value">
     <div class="col-md-4">
         <h1>Giriş Yap</h1>
         <hr />

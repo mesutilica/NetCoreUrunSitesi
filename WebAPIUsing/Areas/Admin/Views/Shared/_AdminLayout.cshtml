@@ -32,7 +32,7 @@
             <div class="nav-item text-nowrap">
                 @if (Context.User.Identity.IsAuthenticated)
                 {
-                    <a class="nav-link px-3" href="/Admin/Logout" data-userGuid="@Context.User.FindFirst("RefreshToken").Value">
+                    <a class="nav-link px-3" href="/Account/Logout" data-userGuid="@Context.User.FindFirst("RefreshToken").Value">
                         Hoşgeldin @Context.User.Identity.Name | Çıkış
                     </a>
                 }

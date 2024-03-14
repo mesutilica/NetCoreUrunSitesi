@@ -18,7 +18,7 @@ namespace WebAPIUsing.Controllers
             _httpClient = httpClient;
             _apiAdres = "https://localhost:7132/Api/";
         }
-        [Authorize]
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> Index()
         {
             var id = HttpContext.User.FindFirst("UserGuid");
@@ -32,6 +32,11 @@ namespace WebAPIUsing.Controllers
                 return NotFound();
             }
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult Index(AppUser appUser)
+        {
+            return View();
         }
         public IActionResult SignUp()
         {
@@ -99,7 +104,7 @@ namespace WebAPIUsing.Controllers
                         };
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal, authProperties);
-                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/Admin" : HttpContext.Request.Query["ReturnUrl"]);
+                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/Account" : HttpContext.Request.Query["ReturnUrl"]);
                     }
                 }
                 catch (Exception)
@@ -108,6 +113,12 @@ namespace WebAPIUsing.Controllers
                 }
             }
             return View(appUser);
+        }
+        public async Task<IActionResult> LogoutAsync()
+        {
+            HttpContext.Session.Remove("token");
+            await HttpContext.SignOutAsync(); // Çıkış işlemi
+            return RedirectToAction("Index", "Account");
         }
     }
 }

@@ -7,7 +7,7 @@ using Service.Abstract;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize]
+    [Area("Admin"), Authorize(Policy = "AdminPolicy")]
     public class AppUsersController : Controller
     {
         //AppUserManager manager = new AppUserManager(); // Klasik kullandığımız yöntem
