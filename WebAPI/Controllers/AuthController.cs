@@ -62,6 +62,9 @@ namespace WebAPI.Controllers
             //Refresh Token üretiyoruz.
             tokenInstance.RefreshToken = Guid.NewGuid().ToString();
 
+            tokenInstance.UserGuid = account.UserGuid.ToString();
+            tokenInstance.IsAdmin = account.IsAdmin;
+
             //Refresh token Users tablosuna işleniyor.
             account.RefreshToken = tokenInstance.RefreshToken;
             account.RefreshTokenExpireDate = tokenInstance.Expiration.AddMinutes(30);

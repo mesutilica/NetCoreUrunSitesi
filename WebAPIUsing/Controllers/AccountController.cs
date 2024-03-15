@@ -26,7 +26,7 @@ namespace WebAPIUsing.Controllers
             {
                 return RedirectToAction("Login");
             }
-            var model = await _httpClient.GetFromJsonAsync<AppUser>(_apiAdres + "/Auth/GetUserByUserGuid/" + id.Value);
+            var model = await _httpClient.GetFromJsonAsync<AppUser>(_apiAdres + "Auth/GetUserByUserGuid/" + id.Value);
             if (model is null)
             {
                 return NotFound();
@@ -89,9 +89,9 @@ namespace WebAPIUsing.Controllers
                         {
                             new(ClaimTypes.Name, "Admin"),
                             new(ClaimTypes.Email, appUser.Email),
-                            //new(ClaimTypes.Role, account.IsAdmin ? "Admin" : "User"),
+                            new(ClaimTypes.Role, jwt.IsAdmin ? "Admin" : "User"),
                             //new("UserId", account.Id.ToString()),
-                            //new("UserGuid", account.UserGuid.ToString())
+                            new("UserGuid", jwt.UserGuid),
                             new("RefreshToken", jwt.RefreshToken),
                             new("Expiration", jwt.Expiration.ToString())
                         };
