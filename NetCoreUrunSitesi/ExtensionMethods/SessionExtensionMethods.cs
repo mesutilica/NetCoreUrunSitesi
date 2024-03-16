@@ -8,7 +8,7 @@ namespace NetCoreUrunSitesi.ExtensionMethods
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
         }
-        public static T GetJson<T>(this ISession session, string key) where T : class
+        public static T? GetJson<T>(this ISession session, string key) where T : class
         {
             var data = session.GetString(key);
 

@@ -1,4 +1,5 @@
-﻿@inject IHttpContextAccessor context
+﻿@using NetCoreUrunSitesi.ExtensionMethods
+@inject IHttpContextAccessor context
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,37 +13,69 @@
 <body>
     <div class="container">
         <header class="p-3 text-bg-dark">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-                        <img src="/Img/nike.png" alt="logo" height="50" />
-                    </a>
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img src="/Img/nike.png" alt="logo" height="50" />
+                </a>
 
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li><a href="/" class="nav-link px-2 text-black">Anasayfa</a></li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Tüm Ürünlerimiz</a>
-                        </li>
-                        @await Component.InvokeAsync("Categories")
-                        <li><a asp-controller="Home" asp-action="Contact" class="nav-link px-2 text-black">İletişim</a></li>
-                    </ul>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-black">Anasayfa</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">Tüm Ürünlerimiz</a>
+                    </li>
+                    @await Component.InvokeAsync("Categories")
+                    <li><a asp-controller="Home" asp-action="Contact" class="nav-link px-2 text-black">İletişim</a></li>
+                </ul>
 
-                    <form asp-controller="Products" asp-action="Search" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input name="q" type="search" class="form-control form-control-dark text-bg-dark" placeholder="Ürün Ara..." aria-label="Search">
-                    </form>
+                <form asp-controller="Products" asp-action="Search" method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                    <input name="q" type="search" class="form-control form-control-dark text-bg-dark" placeholder="Ürün Ara..." aria-label="Search">
+                </form>
 
-                    <div class="text-end">
-                        @if (context.HttpContext.User.Identity.IsAuthenticated)
+                <div class="text-end">
+                    @if (context.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Account" asp-action="Index" class="btn btn-primary">Hesabım</a>
+                        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Oturumu Kapat</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Giriş</a>
+                        <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary">Kayıt Ol</a>
+                    }
+                </div>
+                <div class="dropdown ms-3">
+                    @{
+                        var cart = Context.Session.GetJson<Cart>("Cart");
+                        if (cart != null)
                         {
-                            <a asp-controller="Account" asp-action="Index" class="btn btn-primary">Hesabım</a>
-                            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Oturumu Kapat</a>
+                            <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi-cart-fill me-1"></i>
+                                Sepet
+                                <span class="badge bg-primary text-white ms-1 rounded-pill">
+                                    @cart.Products.Count
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                @foreach (var item in cart.Products)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
+                                            <img src="/Img/@item.Product.Image" alt="" width="34" />
+                                            @item.Product.Name
+                                        </a>
+                                        <hr />
+                                    </li>
+                                }
+                                <li class="text-center mt-3">
+                                    <a href="/Cart" class="btn btn-outline-success">Sepete Git</a>
+                                </li>
+                            </ul>
                         }
                         else
                         {
-                            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary me-2">Giriş</a>
-                            <a asp-controller="Account" asp-action="SignUp" class="btn btn-primary">Kayıt Ol</a>
+                            <span class="badge bg-primary text-white ms-1 rounded-pill">0</span>
                         }
-                    </div>
+                    }
                 </div>
             </div>
         </header>
