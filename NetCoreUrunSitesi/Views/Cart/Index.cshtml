@@ -2,9 +2,8 @@
 @{
     ViewData["Title"] = "Sepet";
 }
-
 <!-- shop section start -->
-<section id="cart" class="container">
+<section id="cart" class="container my-5">
     <!-- row start -->
     <div class="row">
         <!-- cart contents start -->
@@ -21,29 +20,40 @@
                             <th></th>
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        @foreach (var item in Model.Products)
+                        @if (Model.Products.Any())
+                        {
+                            @foreach (var item in Model.Products)
+                            {
+                                <tr>
+                                    <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
+                                    <td><a href="#">@item.Product.Name</a></td>
+                                    <td>@item.Product.Price.ToString("c")</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" value="@item.Quantity" min="1" step="1" style="max-width:77px">
+                                        </div>
+                                    </td>
+                                    <td>@(item.Quantity * item.Product.Price).ToString("c")</td>
+                                    <td>
+                                        <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
+                                            <input type="hidden" name="ProductId" value="@item.Product.Id" />
+                                            <button type="submit" class="btn btn-danger">
+                                                Sil
+                                                <i class="fa fa-times fa-fw"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
-                                <td><a href="#">@item.Product.Name</a></td>
-                                <td>@item.Product.Price.ToString("c")</td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="number" class="form-control" value="@item.Quantity" min="1" step="1" style="max-width:77px">
-                                    </div>
-                                </td>
-                                <td>@((item.Quantity * item.Product.Price).ToString("c"))</td>
-                                <td>
-                                    <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
-                                        <input type="hidden" name="ProductId" value="@item.Product.Id" />
-                                        <button type="submit" class="btn btn-danger">
-                                            Sil
-                                            <i class="fa fa-times fa-fw"></i>
-                                        </button>
-                                    </form>
+                                <td colspan="6">
+                                    <h5 class="text-danger">
+                                        Sepetinizde Ürün Yok!
+                                    </h5>
                                 </td>
                             </tr>
                         }
@@ -57,7 +67,6 @@
             <div class="text-left">
                 <h4>Sepet <b>Toplamı</b></h4>
             </div>
-
             <table class="table">
                 <tbody>
                     <tr>
@@ -66,11 +75,13 @@
                     </tr>
                     <tr>
                         <th>Kargo</th>
-                        <td>@(Model.TotalPrice() > 999 ? "Ücretsiz" : "₺69") </td>
+                        <td>@(Model.TotalPrice() > 999 ? "Ücretsiz" : Model.Products.Any() ? "₺69" : "₺0") </td>
                     </tr>
                     <tr>
                         <th>Sipariş Toplamı</th>
-                        <td class="ordertotal">@(Model.TotalPrice() > 999 ? Model.TotalPrice().ToString("c") : (Model.TotalPrice() + 69).ToString("c"))</td>
+                        <td class="ordertotal">
+                            @(Model.TotalPrice() > 999 ? Model.TotalPrice().ToString("c") : (Model.Products.Any() ? Model.TotalPrice() + 69 : Model.TotalPrice()).ToString("c"))
+                        </td>
                     </tr>
                 </tbody>
             </table>
