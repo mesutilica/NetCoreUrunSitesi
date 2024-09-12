@@ -20,7 +20,7 @@
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-
+            <input type="hidden" asp-for="ReturnUrl" value="@Context.Request.Query["returnUrl"]" />
             <div class="form-group mt-3">
                 <input type="submit" value="Giriş" class="btn btn-primary" />
             </div>

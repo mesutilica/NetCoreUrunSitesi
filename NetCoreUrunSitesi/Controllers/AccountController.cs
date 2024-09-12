@@ -95,7 +95,7 @@ namespace NetCoreUrunSitesi.Controllers
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal); // , authProperties
-                        return Redirect(string.IsNullOrEmpty(HttpContext.Request.Query["ReturnUrl"]) ? "/" : HttpContext.Request.Query["ReturnUrl"]);
+                        return Redirect(string.IsNullOrEmpty(loginViewModel.ReturnUrl) ? "/" : loginViewModel.ReturnUrl);
                     }
                 }
                 catch (Exception)

@@ -8,5 +8,6 @@ namespace Core.Models
         public string Email { get; set; }
         [Display(Name = "Şifre"), StringLength(18), Required(ErrorMessage = "Şifre Boş Geçilemez!"), DataType(DataType.Password)]
         public string Password { get; set; }
+        public string? ReturnUrl { get; set; }
     }
 }

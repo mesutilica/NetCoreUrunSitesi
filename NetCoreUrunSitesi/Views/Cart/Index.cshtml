@@ -34,7 +34,7 @@
                                             <input type="number" class="form-control" value="@item.Quantity" min="1" step="1" style="max-width:77px">
                                         </div>
                                     </td>
-                                    <td>@(item.Quantity * item.Product.Price).ToString("c")</td>
+                                    <td>@((item.Quantity * item.Product.Price).ToString("c"))</td>
                                     <td>
                                         <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
                                             <input type="hidden" name="ProductId" value="@item.Product.Id" />
