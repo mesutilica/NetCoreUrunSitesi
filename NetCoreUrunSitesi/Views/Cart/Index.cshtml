@@ -1,9 +1,10 @@
-﻿@model Cart
+﻿@model CartViewModel
 @{
-    ViewData["Title"] = "Sepet";
+    ViewData["Title"] = "Sepetim";
 }
 <!-- shop section start -->
 <section id="cart" class="container my-5">
+    <h1>Sepetim</h1>
     <!-- row start -->
     <div class="row">
         <!-- cart contents start -->
@@ -21,9 +22,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.Products.Any())
+                        @if (Model.CartProducts.Any())
                         {
-                            @foreach (var item in Model.Products)
+                            @foreach (var item in Model.CartProducts)
                             {
                                 <tr>
                                     <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
@@ -71,16 +72,16 @@
                 <tbody>
                     <tr>
                         <th>Sepet Aratoplamı</th>
-                        <td>@Model.TotalPrice().ToString("c")</td>
+                        <td>@Model.TotalPrice.ToString("c")</td>
                     </tr>
                     <tr>
                         <th>Kargo</th>
-                        <td>@(Model.TotalPrice() > 999 ? "Ücretsiz" : Model.Products.Any() ? "₺69" : "₺0") </td>
+                        <td>@(Model.TotalPrice > 999 ? "Ücretsiz" : Model.CartProducts.Any() ? "₺69" : "₺0") </td>
                     </tr>
                     <tr>
                         <th>Sipariş Toplamı</th>
                         <td class="ordertotal">
-                            @(Model.TotalPrice() > 999 ? Model.TotalPrice().ToString("c") : (Model.Products.Any() ? Model.TotalPrice() + 69 : Model.TotalPrice()).ToString("c"))
+                            @(Model.TotalPrice > 999 ? Model.TotalPrice.ToString("c") : (Model.CartProducts.Any() ? Model.TotalPrice + 69 : Model.TotalPrice).ToString("c"))
                         </td>
                     </tr>
                 </tbody>

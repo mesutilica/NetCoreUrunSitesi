@@ -1,0 +1,60 @@
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Favorilerim";
+}
+<!-- shop section start -->
+<section id="cart" class="container my-5">
+    <h1>Favorilerim</h1>
+    <!-- row start -->
+    <div class="row">
+        <!-- cart contents start -->
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Ürün</th>
+                            <th>Fiyat</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CartProducts.Any())
+                        {
+                            @foreach (var item in Model.CartProducts)
+                            {
+                                <tr>
+                                    <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
+                                    <td><a href="#">@item.Product.Name</a></td>
+                                    <td>@item.Product.Price.ToString("c")</td>
+                                    <td>
+                                        <form asp-action="RemoveFromCart" asp-controller="Favorites" method="post">
+                                            <input type="hidden" name="ProductId" value="@item.Product.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6">
+                                    <h5 class="text-danger">
+                                        Favorilerinizde Ürün Yok!
+                                    </h5>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- cart contents end -->
+        
+    </div>
+    <!-- row end -->
+</section>

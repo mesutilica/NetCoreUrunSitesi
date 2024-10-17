@@ -1,6 +1,6 @@
-﻿using Core.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.ExtensionMethods;
+using Service.Concrete;
 
 namespace NetCoreUrunSitesi.ViewComponents
 {
@@ -8,7 +8,7 @@ namespace NetCoreUrunSitesi.ViewComponents
     {
         public string Invoke()
         {
-            return HttpContext.Session.GetJson<Cart>("Cart")?.Products.Count().ToString() ?? "0";
+            return HttpContext.Session.GetJson<CartService>("Cart")?.Products.Count.ToString() ?? "0";
         }
     }
 }

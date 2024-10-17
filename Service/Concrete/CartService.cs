@@ -1,19 +1,22 @@
-﻿namespace Core.Entities
+﻿using Core.Entities;
+using Service.Abstract;
+
+namespace Service.Concrete
 {
-    public class Cart
+    public class CartService : ICartService
     {
-        private List<CartLine> products = new List<CartLine>();
-        public List<CartLine> Products => products;
+        private List<CartLine> CartLines = new List<CartLine>();
+        public List<CartLine> Products => CartLines;
 
         public void AddProduct(Product product, int quantity)
         {
-            var prd = products
+            var prd = CartLines
                 .Where(i => i.Product.Id == product.Id)
                 .FirstOrDefault();
 
             if (prd == null)
             {
-                products.Add(new CartLine()
+                CartLines.Add(new CartLine()
                 {
                     Product = product,
                     Quantity = quantity
@@ -27,18 +30,17 @@
 
         public void RemoveProduct(Product product)
         {
-            products.RemoveAll(i => i.Product.Id == product.Id);
+            CartLines.RemoveAll(i => i.Product.Id == product.Id);
         }
 
         public decimal TotalPrice()
         {
-            return products.Sum(i => i.Product.Price * i.Quantity);
+            return CartLines.Sum(i => i.Product.Price * i.Quantity);
         }
 
         public void ClearAll()
         {
-            products.Clear();
+            CartLines.Clear();
         }
-
     }
 }

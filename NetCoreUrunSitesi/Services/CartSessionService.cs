@@ -1,27 +1,27 @@
-﻿using Core.Entities;
-using NetCoreUrunSitesi.ExtensionMethods;
+﻿using NetCoreUrunSitesi.ExtensionMethods;
+using Service.Concrete;
 
 namespace WebAPIUsing.Services
 {
-    public class CartSessionService
+    public class CartSessionService : ICartSessionService
     {
         private IHttpContextAccessor _httpContextAccessor;
         public CartSessionService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public Cart GetCart()
+        public CartService GetCart()
         {
-            Cart cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<Cart>("cart");
+            CartService cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<CartService>("cart");
             if (cartToCheck == null)
             {
-                _httpContextAccessor.HttpContext.Session.SetJson("cart", new Cart());
-                cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<Cart>("cart");
+                _httpContextAccessor.HttpContext.Session.SetJson("cart", new CartService());
+                cartToCheck = _httpContextAccessor.HttpContext.Session.GetJson<CartService>("cart");
             }
             return cartToCheck;
         }
 
-        public void SetCart(Cart cart)
+        public void SetCart(CartService cart)
         {
             _httpContextAccessor.HttpContext.Session.SetJson("cart", cart);
         }

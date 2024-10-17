@@ -1,10 +1,10 @@
-﻿using Core.Entities;
+﻿using Service.Concrete;
 
 namespace WebAPIUsing.Services
 {
     public interface ICartSessionService
     {
-        Cart GetCart();
-        void SetCart(Cart cart);
+        CartService GetCart();
+        void SetCart(CartService cart);
     }
 }
