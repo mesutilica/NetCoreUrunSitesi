@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using DAL;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 

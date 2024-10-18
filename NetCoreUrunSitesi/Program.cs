@@ -1,5 +1,5 @@
 using Core.Entities;
-using DAL;
+using Data;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
 using NetCoreUrunSitesi.Middlewares;

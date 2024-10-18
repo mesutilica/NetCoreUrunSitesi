@@ -1,8 +1,8 @@
 ﻿using Core.Entities;
-using DAL.Configurations;
+using Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL
+namespace Data
 {
     public class DatabaseContext : DbContext
     {

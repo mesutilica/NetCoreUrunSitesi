@@ -1,4 +1,4 @@
-using DAL;
+using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Service.Abstract;
 using Service.Concrete;

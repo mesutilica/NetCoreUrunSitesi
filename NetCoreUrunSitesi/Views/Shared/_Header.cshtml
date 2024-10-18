@@ -1,0 +1,117 @@
+﻿@using NetCoreUrunSitesi.ExtensionMethods
+
+<header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/Img/nike.png" alt="logo" height="50" /> E TİCARET YAZILIMI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <form asp-controller="Products" asp-action="Search" method="get" class="col-3 m-auto" role="search">
+                    <input name="q" type="search" class="form-control" placeholder="Ürün Ara.." aria-label="Search">
+                </form>
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a href="/" class="nav-link px-2 text-black">Anasayfa</a></li>
+                    @await Component.InvokeAsync("Categories")
+                    <li><a asp-controller="Home" asp-action="Contact" class="nav-link px-2 text-black">İletişim</a></li>
+                </ul>
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-black" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-person-fill me-1"></i>
+                            Hesabım
+                        </a>
+                        <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuLink">
+                            <li>
+                                <a asp-controller="Account" asp-action="Index" class="dropdown-item">Kullanıcı Bilgilerim</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Siparislerim" class="dropdown-item">Siparişlerim</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Siparislerim" class="dropdown-item">Değerlendirmelerim</a>
+                            </li>
+                            <li class="text-center mt-1">
+                                <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger w-100">Oturumu Kapat</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle text-black" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi-person me-1"></i>
+                            Giriş Yap
+                        </a>
+                        <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuLink">
+                            <li class="text-center mt-3">
+                                <a asp-controller="Account" asp-action="Login" class="btn btn-warning me-2 w-100">Giriş Yap</a>
+                            </li>
+                            <li class="text-center mt-3">
+                                <a asp-controller="Account" asp-action="SignUp" class="btn btn-outline-dark w-100">Üye Ol</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                <div class="dropdown">
+                    <a class="nav-link text-black" href="/Favorites">
+                        @{
+                            var favorite = Context.Session.GetJson<Service.Concrete.CartService>("Favorites");
+                            if (favorite is not null && favorite.Products.Count > 0)
+                            {
+                                <i class="bi-heart-fill me-1"></i>
+                            }
+                            else
+                            {
+                                <i class="bi-heart me-1"></i>
+                            }
+                        }
+                        Favorilerim
+                    </a>
+                </div>
+                <div class="dropdown ms-3">
+                    @{
+                        var cart = Context.Session.GetJson<Service.Concrete.CartService>("Cart");
+                        if (cart != null && cart.Products.Count > 0)
+                        {
+                            <a class="nav-link dropdown-toggle" href="/Cart" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi-cart-fill me-1"></i>
+                                Sepetim
+                                <span class="badge bg-warning text-white ms-1 rounded-pill">
+                                    @cart.Products.Count
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                @foreach (var item in cart.Products)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
+                                            <img src="/Img/@item.Product.Image" alt="" width="34" />
+                                            @item.Product.Name
+                                        </a>
+                                        <hr />
+                                    </li>
+                                }
+                                <li class="text-center mt-3">
+                                    <a href="/Cart" class="btn btn-outline-warning">Sepete Git</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <a class="nav-link text-black" href="/Cart">
+                                <i class="bi-cart me-1"></i>
+                                Sepetim
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

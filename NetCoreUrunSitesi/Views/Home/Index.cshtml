@@ -4,7 +4,7 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="carousel">
     <div class="carousel-indicators">
         @for (int i = 0; i < Model.Sliders.Count; i++)
         {
@@ -40,21 +40,19 @@
     </script>
 }
 
-<div class="album py-5 bg-light">
+<div class="album my-5 bg-light rounded">
     <h1 class="text-center">Ürünlerimiz</h1>
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            @foreach (var item in Model.Products)
-            {
-                @await Html.PartialAsync("_ProductView", item)
-            }
-        </div>
+    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-3">
+        @foreach (var item in Model.Products)
+        {
+            @await Html.PartialAsync("_ProductView", item)
+        }
     </div>
 </div>
 
 <div class="row my-5">
     <h2>
-        <a href="/News">Bizden Haberler</a>
+        <a href="/News" class="nav-link">Kampanyalar</a>
     </h2>
     @foreach (var item in Model.News)
     {

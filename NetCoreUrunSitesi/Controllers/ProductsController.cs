@@ -16,7 +16,7 @@ namespace NetCoreUrunSitesi.Controllers
             _productService = productService;
             _mapper = mapper;
         }
-        [Route("tum-urunlerimiz")]
+        //[Route("tum-urunlerimiz")]
         public async Task<IActionResult> Index()
         {
             //return View(await _productRepository.GetAllAsync(p => p.IsActive));
