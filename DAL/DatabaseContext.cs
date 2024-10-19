@@ -57,6 +57,7 @@ namespace Data
                 RefreshTokenExpireDate = DateTime.Now.AddMinutes(30),
             }
             );
+            // modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
