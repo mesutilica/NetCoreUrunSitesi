@@ -27,7 +27,7 @@ namespace NetCoreUrunSitesi.Controllers
             return View(model);
         }
 
-        public IActionResult AddToCart(int ProductId, int quantity = 1)
+        public IActionResult Add(int ProductId, int quantity = 1)
         {
             var product = _productService.Find(ProductId);
 
@@ -41,7 +41,7 @@ namespace NetCoreUrunSitesi.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveFromCart(int ProductId)
+        public IActionResult Remove(int ProductId)
         {
             var product = _productService.Find(ProductId);
 

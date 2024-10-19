@@ -41,6 +41,14 @@ namespace NetCoreUrunSitesi.Controllers
             }
             return View(appUser);
         }
+        public IActionResult MyOrders()
+        {
+            return View();
+        }
+        public IActionResult MyReviews()
+        {
+            return View();
+        }
         public IActionResult SignUp()
         {
             return View();

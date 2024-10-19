@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Değerlendirmelerim";
+}
+
+<h1>Değerlendirmelerim</h1>
+
+<div class="row">
+    <!-- cart contents start -->
+    <div class="col-md-8">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Ürün</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img alt="" class="mw-100" height="37" src="/Img/masaustubilgisayar.png"></td>
+                        <td><a class="dropdown-item" href="/masaüstü-bilgisayar/Products/Detail/2">Masaüstü Bilgisayar</a></td>
+                        <td>
+                            <form method="post" action="/Favorites/RemoveFromCart">
+                                <input type="hidden" name="ProductId" value="2">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GbLx-DvkF1EhlGBmq2iePeiuqc1s3US5GcnaSKeAZY9f3UUVULp51KD5f0AOgCpEmxI9OjHvpI1LJ3KztZ2kC0f49ypfn391Topj7vcSQ8ufOz3ugV1J2e9JH1mGdcn-WFpJFT6yUu5tHu8Y6Fjs_oA6AweQMwLtndC5AZSJMWsu7JOAup8oI5i9h5MV5lLcw">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img alt="" class="mw-100" height="37" src="/Img/dizustubilgisayar2.png"></td>
+                        <td><a class="dropdown-item" href="/dizüstü-bilgisayar/Products/Detail/1">Dizüstü Bilgisayar</a></td>
+                        <td>
+                            <form method="post" action="/Favorites/RemoveFromCart">
+                                <input type="hidden" name="ProductId" value="1">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GbLx-DvkF1EhlGBmq2iePeiuqc1s3US5GcnaSKeAZY9f3UUVULp51KD5f0AOgCpEmxI9OjHvpI1LJ3KztZ2kC0f49ypfn391Topj7vcSQ8ufOz3ugV1J2e9JH1mGdcn-WFpJFT6yUu5tHu8Y6Fjs_oA6AweQMwLtndC5AZSJMWsu7JOAup8oI5i9h5MV5lLcw">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img alt="" class="mw-100" height="37" src="/Img/monitor1.png"></td>
+                        <td><a class="dropdown-item" href="/curved-monitör/Products/Detail/4">Curved Monitör</a></td>
+                        <td>
+                            <form method="post" action="/Favorites/RemoveFromCart">
+                                <input type="hidden" name="ProductId" value="4">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8GbLx-DvkF1EhlGBmq2iePeiuqc1s3US5GcnaSKeAZY9f3UUVULp51KD5f0AOgCpEmxI9OjHvpI1LJ3KztZ2kC0f49ypfn391Topj7vcSQ8ufOz3ugV1J2e9JH1mGdcn-WFpJFT6yUu5tHu8Y6Fjs_oA6AweQMwLtndC5AZSJMWsu7JOAup8oI5i9h5MV5lLcw">
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- cart contents end -->
+
+</div>

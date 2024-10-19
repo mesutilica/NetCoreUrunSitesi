@@ -3,20 +3,40 @@
 {
     <div class="col mb-5">
         <div class="card h-100">
-            <!-- Product image-->
-            <img class="card-img-top" src="/Img/@item.Image" alt="@item.Name">
-            <!-- Product details-->
-            <div class="card-body p-4">
-                <div class="text-center">
-                    <!-- Product name-->
-                    <h5 class="fw-bolder">@item.Name</h5>
-                    <!-- Product price-->
-                @item.Price ₺
-                </div>
+            <!-- Sale badge-->
+            <div class="position-absolute border border-1 rounded-circle" style="top: 0.5rem; right: 0.5rem">
+                <form asp-action="Add" asp-controller="Favorites" method="post">
+                    <input type="hidden" name="ProductId" value="@item.Id" />
+                    <button class="btn btn-transparent" type="submit" style="box-shadow: none;">
+                        <i class="bi-heart"></i>
+                    </button>
+                </form>
             </div>
+            <a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
+                <!-- Product image-->
+                <img src="/Img/@item.Image" alt="" class="card-img-top" />
+                <!-- Product details-->
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">@item.Name</h5>
+                        <!-- Product price-->
+                        @item.Price ₺
+                    </div>
+                </div>
+            </a>
+
             <!-- Product actions-->
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Products/Detail/@item.Id">İncele</a></div>
+                <div class="text-center">
+                    <form asp-action="Add" asp-controller="Cart" method="post">
+                        <input type="hidden" name="ProductId" value="@item.Id" />
+                        <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Sepete Ekle
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

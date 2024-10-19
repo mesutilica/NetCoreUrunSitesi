@@ -26,7 +26,7 @@
                             {
                                 <tr>
                                     <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
-                                    <td><a href="#">@item.Product.Name</a></td>
+                                    <td><a class="dropdown-item" href="/@item.Product.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Product.Id">@item.Product.Name</a></td>
                                     <td>@item.Product.Price.ToString("c")</td>
                                     <td>
                                         <form asp-action="RemoveFromCart" asp-controller="Favorites" method="post">

@@ -4,30 +4,11 @@
     ViewData["Title"] = @Model.Name;
 }
 
-<div class="album py-5 bg-light">
+<div class="album">
     <h1 class="text-center">@Model.Name</h1>
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-            @foreach (var item in Model.Products)
-            {
-                // @await Html.PartialAsync("_ProductView", item)
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
-                            <img src="/Img/@item.Image" alt="" class="bd-placeholder-img card-img-top" />
-                            <div class="card-body">
-                                <p class="card-text">
-                                    @item.Name
-                                    <br />
-                                    @item.Price ₺
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            }
-
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+            <partial name="_ProductPartial" model="Model.Products" />
         </div>
     </div>
 </div>

@@ -30,10 +30,10 @@
                                 <a asp-controller="Account" asp-action="Index" class="dropdown-item">Kullanıcı Bilgilerim</a>
                             </li>
                             <li>
-                                <a asp-controller="Account" asp-action="Siparislerim" class="dropdown-item">Siparişlerim</a>
+                                <a asp-controller="Account" asp-action="MyOrders" class="dropdown-item">Siparişlerim</a>
                             </li>
                             <li>
-                                <a asp-controller="Account" asp-action="Siparislerim" class="dropdown-item">Değerlendirmelerim</a>
+                                <a asp-controller="Account" asp-action="MyReviews" class="dropdown-item">Değerlendirmelerim</a>
                             </li>
                             <li class="text-center mt-1">
                                 <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger w-100">Oturumu Kapat</a>
@@ -79,10 +79,10 @@
                         var cart = Context.Session.GetJson<Service.Concrete.CartService>("Cart");
                         if (cart != null && cart.Products.Count > 0)
                         {
-                            <a class="nav-link dropdown-toggle" href="/Cart" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link text-black dropdown-toggle" href="/Cart" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-cart-fill me-1"></i>
                                 Sepetim
-                                <span class="badge bg-warning text-white ms-1 rounded-pill">
+                                <span class="badge bg-danger text-white ms-1 rounded-pill">
                                     @cart.Products.Count
                                 </span>
                             </a>

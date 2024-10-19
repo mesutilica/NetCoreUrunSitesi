@@ -17,7 +17,7 @@
                 </div>
                 <p class="lead">@Html.Raw(Model.Product.Description)</p>
                 <div class="d-flex">
-                    <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-flex">
+                    <form asp-action="Add" asp-controller="Cart" method="post" class="d-flex">
                         <input type="hidden" name="ProductId" value="@Model.Product.Id" />
                         <input class="form-control text-center me-3" id="inputQuantity" name="quantity" type="number" value="1" style="max-width: 3rem">
                         <button class="btn btn-outline-dark flex-shrink-0" type="submit">
@@ -25,7 +25,7 @@
                             Sepete Ekle
                         </button>
                     </form>
-                    <form asp-action="AddToCart" asp-controller="Favorites" method="post">
+                    <form asp-action="Add" asp-controller="Favorites" method="post">
                         <input type="hidden" name="ProductId" value="@Model.Product.Id" />
                         <button class="btn btn-outline-dark flex-shrink-0 ms-3" type="submit">
                             <i class="bi-heart me-1"></i>

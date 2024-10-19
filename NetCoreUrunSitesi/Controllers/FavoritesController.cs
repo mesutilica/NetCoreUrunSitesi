@@ -27,7 +27,7 @@ namespace NetCoreUrunSitesi.Controllers
             return View(model);
         }
 
-        public IActionResult AddToCart(int ProductId, int quantity = 1)
+        public IActionResult Add(int ProductId, int quantity = 1)
         {
             var product = _productService.Find(ProductId);
 
