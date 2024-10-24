@@ -33,6 +33,7 @@ namespace Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region AppUserFluentApi
             //FluentApi
             modelBuilder.Entity<AppUser>().Property(a => a.Name).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
             modelBuilder.Entity<AppUser>().Property(a => a.Surname).IsRequired().HasColumnType("varchar(50)").HasMaxLength(50);
@@ -57,6 +58,8 @@ namespace Data
                 RefreshTokenExpireDate = DateTime.Now.AddMinutes(30),
             }
             );
+            #endregion
+
             // modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());

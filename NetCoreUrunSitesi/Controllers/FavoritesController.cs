@@ -1,67 +1,52 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Entities;
+using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.ExtensionMethods;
-using NetCoreUrunSitesi.Models;
 using Service.Abstract;
-using Service.Concrete;
 
 namespace NetCoreUrunSitesi.Controllers
 {
     public class FavoritesController : Controller
     {
         private readonly IProductService _productService;
-        private readonly CartService _cartService;
 
-        public FavoritesController(IProductService productService, CartService cartService)
+        public FavoritesController(IProductService productService)
         {
             _productService = productService;
-            _cartService = cartService;
         }
         public IActionResult Index()
         {
-            var cart = GetCart();
-            var model = new CartViewModel()
-            {
-                CartProducts = cart.Products,
-                TotalPrice = cart.TotalPrice()
-            };
-            return View(model);
+            var favoriler = GetFavorites();
+            return View(favoriler);
         }
-
-        public IActionResult Add(int ProductId, int quantity = 1)
+        private List<Product> GetFavorites()
+        {
+            return HttpContext.Session.GetJson<List<Product>>("GetFavorites") ?? [];
+        }
+        public IActionResult Add(int ProductId)
         {
             var product = _productService.Find(ProductId);
+            var favoriler = GetFavorites();
 
-            if (product != null)
+            if (product != null && !favoriler.Any(p => p.Id == ProductId))
             {
-                var cart = GetCart();
-                cart.AddProduct(product, quantity);
-                SaveCart(cart);
+                favoriler.Add(product);
+                HttpContext.Session.SetJson("GetFavorites", favoriler);
             }
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveFromCart(int ProductId)
+        public IActionResult Remove(int ProductId)
         {
             var product = _productService.Find(ProductId);
+            var favoriler = GetFavorites();
 
-            if (product != null)
+            if (product != null && favoriler.Any(p => p.Id == ProductId))
             {
-                var cart = GetCart();
-                cart.RemoveProduct(product);
-                SaveCart(cart);
+                favoriler.RemoveAll(i => i.Id == product.Id);
+                HttpContext.Session.SetJson("GetFavorites", favoriler);
             }
             return RedirectToAction("Index");
-        }
-
-        private void SaveCart(CartService cart)
-        {
-            HttpContext.Session.SetJson("Favorites", cart);
-        }
-
-        private CartService GetCart()
-        {
-            return HttpContext.Session.GetJson<CartService>("Favorites") ?? new CartService();
         }
     }
 }

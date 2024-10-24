@@ -11,20 +11,21 @@
                 </button>
             </form>
         </div>
-        <a class="nav-link text-dark" href="/@Model.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@Model.Id">
+        <a href="/@Model.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@Model.Id">
             <!-- Product image-->
             <img src="/Img/@Model.Image" alt="" class="card-img-top" />
-            <!-- Product details-->
-            <div class="card-body p-4">
-                <div class="text-center">
-                    <!-- Product name-->
-                    <h5 class="fw-bolder">@Model.Name</h5>
-                    <!-- Product price-->
-                    @Model.Price ₺
-                </div>
-            </div>
         </a>
-
+        <!-- Product details-->
+        <div class="card-body p-4">
+            <div class="text-center">
+                <!-- Product name-->
+                <a class="nav-link text-dark" href="/@Model.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@Model.Id">
+                    <h5 class="fw-bolder">@Model.Name</h5>
+                </a>
+                <!-- Product price-->
+                @Model.Price ₺
+            </div>
+        </div>
         <!-- Product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center">
