@@ -27,6 +27,7 @@ namespace Core.Entities
         // Jwt için propertyler
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpireDate { get; set; }
+        public List<Favorite>? Favorites { get; set; }
         [Display(Name = "Ad Soyad"), ScaffoldColumn(false)]
         public string? NameSurname
         {

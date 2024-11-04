@@ -21,7 +21,7 @@ namespace Core.Entities
         public bool IsActive { get; set; }
         [Display(Name = "Anasayfa")]
         public bool IsHome { get; set; }
-        [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)] // ScaffoldColumn(false) crud sayfaları oluşturulurken bu kolonun ekranda oluşmamasını sağlar
+        [Display(Name = "Eklenme Tarihi"), ScaffoldColumn(false)]
         public DateTime? CreateDate { get; set; } = DateTime.Now;
         [Display(Name = "Ürün Kategorisi")]
         public int CategoryId { get; set; }

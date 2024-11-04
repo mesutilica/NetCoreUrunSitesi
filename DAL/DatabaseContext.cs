@@ -16,6 +16,7 @@ namespace Data
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         // StreamWriter _log = new("logs.txt", append: true);
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

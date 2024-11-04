@@ -16,14 +16,15 @@ namespace NetCoreUrunSitesi.Controllers
         private readonly IService<News> _newsRepository;
         private readonly IService<Contact> _serviceContact;
         private readonly IMapper _mapper;
-
-        public HomeController(IService<Slider> sliderRepository, IService<News> newsRepository, IProductService productService, IService<Contact> serviceContact, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public HomeController(IService<Slider> sliderRepository, IService<News> newsRepository, IProductService productService, IService<Contact> serviceContact, IMapper mapper, IConfiguration configuration)
         {
             _sliderRepository = sliderRepository;
             _newsRepository = newsRepository;
             _productService = productService;
             _serviceContact = serviceContact;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index()
@@ -67,7 +68,7 @@ namespace NetCoreUrunSitesi.Controllers
                     var sonuc = await _serviceContact.SaveChangesAsync();
                     if (sonuc > 0)
                     {
-                        await MailHelper.SendMailAsync(contact); // gelen mesajı mail gönder.
+                        await MailHelper.SendMailAsync(contact, _configuration); // gelen mesajı mail gönder.
                         TempData["Message"] = "<div class='alert alert-success'>Mesajınız Gönderildi! Teşekkürler..</div>";
                         return RedirectToAction("ContactUs");
                     }
