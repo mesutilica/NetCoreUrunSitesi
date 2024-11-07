@@ -1,7 +1,7 @@
 using Core.Entities;
 using Data;
 using FluentValidation;
-using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kütüphanesi
+using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi kï¿½tï¿½phanesi
 using NetCoreUrunSitesi.Middlewares;
 using Service.Abstract;
 using Service.Concrete;
@@ -21,24 +21,25 @@ builder.Services.AddSession();
 builder.Services.AddHttpClient();
 //builder.Services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase("InMemoryDb"));
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
-//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan çekmek için
-//builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yöntemiyle projemizde IRepository örneði istenirse Repository classýndan instance alýnýp kullanýma sunulur.
+//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan ï¿½ekmek iï¿½in
+//builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection yï¿½ntemiyle projemizde IRepository ï¿½rneï¿½i istenirse Repository classï¿½ndan instance alï¿½nï¿½p kullanï¿½ma sunulur.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
-builder.Services.AddScoped<CartService>();
-builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
+//builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+//builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 //builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
-    x.LoginPath = "/Account/Login"; // Admine giriþ yapmayan kullanýcýlarý buraya yönlendir
+    x.LoginPath = "/Account/SignIn"; // Admine giriÅŸ yapmayan kullanï¿½cï¿½larï¿½ buraya yï¿½nlendir
     x.AccessDeniedPath = "/AccesDenied";
-    x.LogoutPath = "/Account/Logout";
+    x.LogoutPath = "/Account/SignOut";
     x.Cookie.Name = "Account";
     x.Cookie.MaxAge = TimeSpan.FromDays(7);
     x.Cookie.IsEssential = true;
 });
-// Authorization : Yetkilendirme : Önce servis olarak ekliyoruz
+// Authorization : Yetkilendirme : ï¿½nce servis olarak ekliyoruz
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy("AdminPolicy", policy => policy.RequireClaim(ClaimTypes.Role, "Admin")); // Bundan sonra Controller lara Policy i belirtmeliyiz..
@@ -51,26 +52,26 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build());
 });*/
 
-//Diðer Dependency Injection yöntemleri :
+//Diï¿½er Dependency Injection yï¿½ntemleri :
 
-// AddSingleton : Uygulama ayaða kalkarken çalýþan ConfigureServices metodunda bu yöntem ile tanýmladýðýmýz her sýnýftan sadece bir örnek oluþturulur. Kim nereden çaðýrýrsa çaðýrsýn kendisine bu örnek gönderilir. Uygulama yeniden baþlayana kadar yenisi üretilmez.
-// AddTransient : Her servis isteðinde yeni bir instance oluþturulur. 
-// AddScoped : Gelen her bir web requesti için bir instance oluþturur ve gelen her ayný requestte ayný instance’ý kullanýr, farklý web requestler içinde yeni bir instance oluþturur..
+// AddSingleton : Uygulama ayaï¿½a kalkarken ï¿½alï¿½ï¿½an ConfigureServices metodunda bu yï¿½ntem ile tanï¿½mladï¿½ï¿½ï¿½mï¿½z her sï¿½nï¿½ftan sadece bir ï¿½rnek oluï¿½turulur. Kim nereden ï¿½aï¿½ï¿½rï¿½rsa ï¿½aï¿½ï¿½rsï¿½n kendisine bu ï¿½rnek gï¿½nderilir. Uygulama yeniden baï¿½layana kadar yenisi ï¿½retilmez.
+// AddTransient : Her talep iÃ§in yeni bir Ã¶rnek.
+// AddScoped : Bir kullanÄ±cÄ±dan gelen tÃ¼m istekler boyunca tek bir Ã¶rnek.
 
-builder.Services.AddMemoryCache(); // Keþlemeyi aktif etmek için
+builder.Services.AddMemoryCache(); // Keï¿½lemeyi aktif etmek iï¿½in
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-// builder.Services.AddOutputCache(); // sayfa çýktýlarýný önbelleklemek için
+// builder.Services.AddOutputCache(); // sayfa ï¿½ï¿½ktï¿½larï¿½nï¿½ ï¿½nbelleklemek iï¿½in
 
 builder.Services.AddOutputCache(options =>
 {
     options.AddPolicy("custom", policy =>
     {
-        policy.Expire(TimeSpan.FromMinutes(1)); // kendi kuralýmýzý uyguladýk
+        policy.Expire(TimeSpan.FromMinutes(1)); // kendi kuralï¿½mï¿½zï¿½ uyguladï¿½k
     });
     //options.AddBasePolicy(policy =>
     //{
-    //    policy.Expire(TimeSpan.FromMinutes(1)); // varsayýlan output ayarlarýný özelleþtirdik
+    //    policy.Expire(TimeSpan.FromMinutes(1)); // varsayï¿½lan output ayarlarï¿½nï¿½ ï¿½zelleï¿½tirdik
     //});
 });
 
@@ -80,15 +81,15 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
-// app.UseOutputCache(); //uygulamada sayfa önbelleklemeyi kullan
-// Bu adýmdan sonra önbellekleme yapacaðýmýz get actionlarýna [OutputCache] veya [OutputCache(PolicyName="custom")]
+// app.UseOutputCache(); //uygulamada sayfa ï¿½nbelleklemeyi kullan
+// Bu adï¿½mdan sonra ï¿½nbellekleme yapacaï¿½ï¿½mï¿½z get actionlarï¿½na [OutputCache] veya [OutputCache(PolicyName="custom")]
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseCutomExceptionMiddleware(); // eðer geliþtirme ortamýnda deðilsek özel global hata yakalamayý kullan
+    app.UseCutomExceptionMiddleware(); // eï¿½er geliï¿½tirme ortamï¿½nda deï¿½ilsek ï¿½zel global hata yakalamayï¿½ kullan
     app.UseHsts();
 }
 
@@ -98,7 +99,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 
-app.UseAuthentication(); // Admin login sistemi için
+app.UseAuthentication(); // Admin login sistemi iï¿½in
 app.UseAuthorization();
 
 app.MapControllerRoute(

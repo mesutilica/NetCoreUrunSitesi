@@ -36,7 +36,7 @@
                                 <a asp-controller="Account" asp-action="MyReviews" class="dropdown-item">Değerlendirmelerim</a>
                             </li>
                             <li class="text-center mt-1">
-                                <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger w-100">Oturumu Kapat</a>
+                                <a asp-controller="Account" asp-action="SignOut" class="btn btn-outline-danger w-100">Oturumu Kapat</a>
                             </li>
                         </ul>
                     </div>
@@ -61,17 +61,17 @@
                 <div class="dropdown">
                     <a class="nav-link text-black" href="/Favorites">
                         @{
-                            var favorite = Context.Session.GetJson<Service.Concrete.CartService>("Favorites");
-                            if (favorite is not null && favorite.Products.Count > 0)
+                            var favorites = Context.Session.GetJson<List<Product>>("GetFavorites");
+                            if (favorites is not null && favorites.Count > 0)
                             {
-                                <i class="bi-heart-fill me-1"></i>
+                                <i class="bi-heart-fill me-1"></i> @:Favorilerim (@favorites.Count)
                             }
                             else
                             {
-                                <i class="bi-heart me-1"></i>
+                                <i class="bi-heart me-1"></i> @:Favorilerim
                             }
                         }
-                        Favorilerim
+                        
                     </a>
                 </div>
                 <div class="dropdown ms-3">

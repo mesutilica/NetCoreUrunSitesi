@@ -5,7 +5,7 @@ namespace Service.Concrete
 {
     public class CartService : ICartService
     {
-        private List<CartLine> CartLines = new List<CartLine>();
+        private List<CartLine> CartLines = new();
         public List<CartLine> Products => CartLines;
 
         public void AddProduct(Product product, int quantity)

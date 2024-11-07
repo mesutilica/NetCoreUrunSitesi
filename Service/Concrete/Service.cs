@@ -43,7 +43,7 @@ namespace Service.Concrete
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
             return await _dbSet.FirstOrDefaultAsync(expression);
         }
@@ -71,16 +71,6 @@ namespace Service.Concrete
         public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
             return await _dbSet.AsNoTracking().Where(expression).ToListAsync();
-        }
-
-        public IQueryable<T> GetAllInclude(string table)
-        {
-            return _dbSet.Include(table);
-        }
-
-        public async Task<T> GetIncludeAsync(Expression<Func<T, bool>> expression, string table)
-        {
-            return await _dbSet.Include(table).FirstOrDefaultAsync(expression);
         }
 
         public IQueryable<T> GetQueryable()

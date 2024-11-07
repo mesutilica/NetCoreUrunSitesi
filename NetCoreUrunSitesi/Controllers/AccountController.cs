@@ -3,6 +3,7 @@ using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NetCoreUrunSitesi.Models;
 using Service.Abstract;
 using System.Security.Claims;
 
@@ -19,27 +20,56 @@ namespace NetCoreUrunSitesi.Controllers
         [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> Index()
         {
-            var model = await _service.FirstOrDefaultAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
-            if (model is null)
+            var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            if (appUser is null)
             {
                 return NotFound();
             }
+            var model = new UserEditViewModel()
+            {
+                Email = appUser.Email,
+                Name = appUser.Name,
+                Password = appUser.Password,
+                Phone = appUser.Phone,
+                Surname = appUser.Surname
+            };
             return View(model);
+
         }
         [HttpPost, Authorize(Policy = "UserPolicy")]
-        public async Task<IActionResult> Index(AppUser appUser)
+        public async Task<IActionResult> Index(UserEditViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                _service.Update(appUser);
-                await _service.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+                    if (appUser is not null)
+                    {
+                        appUser.Name = model.Name;
+                        appUser.Surname = model.Surname;
+                        appUser.Email = model.Email;
+                        appUser.Phone = model.Phone;
+                        appUser.Password = model.Password;
+                        _service.Update(appUser);
+                        var sonuc = await _service.SaveChangesAsync();
+                        if (sonuc > 0)
+                        {
+                            TempData["Message"] = @"<div class=""alert alert-success alert-dismissible fade show"" role=""alert"">
+                        <strong>Bilgileriniz Güncellenmiştir!</strong>
+    <button type=""button"" class=""btn-close"" data-bs-dismiss=""alert"" aria-label=""Close""></button>
+    </div>";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        ModelState.AddModelError("", "Kayıt Güncellenemedi!");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Hata Oluştu!");
+                }
             }
-            catch
-            {
-                ModelState.AddModelError("", "Hata Oluştu!");
-            }
-            return View(appUser);
+            return View(model);
         }
         public IActionResult MyOrders()
         {
@@ -75,12 +105,12 @@ namespace NetCoreUrunSitesi.Controllers
             return View(appUser);
         }
 
-        public IActionResult Login()
+        public IActionResult SignIn()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<IActionResult> SignIn(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -111,10 +141,10 @@ namespace NetCoreUrunSitesi.Controllers
                     ModelState.AddModelError("", "Hata Oluştu!");
                 }
             }
-            return View();
+            return View(loginViewModel);
         }
 
-        public async Task<IActionResult> LogoutAsync()
+        public async Task<IActionResult> SignOutAsync()
         {
             await HttpContext.SignOutAsync(); // Çıkış işlemi
             return RedirectToAction("Index", "Home");

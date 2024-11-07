@@ -9,5 +9,6 @@ namespace Core.Models
         [Display(Name = "Şifre"), StringLength(18), Required(ErrorMessage = "Şifre Boş Geçilemez!"), DataType(DataType.Password)]
         public string Password { get; set; }
         public string? ReturnUrl { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

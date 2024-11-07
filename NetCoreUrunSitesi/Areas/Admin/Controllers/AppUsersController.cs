@@ -25,7 +25,7 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         public ActionResult Index()
         {
             //return View(manager.GetAll()); el klasiko
-            return View(_service.GetAll());
+            return View(_service.GetQueryable());
         }
 
         // GET: AppUsersController/Details/5

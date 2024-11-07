@@ -18,7 +18,7 @@ namespace WebAPI.Application.UserOperations.Commands.RefreshToken
         }
         public async Task<Token> HandleAsync()
         {
-            AppUser user = _repository.FirstOrDefaultAsync(x => x.RefreshToken == RefreshToken && x.RefreshTokenExpireDate > DateTime.Now).Result;
+            AppUser user = _repository.GetAsync(x => x.RefreshToken == RefreshToken && x.RefreshTokenExpireDate > DateTime.Now).Result;
             if (user is not null)
             {
 

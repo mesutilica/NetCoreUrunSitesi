@@ -9,12 +9,10 @@ namespace NetCoreUrunSitesi.Controllers
     public class CartController : Controller
     {
         private readonly IProductService _productService;
-        private readonly CartService _cartService;
 
-        public CartController(IProductService productService, CartService cartService)
+        public CartController(IProductService productService)
         {
             _productService = productService;
-            _cartService = cartService;
         }
         public IActionResult Index()
         {

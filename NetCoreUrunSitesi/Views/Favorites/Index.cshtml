@@ -26,7 +26,7 @@
                             {
                                 <tr>
                                     <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Image"></td>
-                                    <td><a class="dropdown-item" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">@item.Name</a></td>
+                                    <td><a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">@item.Name</a></td>
                                     <td>@item.Price.ToString("c")</td>
                                     <td>
                                         <form asp-action="Remove" asp-controller="Favorites" method="post">

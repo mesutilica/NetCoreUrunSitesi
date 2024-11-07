@@ -19,7 +19,7 @@ namespace WebAPI.Application.UserOperations.Commands.CreateToken
         }
         public async Task<Token> HandleAsync()
         {
-            AppUser user = await _repository.FirstOrDefaultAsync(x => x.Email == Model.Email && x.Password == Model.Password);
+            AppUser user = await _repository.GetAsync(x => x.Email == Model.Email && x.Password == Model.Password);
             if (user is not null)
             {
                 //Token üretiliyor.

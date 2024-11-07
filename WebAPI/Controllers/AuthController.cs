@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync(LoginViewModel appUser)//[FromBody] 
         {
-            var account = await _service.FirstOrDefaultAsync(u => u.Email == appUser.Email && u.Password == appUser.Password && u.IsActive);
+            var account = await _service.GetAsync(u => u.Email == appUser.Email && u.Password == appUser.Password && u.IsActive);
             if (account == null)
             {
                 return NotFound();
@@ -85,7 +85,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var user = await _service.FirstOrDefaultAsync(x => x.Email == appUser.Email);
+                var user = await _service.GetAsync(x => x.Email == appUser.Email);
                 if (user != null)
                 {
                     return Conflict(new { errMes = appUser.Email + " adresi sistemde zaten kayıtlı!" });
@@ -107,7 +107,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetUserByUserGuid/{id}")]
         public async Task<ActionResult<AppUser>> GetUserByUserGuid(string id)
         {
-            var user = await _service.FirstOrDefaultAsync(x => x.UserGuid.ToString() == id);
+            var user = await _service.GetAsync(x => x.UserGuid.ToString() == id);
 
             if (user == null)
             {
