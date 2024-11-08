@@ -5,16 +5,13 @@ namespace Service.Concrete
 {
     public class CartService : ICartService
     {
-        private List<CartLine> CartLines = new();
-        public List<CartLine> Products => CartLines;
+        public List<CartLine> CartLines = new();
 
         public void AddProduct(Product product, int quantity)
         {
-            var prd = CartLines
-                .Where(i => i.Product.Id == product.Id)
-                .FirstOrDefault();
+            var urun = CartLines.FirstOrDefault(p => p.Product.Id == product.Id);
 
-            if (prd == null)
+            if (urun == null)
             {
                 CartLines.Add(new CartLine()
                 {
@@ -24,18 +21,36 @@ namespace Service.Concrete
             }
             else
             {
-                prd.Quantity += quantity;
+                urun.Quantity += quantity;
+            }
+        }
+
+        public void UpdateProduct(Product product, int quantity)
+        {
+            var urun = CartLines.FirstOrDefault(p => p.Product.Id == product.Id);
+
+            if (urun == null)
+            {
+                CartLines.Add(new CartLine()
+                {
+                    Product = product,
+                    Quantity = quantity
+                });
+            }
+            else
+            {
+                urun.Quantity = quantity;
             }
         }
 
         public void RemoveProduct(Product product)
         {
-            CartLines.RemoveAll(i => i.Product.Id == product.Id);
+            CartLines.RemoveAll(p => p.Product.Id == product.Id);
         }
 
         public decimal TotalPrice()
         {
-            return CartLines.Sum(i => i.Product.Price * i.Quantity);
+            return CartLines.Sum(c => c.Product.Price * c.Quantity);
         }
 
         public void ClearAll()

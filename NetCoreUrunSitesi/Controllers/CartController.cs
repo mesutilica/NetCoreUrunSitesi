@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Entities;
+using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.ExtensionMethods;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;
@@ -8,9 +9,9 @@ namespace NetCoreUrunSitesi.Controllers
 {
     public class CartController : Controller
     {
-        private readonly IProductService _productService;
+        private readonly IService<Product> _productService;
 
-        public CartController(IProductService productService)
+        public CartController(IService<Product> productService)
         {
             _productService = productService;
         }
@@ -19,7 +20,7 @@ namespace NetCoreUrunSitesi.Controllers
             var cart = GetCart();
             var model = new CartViewModel()
             {
-                CartProducts = cart.Products,
+                CartProducts = cart.CartLines,
                 TotalPrice = cart.TotalPrice()
             };
             return View(model);
@@ -33,6 +34,20 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 var cart = GetCart();
                 cart.AddProduct(product, quantity);
+                SaveCart(cart);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Update(int ProductId, int quantity = 1)
+        {
+            var product = _productService.Find(ProductId);
+
+            if (product != null)
+            {
+                var cart = GetCart();
+                cart.UpdateProduct(product, quantity);
                 SaveCart(cart);
             }
 

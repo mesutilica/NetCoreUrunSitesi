@@ -8,7 +8,7 @@ namespace NetCoreUrunSitesi.ViewComponents
     {
         public string Invoke()
         {
-            return HttpContext.Session.GetJson<CartService>("Cart")?.Products.Count.ToString() ?? "0";
+            return HttpContext.Session.GetJson<CartService>("Cart")?.CartLines.Count.ToString() ?? "0";
         }
     }
 }
