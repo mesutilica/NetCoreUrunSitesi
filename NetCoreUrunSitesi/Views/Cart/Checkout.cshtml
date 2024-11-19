@@ -1,0 +1,100 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Satın Al";
+}
+<!-- shop section start -->
+<section id="cart" class="container my-5">
+    <h1>Satın Al</h1>
+    <!-- row start -->
+    @if (Model.CartProducts.Any())
+    {
+        <div class="row">
+            <!-- cart contents start -->
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Ürün</th>
+                                <th>Fiyat</th>
+                                <th class="qtycolumn">Miktar</th>
+                                <th>Toplam</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CartProducts)
+                            {
+                                <tr>
+                                    <td><img alt="" class="mw-100" height="37" src="~/Img/@item.Product.Image"></td>
+                                    <td><a class="dropdown-item" href="/@item.Product.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Product.Id">@item.Product.Name</a></td>
+                                    <td>@item.Product.Price.ToString("c")</td>
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+                                    <td>@((item.Quantity * item.Product.Price).ToString("c"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- cart contents end -->
+            <!-- cart total start -->
+            <div class="col-md-4 mt-2 border-start">
+                <div class="text-left">
+                    <h4>Sepet <b>Toplamı</b></h4>
+                </div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Aratoplam</th>
+                            <td>@Model.TotalPrice.ToString("c")</td>
+                        </tr>
+                        <tr>
+                            <th>Kargo</th>
+                            <td>@(Model.TotalPrice > 999 ? "Ücretsiz" : Model.CartProducts.Any() ? "₺69" : "₺0") </td>
+                        </tr>
+                        <tr>
+                            <th>Sipariş Toplamı</th>
+                            <td class="ordertotal">
+                                @(Model.TotalPrice > 999 ? Model.TotalPrice.ToString("c") : (Model.CartProducts.Any() ? Model.TotalPrice + 69 : Model.TotalPrice).ToString("c"))
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- cart total end -->
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-secondary">
+            <h5 class="text-danger">
+                Sepetinizde Ürün Yok!
+            </h5>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-danger">
+                <i class="bi bi-cart me-1"></i>Alışverişe Devam Edelim
+            </a>
+        </div>
+    }
+    @if (Model.AppUser is not null)
+    {
+        if (Model.AppUser.Addresses is null)
+        {
+            <div class="alert alert-secondary my-5">
+                <h5 class="text-danger">
+                    Kayıtlı Adresiniz Yok!
+                </h5>
+                <h6>
+                    Sipariş Verebilmek İçin En Az 1 Adres Eklemelisiniz.
+                </h6>
+                <a asp-controller="Account" asp-action="CreateAddress" class="btn btn-danger">
+                    <i class="bi bi-person-plus me-1"></i> Adres Ekle
+                </a>
+            </div>
+        }
+    }
+    <!-- row end -->
+</section>

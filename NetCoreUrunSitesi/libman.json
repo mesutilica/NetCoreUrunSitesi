@@ -9,6 +9,10 @@
     {
       "library": "ckeditor5@35.4.0",
       "destination": "wwwroot/lib/ckeditor5/"
+    },
+    {
+      "library": "bootstrap@5.3.3",
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }

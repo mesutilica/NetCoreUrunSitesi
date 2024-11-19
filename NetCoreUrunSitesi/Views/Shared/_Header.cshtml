@@ -1,6 +1,6 @@
 ﻿@using NetCoreUrunSitesi.ExtensionMethods
 
-<header data-bs-theme="dark">
+<header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
@@ -29,6 +29,9 @@
                                 <a asp-controller="Account" asp-action="Index" class="dropdown-item">Kullanıcı Bilgilerim</a>
                             </li>
                             <li>
+                                <a asp-controller="MyAddresses" asp-action="Index" class="dropdown-item">Kayıtlı Adreslerim</a>
+                            </li>
+                            <li>
                                 <a asp-controller="Account" asp-action="MyOrders" class="dropdown-item">Siparişlerim</a>
                             </li>
                             <li>
@@ -49,7 +52,7 @@
                         </a>
                         <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuLink">
                             <li class="text-center mt-3">
-                                <a asp-controller="Account" asp-action="Login" class="btn btn-warning me-2 w-100">Giriş Yap</a>
+                                <a asp-controller="Account" asp-action="SignIn" class="btn btn-warning me-2 w-100">Giriş Yap</a>
                             </li>
                             <li class="text-center mt-3">
                                 <a asp-controller="Account" asp-action="SignUp" class="btn btn-outline-dark w-100">Üye Ol</a>
@@ -57,7 +60,7 @@
                         </ul>
                     </div>
                 }
-                <div class="dropdown">
+                <div class="dropdown mx-3">
                     <a class="nav-link text-black" href="/Favorites">
                         @{
                             var favorites = Context.Session.GetJson<List<Product>>("GetFavorites");
@@ -70,14 +73,18 @@
                                 <i class="bi-heart me-1"></i> @:Favorilerim
                             }
                         }
-                        
                     </a>
                 </div>
-                <div class="dropdown ms-3">
+                <div class="dropdown">
                     @{
                         var cart = Context.Session.GetJson<Service.Concrete.CartService>("Cart");
+                        
                         if (cart != null && cart.CartLines.Count > 0)
                         {
+                            <script>
+                                var sepet = JSON.parse(@Newtonsoft.Json.JsonConvert.SerializeObject(cart.CartLines));
+                                console.log("Model.CartProducts: ", sepet)
+                            </script>
                             <a class="nav-link text-black dropdown-toggle" href="/Cart" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-cart-fill me-1"></i>
                                 Sepetim
@@ -89,9 +96,9 @@
                                 @foreach (var item in cart.CartLines)
                                 {
                                     <li>
-                                        <a class="dropdown-item" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
+                                        <a class="dropdown-item text-wrap" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
                                             <img src="/Img/@item.Product.Image" alt="" width="34" />
-                                            @item.Product.Name
+                                            <span class="text-break">@item.Product.Name</span>
                                         </a>
                                         <hr />
                                     </li>
@@ -111,7 +118,7 @@
                     }
                 </div>
             </div>
-            <a asp-controller="Home" asp-action="Contact" class="nav-link px-2 text-black">İletişim</a>
+            <a asp-controller="Home" asp-action="Contact" class="nav-link mx-md-3 text-black">İletişim</a>
         </div>
     </nav>
 </header>

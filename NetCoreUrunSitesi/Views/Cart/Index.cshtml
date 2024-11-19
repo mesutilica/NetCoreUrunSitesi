@@ -4,7 +4,7 @@
 }
 <!-- shop section start -->
 <section id="cart" class="container my-5">
-    <h1>Sepetim</h1>
+    <h1 class="display-5">Sepetim</h1>
     <!-- row start -->
     @if (Model.CartProducts.Any())
     {
@@ -80,8 +80,8 @@
                     <a asp-controller="Home" asp-action="Index" class="btn btn-danger">
                         <i class="bi bi-cart me-1"></i>Alışverişe Devam Et
                     </a>
-                    <a href="/Cart?Checkout" class="btn btn-primary">
-                        <i class="bi bi-credit-card me-1"></i> Ödemeye Geç
+                    <a href="/Cart/Checkout" class="btn btn-success">
+                        <i class="bi bi-credit-card me-1"></i> Satınal
                     </a>
                 </div>
             </div>

@@ -28,6 +28,7 @@ namespace Core.Entities
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpireDate { get; set; }
         public List<Favorite>? Favorites { get; set; }
+        public List<Address>? Addresses { get; set; }
         [Display(Name = "Ad Soyad"), ScaffoldColumn(false)]
         public string? NameSurname
         {

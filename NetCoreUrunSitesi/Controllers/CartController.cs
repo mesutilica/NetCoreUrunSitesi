@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreUrunSitesi.ExtensionMethods;
 using NetCoreUrunSitesi.Models;
@@ -10,10 +11,11 @@ namespace NetCoreUrunSitesi.Controllers
     public class CartController : Controller
     {
         private readonly IService<Product> _productService;
-
-        public CartController(IService<Product> productService)
+        private readonly IService<AppUser> _service;
+        public CartController(IService<Product> productService, IService<AppUser> service)
         {
             _productService = productService;
+            _service = service;
         }
         public IActionResult Index()
         {
@@ -34,7 +36,7 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 var cart = GetCart();
                 cart.AddProduct(product, quantity);
-                SaveCart(cart);
+                HttpContext.Session.SetJson("Cart", cart);
             }
 
             return RedirectToAction("Index");
@@ -48,7 +50,7 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 var cart = GetCart();
                 cart.UpdateProduct(product, quantity);
-                SaveCart(cart);
+                HttpContext.Session.SetJson("Cart", cart);
             }
 
             return RedirectToAction("Index");
@@ -62,19 +64,31 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 var cart = GetCart();
                 cart.RemoveProduct(product);
-                SaveCart(cart);
+                HttpContext.Session.SetJson("Cart", cart);
             }
             return RedirectToAction("Index");
         }
 
-        private void SaveCart(CartService cart)
-        {
-            HttpContext.Session.SetJson("Cart", cart);
-        }
-
         private CartService GetCart()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+
+            }
             return HttpContext.Session.GetJson<CartService>("Cart") ?? new CartService();
+        }
+        [Authorize]
+        public async Task<IActionResult> CheckoutAsync()
+        {
+            var cart = GetCart();
+            var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            var model = new CheckoutViewModel()
+            {
+                CartProducts = cart.CartLines,
+                TotalPrice = cart.TotalPrice(),
+                AppUser = appUser?? appUser
+            };
+            return View(model);
         }
     }
 }

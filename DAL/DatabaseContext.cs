@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Data.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Data
 {
@@ -8,15 +9,16 @@ namespace Data
     {
         //public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options){}
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderLine> OrderLines { get; set; }
-        public DbSet<Favorite> Favorites { get; set; }
 
         // StreamWriter _log = new("logs.txt", append: true);
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,6 +31,9 @@ namespace Data
             //    .EnableSensitiveDataLogging() // hassas verileri de logla
             //    .EnableDetailedErrors(); // detaylı hataları da logla
             //optionsBuilder.LogTo(message => _log.WriteLine(message));
+
+            // update database ile önceki versiyona dönme hatasının çözümü
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 
             base.OnConfiguring(optionsBuilder);
         }

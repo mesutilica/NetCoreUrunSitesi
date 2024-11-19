@@ -17,10 +17,62 @@ namespace DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Core.Entities.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("AddressGuid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsBillingAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeliveryAddress")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OpenAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("Core.Entities.AppUser", b =>
                 {
@@ -84,16 +136,16 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 10, 30, 21, 57, 2, 180, DateTimeKind.Local).AddTicks(4188),
+                            CreateDate = new DateTime(2024, 11, 19, 22, 41, 51, 306, DateTimeKind.Local).AddTicks(7942),
                             Email = "admin@admin.coo",
                             IsActive = true,
                             IsAdmin = true,
                             Name = "Admin",
                             Password = "123456",
-                            RefreshToken = "da18d0f7-0e78-4656-b306-99d5b6f953f4",
-                            RefreshTokenExpireDate = new DateTime(2024, 10, 30, 22, 27, 2, 180, DateTimeKind.Local).AddTicks(4262),
+                            RefreshToken = "e5c3b800-ec34-4b3d-8bb0-f142a8821636",
+                            RefreshTokenExpireDate = new DateTime(2024, 11, 19, 23, 11, 51, 308, DateTimeKind.Local).AddTicks(7210),
                             Surname = "Admin",
-                            UserGuid = new Guid("e016db41-deee-4cd7-831e-c186c2d034b2"),
+                            UserGuid = new Guid("c473aa66-4163-428e-8913-3e23bf203d06"),
                             Username = "Admin"
                         });
                 });
@@ -172,7 +224,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 10, 30, 21, 57, 2, 180, DateTimeKind.Local).AddTicks(4681),
+                            CreateDate = new DateTime(2024, 11, 19, 22, 41, 51, 309, DateTimeKind.Local).AddTicks(9799),
                             IsActive = true,
                             IsTopMenu = true,
                             Name = "Elektronik",
@@ -182,7 +234,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 2,
-                            CreateDate = new DateTime(2024, 10, 30, 21, 57, 2, 180, DateTimeKind.Local).AddTicks(4686),
+                            CreateDate = new DateTime(2024, 11, 19, 22, 41, 51, 310, DateTimeKind.Local).AddTicks(417),
                             IsActive = true,
                             IsTopMenu = true,
                             Name = "Bilgisayar",
@@ -192,7 +244,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 3,
-                            CreateDate = new DateTime(2024, 10, 30, 21, 57, 2, 180, DateTimeKind.Local).AddTicks(4687),
+                            CreateDate = new DateTime(2024, 11, 19, 22, 41, 51, 310, DateTimeKind.Local).AddTicks(419),
                             IsActive = true,
                             IsTopMenu = true,
                             Name = "Telefon",
@@ -460,6 +512,15 @@ namespace DAL.Migrations
                     b.ToTable("Sliders");
                 });
 
+            modelBuilder.Entity("Core.Entities.Address", b =>
+                {
+                    b.HasOne("Core.Entities.AppUser", "AppUser")
+                        .WithMany("Addresses")
+                        .HasForeignKey("AppUserId");
+
+                    b.Navigation("AppUser");
+                });
+
             modelBuilder.Entity("Core.Entities.Favorite", b =>
                 {
                     b.HasOne("Core.Entities.AppUser", "AppUser")
@@ -513,6 +574,8 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.AppUser", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Favorites");
                 });
 

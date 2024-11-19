@@ -6,7 +6,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-4">
-        <h1>Giriş Yap</h1>
+        <h1 class="display-6">Giriş Yap</h1>
         <hr />
         <form asp-action="SignIn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -26,4 +26,18 @@
             </div>
         </form>
     </div>
+    <div class="col-auto mx-auto">
+        <div class="vr h-100"></div>
+    </div>
+    <div class="col-md-4 mt-5">
+        <h5>Üye Değil Misiniz?</h5>
+        <a href="/Account/SignUp" class="btn btn-success">Üye Ol</a>
+        <hr />
+        <h5>Şifrenizi Mi Unuttunuz?</h5>
+        <a href="/Account/SignUp" class="btn btn-warning">Şifre Yenile</a>
+    </div>
 </div>
+<hr />
+<p class="alert alert-light alert-dismissible fade show">
+    Sipariş oluşturmak, Kampanyalardan yararlanmak, Siparişinizi takip etmek ve daha bir çok avantaj için lütfen sisteme giriş yapın.
+</p>

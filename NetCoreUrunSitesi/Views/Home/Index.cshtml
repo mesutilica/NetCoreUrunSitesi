@@ -34,16 +34,26 @@
     </button>
 </div>
 
-@section scripts{
+@section scripts {
     <script>
         $(".carousel-inner .carousel-item:first-child").addClass("active");
     </script>
 }
 
 <div class="my-5 rounded">
-    <h1 class="text-center">Sana Özel Ürünler</h1>
+    <h1 class="display-3 text-center">Sana Özel Ürünler</h1>
     <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-3">
         @foreach (var item in Model.Products)
+        {
+            @await Html.PartialAsync("_ProductView", item)
+        }
+    </div>
+</div>
+
+<div class="my-5 rounded">
+    <h2 class="display-3 text-center">En Yeniler</h2>
+    <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-3">
+        @foreach (var item in Model.Products.OrderByDescending(x => x.Id).Take(4))
         {
             @await Html.PartialAsync("_ProductView", item)
         }

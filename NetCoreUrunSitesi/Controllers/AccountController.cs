@@ -23,7 +23,7 @@ namespace NetCoreUrunSitesi.Controllers
             var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
             if (appUser is null)
             {
-                return NotFound();
+                return NotFound("Kullanıcı Datası Bulunamadı! Lütfen Tekrar Giriş Yapın!");
             }
             var model = new UserEditViewModel()
             {
@@ -109,6 +109,7 @@ namespace NetCoreUrunSitesi.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> SignIn(LoginViewModel loginViewModel)
         {
