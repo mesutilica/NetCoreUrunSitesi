@@ -43,12 +43,12 @@
             <!-- cart total start -->
             <div class="col-md-4 mt-2 border-start">
                 <div class="text-left">
-                    <h4>Sepet <b>Toplamı</b></h4>
+                    <h4>Sipariş Özeti</h4>
                 </div>
                 <table class="table">
                     <tbody>
                         <tr>
-                            <th>Aratoplam</th>
+                            <th>Ürün Toplamı</th>
                             <td>@Model.TotalPrice.ToString("c")</td>
                         </tr>
                         <tr>
@@ -67,6 +67,117 @@
             </div>
             <!-- cart total end -->
         </div>
+        <hr />
+        @if (Model.Addresses is null)
+        {
+            <div class="alert alert-secondary my-5">
+                <h5 class="text-danger">
+                    Kayıtlı Adresiniz Yok!
+                </h5>
+                <h6>
+                    Sipariş Verebilmek İçin En Az 1 Adres Eklemelisiniz.
+                </h6>
+                <a asp-controller="MyAddresses" asp-action="Create" class="btn btn-danger">
+                    <i class="bi bi-person-plus me-1"></i> Adres Ekle
+                </a>
+            </div>
+        }
+        else
+        {
+            <form asp-action="Checkout" method="post">
+                <div class="my-5">
+                    <h3>Teslimat Adresi</h3>
+                    <div class="row row-cols-3 g-4">
+                        @foreach (var item in Model.Addresses)
+                        {
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="form-check">
+                                            @*<input class="form-check-input" type="radio" name="DeliveryAddress" id="DeliveryAddress" @(item.IsDeliveryAddress ? "checked" : "")>*@
+                                            <label class="form-check-label">
+                                                @Html.RadioButtonFor(model => model.Addresses, item.AddressGuid, new { @class = "form-check-input" })
+                                                @item.Title
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@item.OpenAddress @item.District @item.City</p>
+
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="BillingAddress" id="BillingAddress" value="@item.AddressGuid" @(item.IsBillingAddress ? "checked" : "")>
+                                                Fatura Adresi
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div class="my-3">
+                    <h2>Ödeme Seçenekleri</h2>
+                    <h4>Kart ile Öde</h4>
+                    <h6>Banka veya Kredi Kartı kullanarak ödemenizi güvenle yapabilirsiniz.</h6>
+                    <h6>Kart Bilgileri</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Kart Numarası</label>
+                            <input type="number" name="CardNumber" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label>Son Kullanma Tarihi</label>
+                        <div class="col-md-2">
+                            <select id="card-date-month" class="form-select" required>
+                                <option disabled="disabled" value="" selected="selected">Ay</option>
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select id="card-date-year" class="form-select" required>
+                                <option disabled="disabled" value="" selected="selected">Yıl</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>CVV</label>
+                            <input type="number" name="CVV" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" required id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Ön Bilgilendirme Koşulları'nı ve Mesafeli Satış Sözleşmesi'ni okudum, onaylıyorum.
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Ödeme Yap</button>
+                </div>
+            </form>
+
+        }
     }
     else
     {
@@ -79,22 +190,6 @@
             </a>
         </div>
     }
-    @if (Model.AppUser is not null)
-    {
-        if (Model.AppUser.Addresses is null)
-        {
-            <div class="alert alert-secondary my-5">
-                <h5 class="text-danger">
-                    Kayıtlı Adresiniz Yok!
-                </h5>
-                <h6>
-                    Sipariş Verebilmek İçin En Az 1 Adres Eklemelisiniz.
-                </h6>
-                <a asp-controller="Account" asp-action="CreateAddress" class="btn btn-danger">
-                    <i class="bi bi-person-plus me-1"></i> Adres Ekle
-                </a>
-            </div>
-        }
-    }
+
     <!-- row end -->
 </section>

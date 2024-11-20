@@ -12,10 +12,12 @@ namespace NetCoreUrunSitesi.Controllers
     {
         private readonly IService<Product> _productService;
         private readonly IService<AppUser> _service;
-        public CartController(IService<Product> productService, IService<AppUser> service)
+        private readonly IService<Address> _serviceAddress;
+        public CartController(IService<Product> productService, IService<AppUser> service, IService<Address> serviceAddress)
         {
             _productService = productService;
             _service = service;
+            _serviceAddress = serviceAddress;
         }
         public IActionResult Index()
         {
@@ -82,11 +84,12 @@ namespace NetCoreUrunSitesi.Controllers
         {
             var cart = GetCart();
             var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            var addresses = _serviceAddress.GetAll(a => a.AppUserId == appUser.Id & a.IsActive);
             var model = new CheckoutViewModel()
             {
                 CartProducts = cart.CartLines,
                 TotalPrice = cart.TotalPrice(),
-                AppUser = appUser?? appUser
+                Addresses = addresses
             };
             return View(model);
         }

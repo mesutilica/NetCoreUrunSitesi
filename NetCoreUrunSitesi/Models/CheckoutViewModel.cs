@@ -6,6 +6,6 @@ namespace NetCoreUrunSitesi.Models
     {
         public List<CartLine>? CartProducts { get; set; }
         public decimal TotalPrice { get; set; }
-        public AppUser? AppUser { get; set; }
+        public List<Address>? Addresses { get; set; }
     }
 }
