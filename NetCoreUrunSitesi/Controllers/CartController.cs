@@ -39,6 +39,7 @@ namespace NetCoreUrunSitesi.Controllers
                 var cart = GetCart();
                 cart.AddProduct(product, quantity);
                 HttpContext.Session.SetJson("Cart", cart);
+                return Redirect(Request.Headers["Referer"].ToString());
             }
 
             return RedirectToAction("Index");

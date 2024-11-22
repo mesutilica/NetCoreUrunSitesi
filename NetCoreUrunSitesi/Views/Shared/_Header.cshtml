@@ -1,5 +1,9 @@
 ﻿@using NetCoreUrunSitesi.ExtensionMethods
 
+<style>
+    .fixed-height { max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+</style>
+
 <header>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light shadow">
         <div class="container-fluid">
@@ -60,31 +64,13 @@
                         </ul>
                     </div>
                 }
+
                 <div class="dropdown mx-3">
-                    <a class="nav-link text-black" href="/Favorites">
-                        @{
-                            var favorites = Context.Session.GetJson<List<Product>>("GetFavorites");
-                            if (favorites is not null && favorites.Count > 0)
-                            {
-                                <i class="bi-heart-fill me-1"></i> @:Favorilerim (@favorites.Count)
-                            }
-                            else
-                            {
-                                <i class="bi-heart me-1"></i> @:Favorilerim
-                            }
-                        }
-                    </a>
-                </div>
-                <div class="dropdown">
                     @{
                         var cart = Context.Session.GetJson<Service.Concrete.CartService>("Cart");
-                        
-                        if (cart != null && cart.CartLines.Count > 0)
+
+                        if (cart != null && cart.CartLines.Count > 0)// Newtonsoft.Json.JsonConvert.SerializeObject(cart.CartLines)
                         {
-                            <script>
-                                var sepet = JSON.parse(@Newtonsoft.Json.JsonConvert.SerializeObject(cart.CartLines));
-                                console.log("Model.CartProducts: ", sepet)
-                            </script>
                             <a class="nav-link text-black dropdown-toggle" href="/Cart" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-cart-fill me-1"></i>
                                 Sepetim
@@ -96,9 +82,9 @@
                                 @foreach (var item in cart.CartLines)
                                 {
                                     <li>
-                                        <a class="dropdown-item text-wrap" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
-                                            <img src="/Img/@item.Product.Image" alt="" width="34" />
-                                            <span class="text-break">@item.Product.Name</span>
+                                        <a class="dropdown-item fixed-height" href="/@item.Product.Name.ToLower().Replace(' ','-')/Products/Detail/@item.Product.Id">
+                                            <img src="/Img/@item.Product.Image" alt="" width="30" />
+                                            <span class="">@item.Product.Name</span>
                                         </a>
                                         <hr />
                                     </li>
@@ -116,6 +102,21 @@
                             </a>
                         }
                     }
+                </div>
+                <div class="dropdown">
+                    <a class="nav-link text-black" href="/Favorites">
+                        @{
+                            var favorites = Context.Session.GetJson<List<Product>>("GetFavorites");
+                            if (favorites is not null && favorites.Count > 0)
+                            {
+                                <i class="bi-heart-fill me-1"></i> @:Favorilerim (@favorites.Count)
+                            }
+                            else
+                            {
+                                <i class="bi-heart me-1"></i> @:Favorilerim
+                            }
+                        }
+                    </a>
                 </div>
             </div>
             <a asp-controller="Home" asp-action="Contact" class="nav-link mx-md-3 text-black">İletişim</a>

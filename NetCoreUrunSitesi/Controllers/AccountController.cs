@@ -150,5 +150,15 @@ namespace NetCoreUrunSitesi.Controllers
             await HttpContext.SignOutAsync(); // Çıkış işlemi
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult PasswordRenew()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult PasswordRenew(LoginViewModel loginViewModel)
+        {
+            return View();
+        }
     }
 }
