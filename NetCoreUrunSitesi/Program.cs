@@ -17,7 +17,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 
 builder.Services.AddRazorPages();
-builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".MyApp.Session";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromDays(1); // Session timeout
+    options.IOTimeout = TimeSpan.FromHours(1);
+});
 builder.Services.AddHttpClient();
 //builder.Services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase("InMemoryDb"));
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan

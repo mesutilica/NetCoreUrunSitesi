@@ -132,7 +132,7 @@
                     <div class="row">
                         <label>Son Kullanma Tarihi</label>
                         <div class="col-md-2">
-                            <select id="card-date-month" class="form-select" required>
+                            <select id="card-date-month" name="CardMonth" class="form-select" required>
                                 <option disabled="disabled" value="" selected="selected">Ay</option>
                                 <option value="1">01</option>
                                 <option value="2">02</option>
@@ -149,7 +149,7 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select id="card-date-year" class="form-select" required>
+                            <select id="card-date-year" name="CardYear" class="form-select" required>
                                 <option disabled="disabled" value="" selected="selected">Yıl</option>
                                 <option value="2024">2024</option>
                                 <option value="2025">2025</option>
@@ -176,7 +176,6 @@
                     <button type="submit" class="btn btn-success">Ödeme Yap</button>
                 </div>
             </form>
-
         }
     }
     else

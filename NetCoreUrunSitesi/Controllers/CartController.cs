@@ -94,5 +94,26 @@ namespace NetCoreUrunSitesi.Controllers
             };
             return View(model);
         }
+        [Authorize, HttpPost]
+        public async Task<IActionResult> CheckoutAsync(string CardMonth, string CardYear, string CVV, string Addresses, string BillingAddress)
+        {
+            var cart = GetCart();
+            var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            var addresses = _serviceAddress.GetAll(a => a.AppUserId == appUser.Id & a.IsActive);
+            var model = new CheckoutViewModel()
+            {
+                CartProducts = cart.CartLines,
+                TotalPrice = cart.TotalPrice(),
+                Addresses = addresses
+            };
+            if (string.IsNullOrWhiteSpace(CardMonth) || string.IsNullOrWhiteSpace(CardMonth) || string.IsNullOrWhiteSpace(CVV))
+            {
+                return View(model);
+            }
+            var teslimatAdresi = addresses.FirstOrDefault(a => a.AddressGuid.ToString() == Addresses);
+            var faturaAdresi = addresses.FirstOrDefault(a => a.AddressGuid.ToString() == BillingAddress);
+            
+            return View(model);
+        }
     }
 }

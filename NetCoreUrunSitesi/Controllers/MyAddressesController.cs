@@ -42,7 +42,6 @@ namespace NetCoreUrunSitesi.Controllers
         // GET: AddressesController/Create
         public ActionResult Create()
         {
-
             return View();
         }
 
@@ -81,7 +80,9 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 return NotFound("Kullanıcı Datası Bulunamadı! Lütfen Tekrar Giriş Yapın!");
             }
-            var model = _serviceAddress.Get(x => x.AddressGuid.ToString() == id);
+            var model = _serviceAddress.Get(x => x.AddressGuid.ToString() == id && x.AppUserId == appUser.Id);
+            if (model is null)
+                return NotFound("Adres Bilgisi Bulunamadı!");
             return View(model);
         }
 
@@ -95,7 +96,7 @@ namespace NetCoreUrunSitesi.Controllers
                 var appUser = await _serviceAppUser.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
                 if (appUser is null)
                     return NotFound("Kullanıcı Datası Bulunamadı! Lütfen Tekrar Giriş Yapın!");
-                var model = _serviceAddress.Get(x => x.AddressGuid.ToString() == id);
+                var model = _serviceAddress.Get(x => x.AddressGuid.ToString() == id && x.AppUserId == appUser.Id);
                 if (model is null)
                 {
                     return NotFound("Adres Datası Bulunamadı! Lütfen Tekrar Giriş Yapın!");
@@ -107,6 +108,13 @@ namespace NetCoreUrunSitesi.Controllers
                 model.IsActive = collection.IsActive;
                 model.IsBillingAddress = collection.IsBillingAddress;
                 model.IsDeliveryAddress = collection.IsDeliveryAddress;
+                var otherAddresses = await _serviceAddress.GetAllAsync(x => x.AppUserId == appUser.Id && x.Id != model.Id);
+                foreach (var item in otherAddresses)
+                {
+                    item.IsBillingAddress = !model.IsBillingAddress;
+                    item.IsDeliveryAddress = !model.IsDeliveryAddress;
+                    _serviceAddress.Update(item);
+                }
                 _serviceAddress.Update(model);
                 await _serviceAddress.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -119,7 +127,7 @@ namespace NetCoreUrunSitesi.Controllers
         }
 
         // GET: AddressesController/Delete/5
-        public async Task<ActionResult> DeleteAsync(string id)
+        public async Task<ActionResult> Delete(string id)
         {
             var appUser = await _serviceAppUser.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
             if (appUser is null)
@@ -133,16 +141,27 @@ namespace NetCoreUrunSitesi.Controllers
         // POST: AddressesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(string id, Address address)
         {
+            var appUser = await _serviceAppUser.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            if (appUser == null)
+            {
+                return NotFound("Kullanıcı Datası Bulunamadı! Oturumunuzu Kapatıp Lütfen Tekrar Giriş Yapın!");
+            }
+            var model = await _serviceAddress.GetAsync(u => u.AddressGuid.ToString() == id && u.AppUserId == appUser.Id);
+            if (model == null)
+                return NotFound("Adres Bilgisi Bulunamadı!");
             try
             {
-                return RedirectToAction(nameof(Index));
+                _serviceAddress.Delete(model);
+                await _serviceAddress.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                ModelState.AddModelError("", "Hata Oluştu!");
             }
+            return View(model);
         }
     }
 }
