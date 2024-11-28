@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Satın Al";
 }
+<style>
+    /* Tüm tarayıcılar için genel stil */
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    /* Firefox için stil */
+    input[type="number"] { -moz-appearance: textfield; }
+</style>
 <!-- shop section start -->
 <section id="cart" class="container my-5">
     <h1>Satın Al</h1>
@@ -68,7 +74,7 @@
             <!-- cart total end -->
         </div>
         <hr />
-        @if (Model.Addresses is null)
+        @if (Model.Addresses is null || Model.Addresses.Count < 1)
         {
             <div class="alert alert-secondary my-5">
                 <h5 class="text-danger">
@@ -96,7 +102,7 @@
                                         <div class="form-check">
                                             @*<input class="form-check-input" type="radio" name="DeliveryAddress" id="DeliveryAddress" @(item.IsDeliveryAddress ? "checked" : "")>*@
                                             <label class="form-check-label">
-                                                @Html.RadioButtonFor(model => model.Addresses, item.AddressGuid, new { @class = "form-check-input" })
+                                                <input class="form-check-input" type="radio" name="DeliveryAddress" id="DeliveryAddress" @(item.IsDeliveryAddress ? "checked" : "")>
                                                 @item.Title
                                             </label>
                                         </div>
@@ -126,7 +132,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label>Kart Numarası</label>
-                            <input type="number" name="CardNumber" class="form-control" required />
+                            <input type="number" name="CardNumber" class="form-control" maxlength="16" required />
                         </div>
                     </div>
                     <div class="row">
@@ -164,7 +170,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>CVV</label>
-                            <input type="number" name="CVV" class="form-control" required />
+                            <input type="number" name="CVV" class="form-control" maxlength="3" min="1" max="999" required />
                         </div>
                     </div>
                     <div class="form-check">

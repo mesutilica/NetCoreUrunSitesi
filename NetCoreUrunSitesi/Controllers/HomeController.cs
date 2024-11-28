@@ -68,7 +68,7 @@ namespace NetCoreUrunSitesi.Controllers
                     var sonuc = await _serviceContact.SaveChangesAsync();
                     if (sonuc > 0)
                     {
-                        await MailHelper.SendMailAsync(contact, _configuration); // gelen mesajı mail gönder.
+                        //await MailHelper.SendMailAsync(contact, _configuration); // gelen mesajı mail gönder.
                         TempData["Message"] = "<div class='alert alert-success'>Mesajınız Gönderildi! Teşekkürler..</div>";
                         return RedirectToAction("ContactUs");
                     }

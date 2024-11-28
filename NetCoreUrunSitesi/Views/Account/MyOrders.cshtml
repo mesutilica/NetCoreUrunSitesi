@@ -1,45 +1,83 @@
-﻿@{
+﻿@model IEnumerable<Order>
+
+@{
     ViewData["Title"] = "Siparişlerim";
 }
 
 <h1>Siparişlerim</h1>
 
-<div class="row">
-    <!-- cart contents start -->
-    <div class="col-md-8">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Ürün</th>
-                        <th>Fiyat</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img alt="" class="mw-100" height="37" src="/Img/masaustubilgisayar.png"></td>
-                        <td><a class="dropdown-item" href="/masaüstü-bilgisayar/Products/Detail/2">Masaüstü Bilgisayar</a></td>
-                        <td>₺34.000,00</td>
-
-                    </tr>
-                    <tr>
-                        <td><img alt="" class="mw-100" height="37" src="/Img/dizustubilgisayar2.png"></td>
-                        <td><a class="dropdown-item" href="/dizüstü-bilgisayar/Products/Detail/1">Dizüstü Bilgisayar</a></td>
-                        <td>₺58.000,00</td>
-
-                    </tr>
-                    <tr>
-                        <td><img alt="" class="mw-100" height="37" src="/Img/monitor1.png"></td>
-                        <td><a class="dropdown-item" href="/curved-monitör/Products/Detail/4">Curved Monitör</a></td>
-                        <td>₺9.999,00</td>
-
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <!-- cart contents end -->
-
-</div>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th>
+                Sipariş Özeti
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderState)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice) TL
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @item.OrderLines.Count Ürün
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderState)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Ürün</th>
+                                    <th>Fiyat</th>
+                                    <th class="qtycolumn">Miktar</th>
+                                    <th>Toplam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item2 in item.OrderLines)
+                                {
+                                    <tr>
+                                        <td><img alt="" class="mw-100" height="37" src="~/Img/@item2.Product.Image"></td>
+                                        <td><a class="dropdown-item" href="/@item2.Product.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item2.Product.Id">@item2.Product.Name</a></td>
+                                        <td>@item2.UnitPrice.ToString("c")</td>
+                                        <td>
+                                            @item2.Quantity
+                                        </td>
+                                        <td>@((item2.Quantity * item2.UnitPrice).ToString("c"))</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

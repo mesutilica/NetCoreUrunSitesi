@@ -3,6 +3,7 @@ using Core.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetCoreUrunSitesi.Models;
 using Service.Abstract;
 using System.Security.Claims;
@@ -12,10 +13,12 @@ namespace NetCoreUrunSitesi.Controllers
     public class AccountController : Controller
     {
         private readonly IService<AppUser> _service;
+        private readonly IService<Order> _serviceOrder;
 
-        public AccountController(IService<AppUser> service)
+        public AccountController(IService<AppUser> service, IService<Order> serviceOrder)
         {
             _service = service;
+            _serviceOrder = serviceOrder;
         }
         [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> Index()
@@ -71,9 +74,11 @@ namespace NetCoreUrunSitesi.Controllers
             }
             return View(model);
         }
-        public IActionResult MyOrders()
+        public async Task<IActionResult> MyOrdersAsync()
         {
-            return View();
+            var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
+            var model = _serviceOrder.GetQueryable().Where(s => s.AppUserId == appUser.Id).Include(o => o.OrderLines).ThenInclude(p => p.Product);
+            return View(model);
         }
         public IActionResult MyReviews()
         {

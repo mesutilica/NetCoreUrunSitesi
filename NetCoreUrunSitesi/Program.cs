@@ -23,7 +23,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
     options.IdleTimeout = TimeSpan.FromDays(1); // Session timeout
-    options.IOTimeout = TimeSpan.FromHours(1);
+    //options.IOTimeout = TimeSpan.FromHours(1);
 });
 builder.Services.AddHttpClient();
 //builder.Services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase("InMemoryDb"));
@@ -34,8 +34,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 //builder.Services.AddScoped<CartService>();
-builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
-//builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
+//builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 //builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
@@ -70,17 +70,17 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // builder.Services.AddOutputCache(); // sayfa ��kt�lar�n� �nbelleklemek i�in
 
-builder.Services.AddOutputCache(options =>
-{
-    options.AddPolicy("custom", policy =>
-    {
-        policy.Expire(TimeSpan.FromMinutes(1)); // kendi kural�m�z� uygulad�k
-    });
-    //options.AddBasePolicy(policy =>
-    //{
-    //    policy.Expire(TimeSpan.FromMinutes(1)); // varsay�lan output ayarlar�n� �zelle�tirdik
-    //});
-});
+// builder.Services.AddOutputCache(options =>
+// {
+//     options.AddPolicy("custom", policy =>
+//     {
+//         policy.Expire(TimeSpan.FromMinutes(1)); // kendi kural�m�z� uygulad�k
+//     });
+//     //options.AddBasePolicy(policy =>
+//     //{
+//     //    policy.Expire(TimeSpan.FromMinutes(1)); // varsay�lan output ayarlar�n� �zelle�tirdik
+//     //});
+// });
 
 //AddAutoMapper 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
