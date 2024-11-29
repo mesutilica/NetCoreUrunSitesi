@@ -11,6 +11,8 @@ namespace Core.Entities
         public decimal TotalPrice { get; set; }
         [Display(Name = "Müşteri")]
         public int AppUserId { get; set; }
+        [Display(Name = "Müşteri")]
+        public AppUser? AppUser { get; set; }
         [Display(Name = "Müşteri"), StringLength(50)]
         public string CustomerId { get; set; } // guid
         [Display(Name = "Fatura Adresi"), StringLength(50)]

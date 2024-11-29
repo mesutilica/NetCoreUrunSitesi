@@ -74,6 +74,7 @@ namespace NetCoreUrunSitesi.Controllers
             }
             return View(model);
         }
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> MyOrdersAsync()
         {
             var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);

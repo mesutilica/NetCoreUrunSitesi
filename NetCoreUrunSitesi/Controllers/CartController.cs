@@ -140,8 +140,6 @@ namespace NetCoreUrunSitesi.Controllers
                 OrderLines = []
             };
 
-            //var siparisDetaylari = new List<OrderLine>();
-
             foreach (var item in cart.CartLines)
             {
                 siparis.OrderLines.Add(new OrderLine
@@ -152,17 +150,17 @@ namespace NetCoreUrunSitesi.Controllers
                     UnitPrice = item.Product.Price
                 });
             }
-            // siparis.OrderLines.AddRange(siparisDetaylari);
-
-            await _serviceOrder.AddAsync(siparis);
-            var sonuc = await _serviceOrder.SaveChangesAsync();
-            if (sonuc > 0)
-            {
-                HttpContext.Session.Remove("Cart");
-                return RedirectToAction("Thanks");
-            }
+            
             try
-            { }
+            {
+                await _serviceOrder.AddAsync(siparis);
+                var sonuc = await _serviceOrder.SaveChangesAsync();
+                if (sonuc > 0)
+                {
+                    HttpContext.Session.Remove("Cart");
+                    return RedirectToAction("Thanks");
+                }
+            }
             catch (Exception)
             {
                 TempData["Message"] = "Hata Oluştu!";
