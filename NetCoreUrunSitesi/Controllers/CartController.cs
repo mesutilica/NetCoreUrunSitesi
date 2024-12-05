@@ -131,8 +131,8 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 AppUserId = appUser.Id,
                 CustomerId = appUser.UserGuid.ToString(),
-                BillingAddress = BillingAddress,
-                DeliveryAddress = DeliveryAddress,
+                BillingAddress = $"{faturaAdresi.OpenAddress} {faturaAdresi.District} {faturaAdresi.City}",//BillingAddress,
+                DeliveryAddress = $"{teslimatAdresi.OpenAddress} {teslimatAdresi.District} {teslimatAdresi.City}",//DeliveryAddress,
                 OrderDate = DateTime.Now,
                 OrderNumber = Guid.NewGuid().ToString(),
                 TotalPrice = cart.TotalPrice(),

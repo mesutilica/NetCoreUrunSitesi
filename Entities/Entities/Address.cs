@@ -24,6 +24,6 @@ namespace Core.Entities
         [ScaffoldColumn(false)]
         public Guid AddressGuid { get; set; } = Guid.NewGuid();
         public int? AppUserId { get; set; }
-        public virtual AppUser? AppUser { get; set; }
+        public AppUser? AppUser { get; set; }
     }
 }
