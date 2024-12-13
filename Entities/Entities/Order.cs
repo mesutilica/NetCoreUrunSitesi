@@ -34,6 +34,10 @@ namespace Core.Entities
         [Display(Name = "Kargoya Verildi")]
         Shipped,
         [Display(Name = "Tamamlandı")]
-        Completed
+        Completed,
+        [Display(Name = "İptal Edildi")]
+        Cancelled,
+        [Display(Name = "İade Edildi")]
+        Returned
     }
 }

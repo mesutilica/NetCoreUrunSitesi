@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Core.Entities;
 using Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -68,11 +69,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders.Include(u => u.AppUser).FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
             }
+            ViewBag.OrderStates = new SelectList(Enum.GetValues<EnumOrderState>());
             return View(order);
         }
 
@@ -101,11 +103,12 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", "Hata Oluştu!");
                     }
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.OrderStates = new SelectList(Enum.GetValues<EnumOrderState>());
             return View(order);
         }
 

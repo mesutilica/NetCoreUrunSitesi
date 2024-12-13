@@ -7,7 +7,11 @@ namespace Data
 {
     public class DatabaseContext : DbContext
     {
-        //public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options){}
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+            // Migration işlemini başlat
+            Database.Migrate();
+        }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Brand> Brands { get; set; }

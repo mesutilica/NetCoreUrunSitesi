@@ -2,6 +2,7 @@ using Core.Entities;
 using Data;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies; // Login sistemi k�t�phanesi
+using Microsoft.EntityFrameworkCore;
 using NetCoreUrunSitesi.Middlewares;
 using Service.Abstract;
 using Service.Concrete;
@@ -16,19 +17,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 
-builder.Services.AddRazorPages();
+// builder.Services.AddRazorPages();
+
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = ".MyApp.Session";
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    options.IdleTimeout = TimeSpan.FromDays(1); // Session timeout
-    //options.IOTimeout = TimeSpan.FromHours(1);
+    options.Cookie.Name = ".MyApp.Session"; // Oturum çerezinin adı
+    options.Cookie.HttpOnly = true;         // Çerezin sadece HTTP isteklerinde kullanılabileceğini belirtir (güvenlik amacıyla)
+    options.Cookie.IsEssential = true;      // Bu çerezin uygulamanın doğru çalışması için gerekli olup olmadığını belirtir. Eğer doğru (true) ise, kullanıcı onayı politikası kontrolleri atlanabilir. GDPR gibi düzenlemeler için önemli
+    options.IdleTimeout = TimeSpan.FromDays(1); // Oturumun ne kadar süreyle aktif kalacağını belirtir (1 gün)
+    //options.IOTimeout = TimeSpan.FromHours(1); // I/O işlemleri için zaman aşımı süresi (opsiyonel, yoruma alınmış)
 });
+
 builder.Services.AddHttpClient();
 //builder.Services.AddDbContext<DatabaseContext>(option => option.UseInMemoryDatabase("InMemoryDb"));
 builder.Services.AddDbContext<DatabaseContext>(); //options => options.UseSqlServer() uygulamada sql server kullan
-//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan �ekmek i�in
+//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // json dan cekmek icin
+
 //builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>)); // Dependency Injection y�ntemiyle projemizde IRepository �rne�i istenirse Repository class�ndan instance al�n�p kullan�ma sunulur.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -39,7 +43,7 @@ builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 //builder.Services.AddTransient(typeof(ICacheService<>), typeof(CacheService<>));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 {
-    x.LoginPath = "/Account/SignIn"; // Admine giriş yapmayan kullan�c�lar� buraya y�nlendir
+    x.LoginPath = "/Account/SignIn"; // Admine giriş yapmayan kullanıcıları buraya yönlendir
     x.AccessDeniedPath = "/AccesDenied";
     x.LogoutPath = "/Account/SignOut";
     x.Cookie.Name = "Account";
@@ -121,5 +125,13 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "custom",
     pattern: "{customurl?}/{controller=Home}/{action=Index}/{id?}");
+
+// Migration işlemini başlat
+//using (var scoped = app.Services.CreateScope())
+//{
+//    var sp = scoped.ServiceProvider;
+//    var context = sp.GetRequiredService<DatabaseContext>();
+//    await context.Database.MigrateAsync();
+//}
 
 app.Run();
