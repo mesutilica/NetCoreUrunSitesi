@@ -1,4 +1,7 @@
 ﻿using Core.Entities;
+using Iyzipay;
+using Iyzipay.Model;
+using Iyzipay.Request;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +16,16 @@ namespace NetCoreUrunSitesi.Controllers
     {
         private readonly IService<Product> _productService;
         private readonly IService<AppUser> _service;
-        private readonly IService<Address> _serviceAddress;
+        private readonly IService<Core.Entities.Address> _serviceAddress;
         private readonly IService<Order> _serviceOrder;
-        public CartController(IService<Product> productService, IService<AppUser> service, IService<Address> serviceAddress, IService<Order> serviceOrder)
+        private readonly IConfiguration _configuration;
+        public CartController(IService<Product> productService, IService<AppUser> service, IService<Core.Entities.Address> serviceAddress, IService<Order> serviceOrder, IConfiguration configuration)
         {
             _productService = productService;
             _service = service;
             _serviceAddress = serviceAddress;
             _serviceOrder = serviceOrder;
+            _configuration = configuration;
         }
         public IActionResult Index()
         {
@@ -150,9 +155,95 @@ namespace NetCoreUrunSitesi.Controllers
                     UnitPrice = item.Product.Price
                 });
             }
+
+            #region Iyzico
+            Options options = new Options();
+            options.ApiKey = _configuration["IyzicOptions:ApiKey"];
+            options.SecretKey = _configuration["IyzicOptions:SecretKey"];
+            options.BaseUrl = "https://sandbox-api.iyzipay.com";
+
+            CreatePaymentRequest request = new CreatePaymentRequest();
+            request.Locale = Locale.TR.ToString();
+            request.ConversationId = HttpContext.Session.Id;
+            request.Price = siparis.TotalPrice.ToString();
+            request.PaidPrice = siparis.TotalPrice.ToString();
+            request.Currency = Currency.TRY.ToString();
+            request.Installment = 1;
+            request.BasketId = "B" + HttpContext.Session.Id;
+            request.PaymentChannel = PaymentChannel.WEB.ToString();
+            request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
+
+            PaymentCard paymentCard = new PaymentCard();
+            paymentCard.CardHolderName = "John Doe";
+            paymentCard.CardNumber = "5528790000000008";
+            paymentCard.ExpireMonth = "12";
+            paymentCard.ExpireYear = "2030";
+            paymentCard.Cvc = "123";
+            paymentCard.RegisterCard = 0;
+            request.PaymentCard = paymentCard;
+
+            Buyer buyer = new Buyer();
+            buyer.Id = "BY789";
+            buyer.Name = "John";
+            buyer.Surname = "Doe";
+            buyer.GsmNumber = "+905350000000";
+            buyer.Email = "email@email.com";
+            buyer.IdentityNumber = "74300864791";
+            buyer.LastLoginDate = "2015-10-05 12:43:35";
+            buyer.RegistrationDate = "2013-04-21 15:12:09";
+            buyer.RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            buyer.Ip = "85.34.78.112";
+            buyer.City = "Istanbul";
+            buyer.Country = "Turkey";
+            buyer.ZipCode = "34732";
+            request.Buyer = buyer;
+
+            var shippingAddress = new Iyzipay.Model.Address();
+            shippingAddress.ContactName = "Jane Doe";
+            shippingAddress.City = "Istanbul";
+            shippingAddress.Country = "Turkey";
+            shippingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            shippingAddress.ZipCode = "34742";
+            request.ShippingAddress = shippingAddress;
+
+            var billingAddress = new Iyzipay.Model.Address();
+            billingAddress.ContactName = "Jane Doe";
+            billingAddress.City = "Istanbul";
+            billingAddress.Country = "Turkey";
+            billingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            billingAddress.ZipCode = "34742";
+            request.BillingAddress = billingAddress;
+
+            var basketItems = new List<BasketItem>();
+
+            foreach (var item in cart.CartLines)
+            {
+                basketItems.Add(new BasketItem
+                {
+                    Id = item.Product.Id.ToString(),
+                    Name = item.Product.Name,
+                    Category1 = item.Product.Category?.Name,
+                    ItemType = BasketItemType.PHYSICAL.ToString(),
+                    Price = item.Product.Price.ToString()
+                });
+            }
+
+            request.BasketItems = basketItems;
+
             
+            #endregion
+
             try
             {
+                Payment payment = await Payment.Create(request, options);
+                if (payment.PaymentStatus == "success")
+                {
+
+                }
+                else
+                {
+                    TempData["Message"] = "Ödeme Alınamadı!";
+                }
                 await _serviceOrder.AddAsync(siparis);
                 var sonuc = await _serviceOrder.SaveChangesAsync();
                 if (sonuc > 0)

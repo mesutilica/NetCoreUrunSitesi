@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreUrunSitesi.ExtensionMethods;
 using NetCoreUrunSitesi.Models;
+using Newtonsoft.Json;
 using Service.Abstract;
 using System.Security.Claims;
 
@@ -140,6 +142,13 @@ namespace NetCoreUrunSitesi.Controllers
                         var userIdentity = new ClaimsIdentity(claims, "Login");
                         ClaimsPrincipal principal = new(userIdentity);
                         await HttpContext.SignInAsync(principal); // , authProperties
+                        // favori aktarımı
+                        var favoriler = HttpContext.Session.GetJson<List<Product>>("GetFavorites");
+                        if (favoriler != null)
+                        {
+                            account.RefreshToken = JsonConvert.SerializeObject(favoriler).ToString();
+                            await _service.SaveChangesAsync();
+                        }
                         return Redirect(string.IsNullOrEmpty(loginViewModel.ReturnUrl) ? "/" : loginViewModel.ReturnUrl);
                     }
                 }
