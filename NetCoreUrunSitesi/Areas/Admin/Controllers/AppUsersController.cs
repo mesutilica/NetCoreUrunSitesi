@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Abstract;
+using X.PagedList.Extensions;
 
 namespace NetCoreUrunSitesi.Areas.Admin.Controllers
 {
@@ -22,10 +23,11 @@ namespace NetCoreUrunSitesi.Areas.Admin.Controllers
         }
 
         // GET: AppUsersController
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             //return View(manager.GetAll()); el klasiko
-            return View(_service.GetQueryable());
+            var model = _service.GetQueryable();
+            return View(model.ToPagedList(page ?? 1, 5));
         }
 
         // GET: AppUsersController/Details/5

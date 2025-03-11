@@ -109,7 +109,7 @@ namespace NetCoreUrunSitesi.Controllers
             return View(model);
         }
         [Authorize, HttpPost]
-        public async Task<IActionResult> CheckoutAsync(string CardMonth, string CardYear, string CVV, string DeliveryAddress, string BillingAddress)
+        public async Task<IActionResult> CheckoutAsync(string CardNameSurname, string CardNumber, string CardMonth, string CardYear, string CVV, string DeliveryAddress, string BillingAddress)
         {
             var cart = GetCart();
             var appUser = await _service.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
@@ -145,17 +145,6 @@ namespace NetCoreUrunSitesi.Controllers
                 OrderLines = []
             };
 
-            foreach (var item in cart.CartLines)
-            {
-                siparis.OrderLines.Add(new OrderLine
-                {
-                    ProductId = item.Product.Id,
-                    OrderId = siparis.Id,
-                    Quantity = item.Quantity,
-                    UnitPrice = item.Product.Price
-                });
-            }
-
             #region Iyzico
             Options options = new Options();
             options.ApiKey = _configuration["IyzicOptions:ApiKey"];
@@ -165,8 +154,8 @@ namespace NetCoreUrunSitesi.Controllers
             CreatePaymentRequest request = new CreatePaymentRequest();
             request.Locale = Locale.TR.ToString();
             request.ConversationId = HttpContext.Session.Id;
-            request.Price = siparis.TotalPrice.ToString();
-            request.PaidPrice = siparis.TotalPrice.ToString();
+            request.Price = siparis.TotalPrice.ToString().Replace(",", ".");
+            request.PaidPrice = siparis.TotalPrice.ToString().Replace(",", ".");
             request.Currency = Currency.TRY.ToString();
             request.Installment = 1;
             request.BasketId = "B" + HttpContext.Session.Id;
@@ -174,43 +163,43 @@ namespace NetCoreUrunSitesi.Controllers
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
 
             PaymentCard paymentCard = new PaymentCard();
-            paymentCard.CardHolderName = "John Doe";
-            paymentCard.CardNumber = "5528790000000008";
-            paymentCard.ExpireMonth = "12";
-            paymentCard.ExpireYear = "2030";
-            paymentCard.Cvc = "123";
+            paymentCard.CardHolderName = CardNameSurname; // "John Doe";
+            paymentCard.CardNumber = CardNumber; // "5528790000000008";
+            paymentCard.ExpireMonth = CardMonth; // "12";
+            paymentCard.ExpireYear = CardYear; // "2030";
+            paymentCard.Cvc = CVV; // "123";
             paymentCard.RegisterCard = 0;
             request.PaymentCard = paymentCard;
 
             Buyer buyer = new Buyer();
-            buyer.Id = "BY789";
-            buyer.Name = "John";
-            buyer.Surname = "Doe";
-            buyer.GsmNumber = "+905350000000";
-            buyer.Email = "email@email.com";
+            buyer.Id = "BY" + appUser.Id;
+            buyer.Name = appUser.Name;
+            buyer.Surname = appUser.Surname;
+            buyer.GsmNumber = appUser.Phone;
+            buyer.Email = appUser.Email;
             buyer.IdentityNumber = "74300864791";
-            buyer.LastLoginDate = "2015-10-05 12:43:35";
-            buyer.RegistrationDate = "2013-04-21 15:12:09";
-            buyer.RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
-            buyer.Ip = "85.34.78.112";
+            buyer.LastLoginDate = DateTime.Now.ToString();
+            buyer.RegistrationDate = appUser.CreateDate.ToString();
+            buyer.RegistrationAddress = siparis.DeliveryAddress;
+            buyer.Ip = HttpContext.Connection.RemoteIpAddress?.ToString();
             buyer.City = "Istanbul";
             buyer.Country = "Turkey";
             buyer.ZipCode = "34732";
             request.Buyer = buyer;
 
             var shippingAddress = new Iyzipay.Model.Address();
-            shippingAddress.ContactName = "Jane Doe";
-            shippingAddress.City = "Istanbul";
+            shippingAddress.ContactName = appUser.Name + " " + appUser.Surname;
+            shippingAddress.City = teslimatAdresi.City;
             shippingAddress.Country = "Turkey";
-            shippingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            shippingAddress.Description = teslimatAdresi.OpenAddress;
             shippingAddress.ZipCode = "34742";
             request.ShippingAddress = shippingAddress;
 
             var billingAddress = new Iyzipay.Model.Address();
-            billingAddress.ContactName = "Jane Doe";
-            billingAddress.City = "Istanbul";
+            billingAddress.ContactName = appUser.Name + " " + appUser.Surname;
+            billingAddress.City = faturaAdresi.City;
             billingAddress.Country = "Turkey";
-            billingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            billingAddress.Description = faturaAdresi.OpenAddress;
             billingAddress.ZipCode = "34742";
             request.BillingAddress = billingAddress;
 
@@ -218,19 +207,25 @@ namespace NetCoreUrunSitesi.Controllers
 
             foreach (var item in cart.CartLines)
             {
+                siparis.OrderLines.Add(new OrderLine
+                {
+                    ProductId = item.Product.Id,
+                    OrderId = siparis.Id,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.Product.Price
+                });
                 basketItems.Add(new BasketItem
                 {
                     Id = item.Product.Id.ToString(),
                     Name = item.Product.Name,
                     Category1 = item.Product.Category?.Name,
                     ItemType = BasketItemType.PHYSICAL.ToString(),
-                    Price = item.Product.Price.ToString()
+                    Price = item.Product.Price.ToString().Replace(",", ".")
                 });
             }
 
             request.BasketItems = basketItems;
 
-            
             #endregion
 
             try
@@ -238,18 +233,17 @@ namespace NetCoreUrunSitesi.Controllers
                 Payment payment = await Payment.Create(request, options);
                 if (payment.PaymentStatus == "success")
                 {
-
+                    await _serviceOrder.AddAsync(siparis);
+                    var sonuc = await _serviceOrder.SaveChangesAsync();
+                    if (sonuc > 0)
+                    {
+                        HttpContext.Session.Remove("Cart");
+                        return RedirectToAction("Thanks");
+                    }
                 }
                 else
                 {
                     TempData["Message"] = "Ödeme Alınamadı!";
-                }
-                await _serviceOrder.AddAsync(siparis);
-                var sonuc = await _serviceOrder.SaveChangesAsync();
-                if (sonuc > 0)
-                {
-                    HttpContext.Session.Remove("Cart");
-                    return RedirectToAction("Thanks");
                 }
             }
             catch (Exception)
