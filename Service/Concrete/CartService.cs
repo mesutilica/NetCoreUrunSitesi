@@ -7,7 +7,7 @@ namespace Service.Concrete
     {
         public List<CartLine> CartLines = new();
 
-        public void AddProduct(Product product, int quantity)
+        public bool AddProduct(Product product, int quantity)
         {
             var urun = CartLines.FirstOrDefault(p => p.Product.Id == product.Id);
 
@@ -18,10 +18,12 @@ namespace Service.Concrete
                     Product = product,
                     Quantity = quantity
                 });
+                return false;
             }
             else
             {
                 urun.Quantity += quantity;
+                return true;
             }
         }
 

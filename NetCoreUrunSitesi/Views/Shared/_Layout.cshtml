@@ -22,9 +22,20 @@
         </main>
     </div>
     <partial name="_Footer" />
+    <partial name="_Notification" />
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var toastElement = document.getElementById("liveToast");
+            if (toastElement) {
+                var toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

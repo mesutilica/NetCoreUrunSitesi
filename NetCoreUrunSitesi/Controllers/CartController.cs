@@ -45,8 +45,14 @@ namespace NetCoreUrunSitesi.Controllers
             if (product != null)
             {
                 var cart = GetCart();
-                cart.AddProduct(product, quantity);
+                var sonuc = cart.AddProduct(product, quantity);
                 HttpContext.Session.SetJson("Cart", cart);
+                if (sonuc)
+                {
+                    TempData["success"] = "Sepet Güncellendi!";
+                }
+                else
+                    TempData["success"] = "Sepete Eklendi!";
                 return Redirect(Request.Headers["Referer"].ToString());
             }
 
@@ -62,6 +68,7 @@ namespace NetCoreUrunSitesi.Controllers
                 var cart = GetCart();
                 cart.UpdateProduct(product, quantity);
                 HttpContext.Session.SetJson("Cart", cart);
+                TempData["success"] = "Sepet Güncellendi!";
             }
 
             return RedirectToAction("Index");
@@ -76,6 +83,7 @@ namespace NetCoreUrunSitesi.Controllers
                 var cart = GetCart();
                 cart.RemoveProduct(product);
                 HttpContext.Session.SetJson("Cart", cart);
+                TempData["error"] = "Ürün Sepetten Kaldırıldı!";
             }
             return RedirectToAction("Index");
         }
