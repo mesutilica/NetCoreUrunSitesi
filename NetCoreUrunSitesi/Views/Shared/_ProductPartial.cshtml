@@ -1,43 +1,67 @@
-﻿@foreach (var item in Model)
+﻿@model IEnumerable<Product>
+@{
+   string currentSort = Context.Request.Query["sort"];
+   IEnumerable<Product> sortedModel = Model;
+
+   if (!string.IsNullOrEmpty(currentSort))
+   {
+       switch (currentSort)
+       {
+           case "fiyat_yuksek":
+               sortedModel = Model.OrderByDescending(x => x.Price);
+               break;
+           case "az":
+               sortedModel = Model.OrderBy(x => x.Name);
+               break;
+           case "fiyat_dusuk":
+               sortedModel = Model.OrderBy(x => x.Price);
+               break;
+           case "za":
+               sortedModel = Model.OrderByDescending(x => x.Name);
+               break;
+       }
+   }
+}
+@foreach (var item in sortedModel.ToList())
 {
-    <div class="col mb-5">
-        <div class="card h-100">
-            <!-- Sale badge-->
-            <div class="position-absolute border border-1 rounded-circle" style="top: 0.5rem; right: 0.5rem">
-                <form asp-action="Add" asp-controller="Favorites" method="post">
-                    <input type="hidden" name="ProductId" value="@item.Id" />
-                    <button class="btn btn-transparent" type="submit" style="box-shadow: none;">
-                        <i class="bi bi-heart"></i>
-                    </button>
-                </form>
-            </div>
-            <a href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
-                <!-- Product image-->
-                <img src="/Img/@item.Image" alt="" class="card-img-top" />
-            </a>
-            <!-- Product details-->
-            <div class="card-body p-4">
-                <div class="text-center">
-                    <!-- Product name-->
-                    <a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
-                        <h5 class="fw-bolder">@item.Name</h5>
-                    </a>
-                    <!-- Product price-->
-                    @item.Price ₺
-                </div>
-            </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center">
-                    <form asp-action="Add" asp-controller="Cart" method="post">
-                        <input type="hidden" name="ProductId" value="@item.Id" />
-                        <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Sepete Ekle
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+   <div class="col mb-5">
+       <div class="card h-100">
+           <!-- Sale badge-->
+           <div class="position-absolute border border-1 rounded-circle" style="top: 0.5rem; right: 0.5rem">
+               <form asp-action="Add" asp-controller="Favorites" method="post">
+                   <input type="hidden" name="ProductId" value="@item.Id" />
+                   <button class="btn btn-transparent" type="submit" style="box-shadow: none;">
+                       <i class="bi bi-heart"></i>
+                   </button>
+               </form>
+           </div>
+           <a href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
+               <!-- Product image-->
+               <img src="/Img/@item.Image" alt="" class="card-img-top" />
+           </a>
+           <!-- Product details-->
+           <div class="card-body p-4">
+               <div class="text-center">
+                   <!-- Product name-->
+                   <a class="nav-link text-dark" href="/@item.Name.ToLower().Replace(" ","-").Replace("ç","c").Replace("ı","i")/Products/Detail/@item.Id">
+                       <h5 class="fw-bolder">@item.Name</h5>
+                   </a>
+                   <!-- Product price-->
+                   @item.Price ₺
+               </div>
+           </div>
+           <!-- Product actions-->
+           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+               <div class="text-center">
+                   <form asp-action="Add" asp-controller="Cart" method="post">
+                       <input type="hidden" name="ProductId" value="@item.Id" />
+                       <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                           <i class="bi-cart-fill me-1"></i>
+                           Sepete Ekle
+                       </button>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
 }

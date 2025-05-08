@@ -15,7 +15,7 @@ namespace NetCoreUrunSitesi.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
-                return BadRequest();
+                return BadRequest("Geçersiz İstek!");
             //var kategori = _categoryRepository.Find(id);//_repositoryCategory.Find(id);
             var model = await _categoryRepository.GetCategoryByProductsAsync(id.Value);
             return View(model); //kat

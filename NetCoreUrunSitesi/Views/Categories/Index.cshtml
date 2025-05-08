@@ -1,14 +1,27 @@
 ﻿@model Category
 
 @{
-    ViewData["Title"] = @Model.Name;
+  ViewData["Title"] = Model.Name;
+
+  string currentSort = Context.Request.Query["sort"];
 }
 
 <div class="album">
-    <h1 class="text-center">@Model.Name</h1>
-    <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-            <partial name="_ProductPartial" model="Model.Products" />
-        </div>
-    </div>
+  <h1 class="text-center">@Model.Name</h1>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-4 my-3 ms-auto">
+              <select class="form-select" name="sorting" id="sorting" onchange="window.location = this.value;">
+                  <option value="?sort=varsayilan" selected="@(currentSort == "varsayilan")">Varsayılan</option>
+                  <option value="?sort=fiyat_dusuk" selected="@(currentSort == "fiyat_dusuk")">Fiyata Göre Artan</option>
+                  <option value="?sort=fiyat_yuksek" selected="@(currentSort == "fiyat_yuksek")">Fiyata Göre Azalan</option>
+                  <option value="?sort=az" selected="@(currentSort == "az")">A'dan Z'ye</option>
+                  <option value="?sort=za" selected="@(currentSort == "za")">Z'den A'ya</option>
+              </select>
+          </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+          <partial name="_ProductPartial" model="Model.Products" />
+      </div>
+  </div>
 </div>
