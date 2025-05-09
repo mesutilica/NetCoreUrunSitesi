@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Service.Abstract;
 using Service.Concrete;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace NetCoreUrunSitesi.Controllers
 {
@@ -13,13 +14,15 @@ namespace NetCoreUrunSitesi.Controllers
     {
         private readonly IProductService _productService;
         private readonly IService<AppUser> _userService;
+        private readonly INotyfService _notifyService;
 
-        public FavoritesController(IProductService productService, IService<AppUser> userService)
+        public FavoritesController(IProductService productService, IService<AppUser> userService, INotyfService notifyService)
         {
             _productService = productService;
             _userService = userService;
+            _notifyService = notifyService;
         }
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var favoriler = await GetFavoritesAsync();
             return View(favoriler);
@@ -48,6 +51,8 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 favoriler.Add(product);
                 HttpContext.Session.SetJson("GetFavorites", favoriler);
+                _notifyService.Success(product.Name + " Favorilere Eklendi");
+
                 if (HttpContext.User.Identity.IsAuthenticated)
                 {
                     var appUser = await _userService.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);
@@ -68,6 +73,8 @@ namespace NetCoreUrunSitesi.Controllers
             {
                 favoriler.RemoveAll(i => i.Id == product.Id);
                 HttpContext.Session.SetJson("GetFavorites", favoriler);
+                _notifyService.Error(product.Name + " Favorilerden kaldırıldı..");
+
                 if (HttpContext.User.Identity.IsAuthenticated)
                 {
                     var appUser = await _userService.GetAsync(x => x.UserGuid.ToString() == HttpContext.User.FindFirst("UserGuid").Value);

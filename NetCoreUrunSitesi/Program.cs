@@ -1,3 +1,5 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using Core.Entities;
 using Data;
 using FluentValidation;
@@ -18,6 +20,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IValidator<AppUser>, AppUserValidator>();
 
 // builder.Services.AddRazorPages();
+
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 5; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
 
 builder.Services.AddSession(options =>
 {
@@ -112,6 +116,8 @@ app.UseSession();
 
 app.UseAuthentication(); // Admin login sistemi i�in
 app.UseAuthorization();
+
+app.UseNotyf();
 
 app.MapControllerRoute(
         name: "admin",
